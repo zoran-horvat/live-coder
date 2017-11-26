@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using VSExtension.Functional;
+using VSExtension.Implementation.Steps;
 using VSExtension.Interfaces;
 
 namespace VSExtension.Implementation

@@ -1,7 +1,7 @@
 ﻿using System;
 using VSExtension.Interfaces;
 
-namespace VSExtension.Implementation
+namespace VSExtension.Implementation.Steps
 {
     class SnippetReplace : IDemoStep
     {

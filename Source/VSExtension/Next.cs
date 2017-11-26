@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using VSExtension.Implementation;
 using System.Linq;
+using VSExtension.Functional;
 
 namespace VSExtension
 {
@@ -87,6 +88,7 @@ namespace VSExtension
                         .Select(step => step.ToString())
                         .ToArray());
 
+            //message = this.ServiceProvider.GetSolution().DemoSteps.WithMinimum(x => x.SortKey).ToString();
             string title = "Next";
 
             // Show a message box to prove we were here

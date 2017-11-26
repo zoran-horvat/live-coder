@@ -10,20 +10,19 @@ namespace VSExtension.Implementation
     class SourceFile : ISource
     {
         public string Name => this.File.Name;
+        private SourceReader Reader { get; }
 
         public IEnumerable<IDemoStep> DemoSteps =>
             this.Lines.Aggregate(new RunningDemoSteps(this), (steps, tuple) => steps.Add(tuple.line, tuple.index)).All;
 
         private FileInfo File { get; }
-        private VSConstants.VSITEMID ItemId { get; }
 
-        public SourceFile(VSConstants.VSITEMID itemId, FileInfo file)
+        public SourceFile(FileInfo file, SourceReader reader)
         {
-            this.ItemId = itemId;
             this.File = file ?? throw new ArgumentNullException(nameof(file));
+            this.Reader = reader ?? throw new ArgumentNullException(nameof(reader));
         }
 
-        private IEnumerable<(string line, int index)> Lines =>
-            System.IO.File.ReadAllLines(this.File.FullName).Select((line, index) => (line, index));
+        private IEnumerable<(string line, int index)> Lines => this.Reader.ReadAllLines();
     }
 }

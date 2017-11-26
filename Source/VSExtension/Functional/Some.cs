@@ -12,6 +12,7 @@ namespace VSExtension.Functional
         }
 
         public override Option<TNew> Map<TNew>(Func<T, TNew> map) => map(this);
+
         public override T Reduce(T whenNone) => this;
         public override T Reduce(Func<T> whenNone) => this;
 
