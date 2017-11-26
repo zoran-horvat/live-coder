@@ -22,6 +22,8 @@ namespace VSExtension.Functional
         public override Option<TNew> OfType<TNew>() =>
             this.Content is TNew modified ? (Option<TNew>)modified : None.Value;
 
+        public override void Do(Action<T> action) => action(this);
+
         public static implicit operator T(Some<T> some) => some.Content;
         public static implicit operator Some<T>(T value) => new Some<T>(value);
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
+using VSExtension.Functional;
 using VSExtension.Implementation.Commands;
 using VSExtension.Interfaces;
 
@@ -39,7 +40,28 @@ namespace VSExtension.Implementation
         public void Activate() => this.Dte.Documents.Item(this.File.FullName)?.Activate();
 
         public void MoveSelectionToLine(int lineIndex) =>
-            ((TextSelection) this.Dte.Documents.Item(this.File.FullName)?.Selection)?.GotoLine(lineIndex + 1);
+            this.Selection.Do(selection => selection.GotoLine(lineIndex + 1));
+
+        public void SelectLine(int lineIndex)
+        {
+            this.MoveSelectionToLine(lineIndex);
+            this.Selection.Do(selection => selection.SelectLine());
+        }
+
+        public void DeleteLine(int lineIndex)
+        {
+            this.SelectLine(lineIndex);
+            this.Selection.Do(selection => selection.Delete());
+        }
+
+        public void SelectLines(int startLineIndex, int endLineIndex)
+        {
+            this.MoveSelectionToLine(startLineIndex);
+            this.Selection.Do(selection => selection.MoveToLineAndOffset(endLineIndex + 1, 1, true));
+        }
+
+        private Option<TextSelection> Selection =>
+            Option.FromNullable((TextSelection)this.Dte.Documents.Item(this.File.FullName)?.Selection);
 
         public override string ToString() => this.File.FullName;
     }

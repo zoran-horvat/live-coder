@@ -9,5 +9,8 @@ namespace VSExtension.Interfaces
         void Open();
         void Activate();
         void MoveSelectionToLine(int lineIndex);
+        void SelectLine(int lineIndex);
+        void DeleteLine(int lineIndex);
+        void SelectLines(int startLineIndex, int endLineIndex);
     }
 }

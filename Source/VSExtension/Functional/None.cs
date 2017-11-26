@@ -15,6 +15,8 @@ namespace VSExtension.Functional
 
         public override Option<TNew> OfType<TNew>() => None.Value;
 
+        public override void Do(Action<T> action) { }
+
         public static None<T> Value { get; } = new None<T>();
     }
 

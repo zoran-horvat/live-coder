@@ -26,7 +26,9 @@ namespace VSExtension.Implementation.Steps
             {
                 new OpenDocument(this.File),
                 new ActivateDocument(this.File),
-                new MoveToLine(this.File, this.StartLineIndex)
+                new MoveToLine(this.File, this.StartLineIndex),
+                new Pause(),
+                new SelectMultipleLines(this.File, this.StartLineIndex, this.StartLineIndex + this.LinesCount)
             };
 
         public override string ToString() =>

@@ -60,8 +60,12 @@
     <Compile Include="Functional\Option.cs" />
     <Compile Include="Functional\Some.cs" />
     <Compile Include="Implementation\Commands\ActivateDocument.cs" />
+    <Compile Include="Implementation\Commands\DeleteLine.cs" />
     <Compile Include="Implementation\Commands\MoveToLine.cs" />
     <Compile Include="Implementation\Commands\OpenDocument.cs" />
+    <Compile Include="Implementation\Commands\Pause.cs" />
+    <Compile Include="Implementation\Commands\SelectLine.cs" />
+    <Compile Include="Implementation\Commands\SelectMultipleLines.cs" />
     <Compile Include="Implementation\DemoEngine.cs" />
     <Compile Include="Implementation\Readers\DocumentExtensions.cs" />
     <Compile Include="Implementation\Readers\FileReader.cs" />

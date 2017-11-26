@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using VSExtension.Functional;
+using VSExtension.Implementation.Commands;
 using VSExtension.Interfaces;
 
 namespace VSExtension.Implementation
@@ -43,6 +44,10 @@ namespace VSExtension.Implementation
             while (this.Commands.Count > 0)
             {
                 IDemoCommand command = this.Commands.Dequeue();
+                if (command is Pause)
+                {
+                    yield break;
+                }
                 yield return command;
             }
         }
