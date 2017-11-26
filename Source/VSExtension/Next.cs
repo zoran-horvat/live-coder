@@ -83,25 +83,7 @@ namespace VSExtension
         private void MenuItemCallback(object sender, EventArgs e)
         {
             DemoEngine = DemoEngine ?? new DemoEngine(this.ServiceProvider.GetSolution());
-
-            string message =
-                string.Join(
-                    Environment.NewLine,
-                    this.ServiceProvider.GetSolution().DemoStepsOrdered.SelectMany(step => step.Commands).Select(cmd => cmd.ToString()).ToArray());
-            
-            string title = "Commands";
-
-            // Show a message box to prove we were here
-            VsShellUtilities.ShowMessageBox(
-                this.ServiceProvider,
-                message,
-                title,
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
-
             DemoEngine.Step();
-
         }
     }
 }
