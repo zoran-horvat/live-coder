@@ -16,5 +16,8 @@ namespace VSExtension.Implementation
 
         public IEnumerable<ISource> SourceFiles =>
             this.Project.GetSourceFiles();
+
+        public IEnumerable<IDemoStep> DemoSteps =>
+            this.SourceFiles.SelectMany(file => file.DemoSteps);
     }
 }

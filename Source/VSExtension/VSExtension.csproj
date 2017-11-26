@@ -54,16 +54,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Functional\DictionaryExtensions.cs" />
+    <Compile Include="Functional\EnumerableExtensions.cs" />
     <Compile Include="Functional\None.cs" />
     <Compile Include="Functional\Option.cs" />
     <Compile Include="Functional\Some.cs" />
+    <Compile Include="Implementation\MultilineSnippetReplace.cs" />
+    <Compile Include="Implementation\Reminder.cs" />
+    <Compile Include="Implementation\RunningDemoSteps.cs" />
     <Compile Include="Implementation\ServiceProviderExtensions.cs" />
+    <Compile Include="Implementation\SnippetReplace.cs" />
     <Compile Include="Implementation\SourceFile.cs" />
     <Compile Include="Implementation\VsHierarchyExtensions.cs" />
     <Compile Include="Implementation\VsProjectExtensions.cs" />
     <Compile Include="Implementation\VsProjectWrapper.cs" />
     <Compile Include="Implementation\VsSolutionWrapper.cs" />
     <Compile Include="Implementation\VsSolutionExtensions.cs" />
+    <Compile Include="Interfaces\IDemoStep.cs" />
     <Compile Include="Interfaces\IProject.cs" />
     <Compile Include="Interfaces\ISolution.cs" />
     <Compile Include="Interfaces\ISource.cs" />

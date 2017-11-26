@@ -17,5 +17,8 @@ namespace VSExtension.Implementation
 
         public IEnumerable<IProject> Projects =>
             this.SolutionInterface.GetProjects().Select(project => new VsProjectWrapper(project));
+
+        public IEnumerable<IDemoStep> DemoSteps =>
+            this.Projects.SelectMany(project => project.DemoSteps);
     }
 }

@@ -5,5 +5,6 @@ namespace VSExtension.Interfaces
     interface ISolution
     {
         IEnumerable<IProject> Projects { get; }
+        IEnumerable<IDemoStep> DemoSteps { get; }
     }
 }

@@ -79,9 +79,13 @@ namespace VSExtension
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            string message = string.Join(Environment.NewLine,
-                this.ServiceProvider.GetSolution().Projects
-                    .SelectMany(project => project.SourceFiles.Select(file => file.Name)).ToArray());
+            string message =
+                string.Join(
+                    Environment.NewLine,
+                    this.ServiceProvider.GetSolution().DemoSteps
+                        .OrderBy(step => step.SortKey)
+                        .Select(step => step.ToString())
+                        .ToArray());
 
             string title = "Next";
 

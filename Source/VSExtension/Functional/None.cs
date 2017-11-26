@@ -7,8 +7,13 @@ namespace VSExtension.Functional
         private None() { }
 
         public override Option<TNew> Map<TNew>(Func<T, TNew> map) => None.Value;
+
+        public override T Reduce(T whenNone) => whenNone;
         public override T Reduce(Func<T> whenNone) => whenNone();
+
         public override Option<T> When(Func<T, bool> predicate) => this;
+
+        public override Option<TNew> OfType<TNew>() => None.Value;
 
         public static None<T> Value { get; } = new None<T>();
     }
