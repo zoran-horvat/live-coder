@@ -6,5 +6,8 @@ namespace VSExtension.Interfaces
     {
         string Name { get; }
         IEnumerable<IDemoStep> DemoSteps { get; }
+        void Open();
+        void Activate();
+        void MoveSelectionToLine(int lineIndex);
     }
 }

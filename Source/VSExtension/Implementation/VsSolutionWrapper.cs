@@ -21,7 +21,7 @@ namespace VSExtension.Implementation
         public IEnumerable<IProject> Projects =>
             this.SolutionInterface.GetProjects().Select(project => new VsProjectWrapper(project, this.Dte));
 
-        public IEnumerable<IDemoStep> DemoSteps =>
-            this.Projects.SelectMany(project => project.DemoSteps);
+        public IEnumerable<IDemoStep> DemoStepsOrdered =>
+            this.Projects.SelectMany(project => project.DemoSteps).OrderBy(step => step.SortKey);
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using VSExtension.Implementation.Commands;
 using VSExtension.Interfaces;
 
 namespace VSExtension.Implementation.Steps
@@ -15,6 +17,14 @@ namespace VSExtension.Implementation.Steps
             this.File = file ?? throw new ArgumentNullException(nameof(file));
             this.LineIndex = lineIndex >= 0 ? lineIndex : throw new ArgumentException("Line index must be non-negative.");
         }
+
+        public IEnumerable<IDemoCommand> Commands =>
+            new IDemoCommand[]
+            {
+                new OpenDocument(this.File),
+                new ActivateDocument(this.File),
+                new MoveToLine(this.File, this.LineIndex)
+            };
 
         public override string ToString() =>
             $"{this.SortKey} in {this.File.Name} reminder on line {this.LineIndex}";

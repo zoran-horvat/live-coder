@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using VSExtension.Implementation.Commands;
 using VSExtension.Interfaces;
 
 namespace VSExtension.Implementation.Steps
@@ -18,6 +20,14 @@ namespace VSExtension.Implementation.Steps
 
         public MultilineSnippetReplace EndsOnLine(int index) =>
             new MultilineSnippetReplace(this.SortKey, this.File, this.LineIndex, index - this.LineIndex + 1);
+
+        public IEnumerable<IDemoCommand> Commands =>
+            new IDemoCommand[]
+            {
+                new OpenDocument(this.File),
+                new ActivateDocument(this.File),
+                new MoveToLine(this.File, this.LineIndex)
+            };
 
         public override string ToString() =>
             $"{this.SortKey} in {this.File.Name} line {this.LineIndex}";

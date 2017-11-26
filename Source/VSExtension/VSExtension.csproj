@@ -59,6 +59,10 @@
     <Compile Include="Functional\None.cs" />
     <Compile Include="Functional\Option.cs" />
     <Compile Include="Functional\Some.cs" />
+    <Compile Include="Implementation\Commands\ActivateDocument.cs" />
+    <Compile Include="Implementation\Commands\MoveToLine.cs" />
+    <Compile Include="Implementation\Commands\OpenDocument.cs" />
+    <Compile Include="Implementation\DemoEngine.cs" />
     <Compile Include="Implementation\Readers\DocumentExtensions.cs" />
     <Compile Include="Implementation\Readers\FileReader.cs" />
     <Compile Include="Implementation\Readers\OpenDocumentReader.cs" />
@@ -74,7 +78,9 @@
     <Compile Include="Implementation\VsProjectWrapper.cs" />
     <Compile Include="Implementation\VsSolutionWrapper.cs" />
     <Compile Include="Implementation\VsSolutionExtensions.cs" />
+    <Compile Include="Interfaces\IDemoCommand.cs" />
     <Compile Include="Interfaces\IDemoStep.cs" />
+    <Compile Include="Interfaces\IEngine.cs" />
     <Compile Include="Interfaces\IProject.cs" />
     <Compile Include="Interfaces\ISolution.cs" />
     <Compile Include="Interfaces\ISource.cs" />

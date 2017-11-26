@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using EnvDTE;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell.Interop;
+using VSExtension.Implementation.Commands;
 using VSExtension.Interfaces;
 
 namespace VSExtension.Implementation
@@ -11,18 +14,33 @@ namespace VSExtension.Implementation
     {
         public string Name => this.File.Name;
         private SourceReader Reader { get; }
+        private VSConstants.VSITEMID ItemId { get; }
+        private IVsProject Project { get; }
+        private DTE Dte { get; }
 
         public IEnumerable<IDemoStep> DemoSteps =>
             this.Lines.Aggregate(new RunningDemoSteps(this), (steps, tuple) => steps.Add(tuple.line, tuple.index)).All;
 
         private FileInfo File { get; }
 
-        public SourceFile(FileInfo file, SourceReader reader)
+        public SourceFile(FileInfo file, VSConstants.VSITEMID itemId, IVsProject project, DTE dte, SourceReader reader)
         {
             this.File = file ?? throw new ArgumentNullException(nameof(file));
+            this.ItemId = itemId;
+            this.Dte = dte ?? throw new ArgumentNullException(nameof(dte));
+            this.Project = project ?? throw new ArgumentNullException(nameof(project));
             this.Reader = reader ?? throw new ArgumentNullException(nameof(reader));
         }
 
         private IEnumerable<(string line, int index)> Lines => this.Reader.ReadAllLines();
+
+        public void Open() => this.Project.Open(this.ItemId);
+
+        public void Activate() => this.Dte.Documents.Item(this.File.FullName)?.Activate();
+
+        public void MoveSelectionToLine(int lineIndex) =>
+            ((TextSelection) this.Dte.Documents.Item(this.File.FullName)?.Selection)?.GotoLine(lineIndex + 1);
+
+        public override string ToString() => this.File.FullName;
     }
 }

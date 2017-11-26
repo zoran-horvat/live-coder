@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel.Design;
-using System.Globalization;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using VSExtension.Implementation;
 using System.Linq;
-using VSExtension.Functional;
+using VSExtension.Interfaces;
 
 namespace VSExtension
 {
@@ -57,6 +56,8 @@ namespace VSExtension
         /// </summary>
         public static Next Instance { get; private set; }
 
+        private static IEngine DemoEngine { get; set; }
+
         /// <summary>
         /// Gets the service provider from the owner package.
         /// </summary>
@@ -69,6 +70,7 @@ namespace VSExtension
         public static void Initialize(Package package)
         {
             Instance = new Next(package);
+            DemoEngine = null;
         }
 
         /// <summary>
@@ -80,16 +82,14 @@ namespace VSExtension
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
+            DemoEngine = DemoEngine ?? new DemoEngine(this.ServiceProvider.GetSolution());
+
             string message =
                 string.Join(
                     Environment.NewLine,
-                    this.ServiceProvider.GetSolution().DemoSteps
-                        .OrderBy(step => step.SortKey)
-                        .Select(step => step.ToString())
-                        .ToArray());
-
-            //message = this.ServiceProvider.GetSolution().DemoSteps.WithMinimum(x => x.SortKey).ToString();
-            string title = "Next";
+                    this.ServiceProvider.GetSolution().DemoStepsOrdered.SelectMany(step => step.Commands).Select(cmd => cmd.ToString()).ToArray());
+            
+            string title = "Commands";
 
             // Show a message box to prove we were here
             VsShellUtilities.ShowMessageBox(
@@ -99,6 +99,9 @@ namespace VSExtension
                 OLEMSGICON.OLEMSGICON_INFO,
                 OLEMSGBUTTON.OLEMSGBUTTON_OK,
                 OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+
+            DemoEngine.Step();
+
         }
     }
 }

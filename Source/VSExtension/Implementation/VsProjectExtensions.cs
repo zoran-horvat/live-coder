@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using EnvDTE;
@@ -15,6 +16,12 @@ namespace VSExtension.Implementation
         public static IEnumerable<ISource> GetSourceFiles(this IVsProject project, DTE dte) =>
             project.GetSourceFiles(dte, VSConstants.VSITEMID.Root);
 
+        public static void Open(this IVsProject project, VSConstants.VSITEMID itemId)
+        {
+            Guid view = Guid.Empty;
+            project.OpenItem((uint)itemId, ref view, IntPtr.Zero, out IVsWindowFrame _);
+        }
+
         private static IEnumerable<ISource> GetSourceFiles(this IVsProject inProject, DTE dte,  VSConstants.VSITEMID startingWith) =>
             ((IVsHierarchy)inProject).GetChildrenIds(startingWith).SelectMany(id => inProject.FilesUnder(dte, id));
 
@@ -23,7 +30,7 @@ namespace VSExtension.Implementation
                 .When(path => !string.IsNullOrEmpty(path))
                 .When(File.Exists)
                 .Map(path => new FileInfo(path))
-                .Map<ISource>(file => new SourceFile(file, dte.ReaderFor(file)));
+                .Map<ISource>(file => new SourceFile(file, itemId, project, dte, dte.ReaderFor(file)));
 
         private static SourceReader ReaderFor(this DTE dte, FileInfo file) =>
             new OpenDocumentReader(dte, file, new FileReader(file));
