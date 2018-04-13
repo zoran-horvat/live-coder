@@ -33,7 +33,10 @@ namespace VSExtension.Implementation
             this.Reader = reader ?? throw new ArgumentNullException(nameof(reader));
         }
 
-        private IEnumerable<(string line, int index)> Lines => this.Reader.ReadAllLines();
+        public IEnumerable<(string line, int index)> Lines => this.Reader.ReadAllLines();
+
+        public IEnumerable<string> TextBetween(int startLineIndex, int endLineIndex) =>
+            this.Lines.Skip(startLineIndex).Take(endLineIndex - startLineIndex + 1).Select(tuple => tuple.line);
 
         public void Open() => this.Project.Open(this.ItemId);
 

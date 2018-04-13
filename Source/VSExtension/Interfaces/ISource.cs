@@ -6,6 +6,8 @@ namespace VSExtension.Interfaces
     {
         string Name { get; }
         IEnumerable<IDemoStep> DemoSteps { get; }
+        IEnumerable<(string line, int index)> Lines { get; }
+        IEnumerable<string> TextBetween(int startLineIndex, int endLineIndex);
         void Open();
         void Activate();
         void MoveSelectionToLine(int lineIndex);
