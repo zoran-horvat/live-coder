@@ -31,9 +31,9 @@ namespace VSExtension.Implementation
             }
         }
 
-        private void PullCommandsIfEmpty()
+        private void PullCommandsIfNoneExecutable()
         {
-            if (this.Commands.Count == 0)
+            if (this.Commands.Count(command => command.CanExecute) == 0)
             {
                 this.PullNewCommands();
             }
@@ -44,6 +44,11 @@ namespace VSExtension.Implementation
             while (this.Commands.Count > 0)
             {
                 IDemoCommand command = this.Commands.Dequeue();
+                if (!command.CanExecute)
+                {
+                    continue;
+                }
+
                 if (command is Pause)
                 {
                     yield break;
@@ -54,7 +59,7 @@ namespace VSExtension.Implementation
 
         public void Step()
         {
-            this.PullCommandsIfEmpty();
+            this.PullCommandsIfNoneExecutable();
             foreach (IDemoCommand command in this.Dequeue())
             {
                 command.Execute();

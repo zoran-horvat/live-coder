@@ -18,14 +18,14 @@ namespace VSExtension.Implementation.Commands
             this.ExpectedLineContent = expectedContent ?? string.Empty;
         }
 
+        public bool CanExecute =>
+            this.IsDocumentActive && this.IsCursorOnLine && this.IsContentEqual;
+
         public void Execute() => this.DeletionStrategy();
 
-        private Action DeletionStrategy => this.ShouldDeleteLine
+        private Action DeletionStrategy => this.CanExecute
             ? (Action)(() => this.Document.DeleteLine(this.LineIndex))
             : () => { };
-
-        private bool ShouldDeleteLine =>
-            this.IsDocumentActive && this.IsCursorOnLine && this.IsContentEqual;
 
         private bool IsCursorOnLine =>
             this.Document.CursorLineIndex.Map(line => line == this.LineIndex).Reduce(false);

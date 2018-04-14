@@ -16,6 +16,8 @@ namespace VSExtension.Implementation.Commands
             this.EndLineIndex = endLineIndex >= 0 ? endLineIndex : throw new ArgumentException("Line index must be non-negative.");
         }
 
+        public bool CanExecute => true;
+
         public void Execute()
         {
             this.Document.SelectLines(this.StartLineIndex, this.EndLineIndex);

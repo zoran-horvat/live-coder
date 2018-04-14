@@ -14,6 +14,8 @@ namespace VSExtension.Implementation.Commands
             this.LineIndex = lineIndex >= 0 ? lineIndex : throw new ArgumentException("Line index must be non-negative.");
         }
 
+        public bool CanExecute => true;
+
         public void Execute() => this.Document.SelectLine(this.LineIndex);
 
         public override string ToString() => $"select line {this.LineIndex} in {this.Document}";
