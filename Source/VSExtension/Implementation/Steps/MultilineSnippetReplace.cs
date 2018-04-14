@@ -7,15 +7,15 @@ namespace VSExtension.Implementation.Steps
 {
     class MultilineSnippetReplace : IDemoStep
     {
-        public string SortKey { get; }
+        public string SnippetShortcut { get; }
 
         private ISource File { get; }
         private int StartLineIndex { get; }
         private int LinesCount { get; }
 
-        public MultilineSnippetReplace(string sortKey, ISource file, int startLineIndex, int linesCount)
+        public MultilineSnippetReplace(string snippetShortcut, ISource file, int startLineIndex, int linesCount)
         {
-            this.SortKey = sortKey ?? throw new ArgumentNullException(nameof(sortKey));
+            this.SnippetShortcut = snippetShortcut ?? throw new ArgumentNullException(nameof(snippetShortcut));
             this.File = file ?? throw new ArgumentNullException(nameof(file));
             this.StartLineIndex = startLineIndex >= 0 ? startLineIndex : throw new ArgumentException("Start line index must be non-negative.");
             this.LinesCount = linesCount > 0 ? linesCount : throw new ArgumentException("Number of lines must be positive.");
@@ -28,10 +28,12 @@ namespace VSExtension.Implementation.Steps
                 new ActivateDocument(this.File),
                 new MoveToLine(this.File, this.StartLineIndex),
                 new Pause(),
-                new SelectMultipleLines(this.File, this.StartLineIndex, this.StartLineIndex + this.LinesCount)
+                new SelectMultipleLines(this.File, this.StartLineIndex, this.StartLineIndex + this.LinesCount),
+                new Pause(),
+                new ExpandMultipleLines(this.File, this.SnippetShortcut, this.StartLineIndex, this.StartLineIndex + this.LinesCount - 1)
             };
 
         public override string ToString() =>
-            $"{this.SortKey} in {this.File.Name} lines {this.StartLineIndex}-{this.StartLineIndex + this.LinesCount - 1}";
+            $"{this.SnippetShortcut} in {this.File.Name} lines {this.StartLineIndex}-{this.StartLineIndex + this.LinesCount - 1}";
     }
 }

@@ -4,7 +4,7 @@ namespace VSExtension.Interfaces
 {
     interface IDemoStep
     {
-        string SortKey { get; }
+        string SnippetShortcut { get; }
         IEnumerable<IDemoCommand> Commands { get; }
     }
 }

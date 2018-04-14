@@ -14,7 +14,8 @@ namespace VSExtension.Implementation.Commands
             this.LineIndex = lineIndex >= 0 ? lineIndex : throw new ArgumentException("Line index must be non-negative.");
         }
 
-        public bool CanExecute => true;
+        public bool CanExecute =>
+            this.Document.CursorLineIndex.Map(line => line == this.LineIndex).Reduce(false);
 
         public void Execute() => this.Document.SelectLine(this.LineIndex);
 

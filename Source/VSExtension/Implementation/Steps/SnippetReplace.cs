@@ -7,19 +7,19 @@ namespace VSExtension.Implementation.Steps
 {
     class SnippetReplace : IDemoStep
     {
-        public string SortKey { get; }
+        public string SnippetShortcut { get; }
         private ISource File { get; }
         private int LineIndex { get; }
 
-        public SnippetReplace(string sortKey, ISource file, int lineIndex)
+        public SnippetReplace(string snippetShortcut, ISource file, int lineIndex)
         {
-            this.SortKey = sortKey ?? throw new ArgumentNullException(nameof(sortKey));
+            this.SnippetShortcut = snippetShortcut ?? throw new ArgumentNullException(nameof(snippetShortcut));
             this.File = file ?? throw new ArgumentNullException(nameof(file));
             this.LineIndex = lineIndex >= 0 ? lineIndex : throw new ArgumentException("Line index must be non-negative.");
         }
 
         public MultilineSnippetReplace EndsOnLine(int index) =>
-            new MultilineSnippetReplace(this.SortKey, this.File, this.LineIndex, index - this.LineIndex + 1);
+            new MultilineSnippetReplace(this.SnippetShortcut, this.File, this.LineIndex, index - this.LineIndex + 1);
 
         public IEnumerable<IDemoCommand> Commands =>
             new IDemoCommand[]
@@ -28,10 +28,12 @@ namespace VSExtension.Implementation.Steps
                 new ActivateDocument(this.File),
                 new MoveToLine(this.File, this.LineIndex),
                 new Pause(),
-                new SelectLine(this.File, this.LineIndex)
+                new SelectLine(this.File, this.LineIndex),
+                new Pause(),
+                new ExpandLine(this.File, this.SnippetShortcut, this.LineIndex)
             };
 
         public override string ToString() =>
-            $"{this.SortKey} in {this.File.Name} line {this.LineIndex}";
+            $"{this.SnippetShortcut} in {this.File.Name} line {this.LineIndex}";
     }
 }

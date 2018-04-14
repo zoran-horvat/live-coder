@@ -9,7 +9,7 @@ namespace VSExtension.Implementation.Steps
 {
     class Reminder : IDemoStep
     {
-        public string SortKey { get; }
+        public string SnippetShortcut { get; }
         private ISource File { get; }
         private int LineIndex { get; }
 
@@ -18,9 +18,9 @@ namespace VSExtension.Implementation.Steps
                 .FirstOrNone()
                 .Reduce(string.Empty);
 
-        public Reminder(string sortKey, ISource file, int lineIndex)
+        public Reminder(string snippetShortcut, ISource file, int lineIndex)
         {
-            this.SortKey = sortKey ?? throw new ArgumentNullException(nameof(sortKey));
+            this.SnippetShortcut = snippetShortcut ?? throw new ArgumentNullException(nameof(snippetShortcut));
             this.File = file ?? throw new ArgumentNullException(nameof(file));
             this.LineIndex = lineIndex >= 0 ? lineIndex : throw new ArgumentException("Line index must be non-negative.");
         }
@@ -36,6 +36,6 @@ namespace VSExtension.Implementation.Steps
             };
 
         public override string ToString() =>
-            $"{this.SortKey} in {this.File.Name} reminder on line {this.LineIndex}";
+            $"{this.SnippetShortcut} in {this.File.Name} reminder on line {this.LineIndex}";
     }
 }
