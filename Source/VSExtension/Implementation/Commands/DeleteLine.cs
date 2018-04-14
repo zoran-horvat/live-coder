@@ -25,7 +25,10 @@ namespace VSExtension.Implementation.Commands
             : () => { };
 
         private bool ShouldDeleteLine =>
-            this.IsDocumentActive && this.IsContentEqual;
+            this.IsDocumentActive && this.IsCursorOnLine && this.IsContentEqual;
+
+        private bool IsCursorOnLine =>
+            this.Document.CursorLineIndex.Map(line => line == this.LineIndex).Reduce(false);
 
         private bool IsDocumentActive =>
             this.Document.IsActive;

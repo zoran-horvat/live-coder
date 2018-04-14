@@ -40,37 +40,44 @@ namespace VSExtension.Implementation
 
         public void Open() => this.Project.Open(this.ItemId);
 
+        public Option<int> CursorLineIndex =>
+            this.TextSelection.Map(sel => sel.ActivePoint.Line - 1);
+
         public bool IsActive =>
             this.ActiveDocument.Map(doc => doc.FullName == this.File.FullName).Reduce(false);
 
         private Option<EnvDTE.Document> ActiveDocument =>
             this.Dte.ActiveDocument.FromNullable();
 
-        public void Activate() => this.Dte.Documents.Item(this.File.FullName)?.Activate();
+        public void Activate() =>
+            this.Document.Do(doc => doc.Activate());
 
         public void MoveSelectionToLine(int lineIndex) =>
-            this.Selection.Do(selection => selection.GotoLine(lineIndex + 1));
+            this.TextSelection.Do(selection => selection.GotoLine(lineIndex + 1));
 
         public void SelectLine(int lineIndex)
         {
             this.MoveSelectionToLine(lineIndex);
-            this.Selection.Do(selection => selection.SelectLine());
+            this.TextSelection.Do(selection => selection.SelectLine());
         }
 
         public void DeleteLine(int lineIndex)
         {
             this.SelectLine(lineIndex);
-            this.Selection.Do(selection => selection.Delete());
+            this.TextSelection.Do(selection => selection.Delete());
         }
 
         public void SelectLines(int startLineIndex, int endLineIndex)
         {
             this.MoveSelectionToLine(startLineIndex);
-            this.Selection.Do(selection => selection.MoveToLineAndOffset(endLineIndex + 1, 1, true));
+            this.TextSelection.Do(selection => selection.MoveToLineAndOffset(endLineIndex + 1, 1, true));
         }
 
-        private Option<TextSelection> Selection =>
-            Option.FromNullable((TextSelection)this.Dte.Documents.Item(this.File.FullName)?.Selection);
+        private Option<Document> Document => 
+            this.Dte.Documents.Item(this.File.FullName).FromNullable();
+
+        private Option<TextSelection> TextSelection =>
+            this.Document.Map(doc => doc.Selection).OfType<TextSelection>();
 
         public override string ToString() => this.File.FullName;
     }

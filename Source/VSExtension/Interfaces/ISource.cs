@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using VSExtension.Functional;
 
 namespace VSExtension.Interfaces
 {
@@ -9,6 +10,7 @@ namespace VSExtension.Interfaces
         IEnumerable<(string line, int index)> Lines { get; }
         IEnumerable<string> TextBetween(int startLineIndex, int endLineIndex);
         bool IsActive { get; }
+        Option<int> CursorLineIndex { get; }
         void Open();
         void Activate();
         void MoveSelectionToLine(int lineIndex);
