@@ -20,9 +20,15 @@ namespace VSExtension.Implementation.Commands
 
         public void Execute() => this.DeletionStrategy();
 
-        private Action DeletionStrategy => this.IsContentEqual
+        private Action DeletionStrategy => this.ShouldDeleteLine
             ? (Action)(() => this.Document.DeleteLine(this.LineIndex))
             : () => { };
+
+        private bool ShouldDeleteLine =>
+            this.IsDocumentActive && this.IsContentEqual;
+
+        private bool IsDocumentActive =>
+            this.Document.IsActive;
 
         private bool IsContentEqual =>
             this.ContainsTargetLine && this.CurrentLineContent == this.ExpectedLineContent;

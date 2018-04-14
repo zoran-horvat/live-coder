@@ -40,6 +40,12 @@ namespace VSExtension.Implementation
 
         public void Open() => this.Project.Open(this.ItemId);
 
+        public bool IsActive =>
+            this.ActiveDocument.Map(doc => doc.FullName == this.File.FullName).Reduce(false);
+
+        private Option<EnvDTE.Document> ActiveDocument =>
+            this.Dte.ActiveDocument.FromNullable();
+
         public void Activate() => this.Dte.Documents.Item(this.File.FullName)?.Activate();
 
         public void MoveSelectionToLine(int lineIndex) =>

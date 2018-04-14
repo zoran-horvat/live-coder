@@ -6,7 +6,7 @@ namespace VSExtension.Functional
     {
         private T Content { get; }
 
-        private Some(T content)
+        public Some(T content)
         {
             this.Content = content;
         }

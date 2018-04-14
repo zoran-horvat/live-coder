@@ -17,7 +17,7 @@ namespace VSExtension.Functional
 
     static class Option
     {
-        public static Option<T> FromNullable<T>(T value) where T : class =>
-            object.ReferenceEquals(value, null) ? None.Value : (Option<T>)value;
+        public static Option<T> FromNullable<T>(this T value) where T : class =>
+            object.ReferenceEquals(value, null) ? (Option<T>)None.Value : new Some<T>(value);
     }
 }
