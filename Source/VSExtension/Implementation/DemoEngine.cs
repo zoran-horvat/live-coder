@@ -31,9 +31,21 @@ namespace VSExtension.Implementation
             }
         }
 
-        private void PullCommandsIfNoneExecutable()
+        private void PurgeIfVerificationFails()
         {
-            if (this.Commands.Count(command => command.CanExecute) == 0)
+            while (this.Commands.Count() > 0 && this.Commands.Peek() is IStateVerifier)
+            {
+                IStateVerifier verifier = this.Commands.Dequeue() as IStateVerifier;
+                if (!verifier.IsStateAsExpected)
+                {
+                    this.Commands.Clear();
+                }
+            }
+        }
+
+        private void PullCommandsIfEmpty()
+        {
+            if (this.Commands.Count() == 0)
             {
                 this.PullNewCommands();
             }
@@ -44,10 +56,6 @@ namespace VSExtension.Implementation
             while (this.Commands.Count > 0)
             {
                 IDemoCommand command = this.Commands.Dequeue();
-                if (!command.CanExecute)
-                {
-                    continue;
-                }
 
                 if (command is Pause)
                 {
@@ -59,7 +67,8 @@ namespace VSExtension.Implementation
 
         public void Step()
         {
-            this.PullCommandsIfNoneExecutable();
+            this.PurgeIfVerificationFails();
+            this.PullCommandsIfEmpty();
             foreach (IDemoCommand command in this.Dequeue())
             {
                 command.Execute();

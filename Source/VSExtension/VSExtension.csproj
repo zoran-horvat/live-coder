@@ -68,6 +68,7 @@
     <Compile Include="Implementation\Commands\Pause.cs" />
     <Compile Include="Implementation\Commands\SelectLine.cs" />
     <Compile Include="Implementation\Commands\SelectMultipleLines.cs" />
+    <Compile Include="Implementation\Commands\VerifyStep.cs" />
     <Compile Include="Implementation\DemoEngine.cs" />
     <Compile Include="Implementation\Readers\DocumentExtensions.cs" />
     <Compile Include="Implementation\Readers\FileReader.cs" />
@@ -79,6 +80,9 @@
     <Compile Include="Implementation\Steps\SnippetReplace.cs" />
     <Compile Include="Implementation\SourceFile.cs" />
     <Compile Include="Implementation\SourceReader.cs" />
+    <Compile Include="Implementation\Commands\VerifyActiveDocument.cs" />
+    <Compile Include="Implementation\Commands\VerifyCursorPosition.cs" />
+    <Compile Include="Implementation\Commands\VerifyLineContent.cs" />
     <Compile Include="Implementation\VsHierarchyExtensions.cs" />
     <Compile Include="Implementation\VsProjectExtensions.cs" />
     <Compile Include="Implementation\VsProjectWrapper.cs" />
@@ -90,6 +94,7 @@
     <Compile Include="Interfaces\IProject.cs" />
     <Compile Include="Interfaces\ISolution.cs" />
     <Compile Include="Interfaces\ISource.cs" />
+    <Compile Include="Interfaces\IStateVerifier.cs" />
     <Compile Include="Next.cs" />
     <Compile Include="NextPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

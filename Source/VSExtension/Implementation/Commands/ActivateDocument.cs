@@ -12,8 +12,6 @@ namespace VSExtension.Implementation.Commands
             this.Document = document ?? throw new ArgumentNullException(nameof(document));
         }
 
-        public bool CanExecute => true;
-
         public void Execute() => this.Document.Activate();
 
         public override string ToString() => $"activate {this.Document}";

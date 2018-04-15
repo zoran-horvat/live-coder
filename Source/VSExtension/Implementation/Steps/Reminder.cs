@@ -32,7 +32,10 @@ namespace VSExtension.Implementation.Steps
                 new ActivateDocument(this.File),
                 new MoveToLine(this.File, this.LineIndex),
                 new Pause(),
-                new DeleteLine(this.File, this.LineIndex, this.LineContent)
+                new VerifyActiveDocument(this.File),
+                new VerifyCursorPosition(this.File, this.LineIndex),
+                new VerifyLineContent(this.File, this.LineIndex, this.LineContent),
+                new DeleteLine(this.File, this.LineIndex)
             };
 
         public override string ToString() =>

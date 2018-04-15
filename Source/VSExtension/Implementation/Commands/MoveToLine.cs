@@ -14,8 +14,6 @@ namespace VSExtension.Implementation.Commands
             LineNumber = lineNumber >= 0 ? lineNumber : throw new ArgumentException("Line number must be non-negative.");
         }
 
-        public bool CanExecute => true;
-
         public void Execute() => this.Document.MoveSelectionToLine(this.LineNumber);
 
         public override string ToString() => $"move to line {this.LineNumber} in {this.Document}";

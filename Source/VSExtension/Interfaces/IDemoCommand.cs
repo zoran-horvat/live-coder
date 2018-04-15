@@ -2,7 +2,6 @@
 {
     interface IDemoCommand
     {
-        bool CanExecute { get; }
         void Execute();
     }
 }

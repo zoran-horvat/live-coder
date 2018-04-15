@@ -2,9 +2,10 @@
 
 namespace VSExtension.Implementation.Commands
 {
-    class Pause : IDemoCommand
+    abstract class VerifyStep : IStateVerifier
     {
         public void Execute() { }
-        public override string ToString() => "pause";
+
+        public abstract bool IsStateAsExpected { get; }
     }
 }

@@ -18,8 +18,6 @@ namespace VSExtension.Implementation.Commands
             this.EndLineIndex = endLineIndex;
         }
 
-        public bool CanExecute => false;
-
         public void Execute()
         {
         }

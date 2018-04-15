@@ -16,8 +16,6 @@ namespace VSExtension.Implementation.Commands
             this.LineIndex = lineIndex;
         }
 
-        public bool CanExecute => false;
-
         public void Execute()
         {
         }
