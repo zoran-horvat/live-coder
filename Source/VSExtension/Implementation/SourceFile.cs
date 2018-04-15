@@ -35,8 +35,11 @@ namespace VSExtension.Implementation
 
         public IEnumerable<(string line, int index)> Lines => this.Reader.ReadAllLines();
 
-        public IEnumerable<string> TextBetween(int startLineIndex, int endLineIndex) =>
+        public IEnumerable<string> GetTextBetween(int startLineIndex, int endLineIndex) =>
             this.Lines.Skip(startLineIndex).Take(endLineIndex - startLineIndex + 1).Select(tuple => tuple.line);
+
+        public Option<string> GetLineContent(int lineIndex) =>
+            this.GetTextBetween(lineIndex, lineIndex).FirstOrNone();
 
         public void Open() => this.Project.Open(this.ItemId);
 
@@ -75,6 +78,9 @@ namespace VSExtension.Implementation
 
         private Option<Document> Document => 
             this.Dte.Documents.Item(this.File.FullName).FromNullable();
+
+        public string SelectedText =>
+            this.TextSelection.Map(sel => sel.Text).Reduce(string.Empty);
 
         private Option<TextSelection> TextSelection =>
             this.Document.Map(doc => doc.Selection).OfType<TextSelection>();

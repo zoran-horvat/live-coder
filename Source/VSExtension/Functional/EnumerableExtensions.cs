@@ -18,5 +18,7 @@ namespace VSExtension.Functional
                 .Aggregate((min, cur) => cur.key.CompareTo(min.key) < 0 ? cur : min)
                 .value;
 
+        public static string Join(this IEnumerable<string> sequence, string separator) =>
+            string.Join(separator, sequence.ToArray());
     }
 }

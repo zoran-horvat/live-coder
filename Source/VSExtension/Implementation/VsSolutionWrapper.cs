@@ -11,11 +11,13 @@ namespace VSExtension.Implementation
     {
         private IVsSolution SolutionInterface { get; }
         private DTE Dte { get; }
+        private IExpansionManager ExpansionManager { get; }
 
-        public VsSolutionWrapper(IVsSolution solutionInterface, DTE dte)
+        public VsSolutionWrapper(IVsSolution solutionInterface, DTE dte, IExpansionManager expansionManager)
         {
             this.SolutionInterface = solutionInterface ?? throw new ArgumentNullException(nameof(SolutionInterface));
             this.Dte = dte ?? throw new ArgumentNullException(nameof(dte));
+            this.ExpansionManager = expansionManager ?? throw new ArgumentNullException(nameof(expansionManager));
         }
 
         public IEnumerable<IProject> Projects =>

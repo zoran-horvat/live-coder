@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using VSExtension.Functional;
 using VSExtension.Implementation.Commands;
 using VSExtension.Interfaces;
 
@@ -28,10 +29,17 @@ namespace VSExtension.Implementation.Steps
                 new ActivateDocument(this.File),
                 new MoveToLine(this.File, this.LineIndex),
                 new Pause(),
+                new VerifyActiveDocument(this.File),
+                new VerifyCursorPosition(this.File, this.LineIndex),
                 new SelectLine(this.File, this.LineIndex),
                 new Pause(),
+                new VerifyActiveDocument(this.File),
+                new VerifySelectionText(this.File, this.TextToSelect),
                 new ExpandLine(this.File, this.SnippetShortcut, this.LineIndex)
             };
+
+        private string TextToSelect =>
+            this.File.GetLineContent(this.LineIndex).Map(line => line + Environment.NewLine).Reduce(string.Empty);
 
         public override string ToString() =>
             $"{this.SnippetShortcut} in {this.File.Name} line {this.LineIndex}";

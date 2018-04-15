@@ -21,7 +21,7 @@ namespace VSExtension.Implementation.Commands
             this.ExpectedLineContent == this.ActualLineContent;
 
         private string ActualLineContent =>
-            this.File.TextBetween(this.LineIndex, this.LineIndex).FirstOrNone().Reduce(string.Empty);
+            this.File.GetTextBetween(this.LineIndex, this.LineIndex).FirstOrNone().Reduce(string.Empty);
 
         public override string ToString() =>
             $"verify file={this.File.Name} line={this.LineIndex} content={this.PrintableExpectedLineContent}";

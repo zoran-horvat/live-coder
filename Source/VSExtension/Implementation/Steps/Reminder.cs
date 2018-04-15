@@ -14,7 +14,7 @@ namespace VSExtension.Implementation.Steps
         private int LineIndex { get; }
 
         private string LineContent =>
-            this.File.TextBetween(this.LineIndex, this.LineIndex)
+            this.File.GetTextBetween(this.LineIndex, this.LineIndex)
                 .FirstOrNone()
                 .Reduce(string.Empty);
 

@@ -8,9 +8,11 @@ namespace VSExtension.Interfaces
         string Name { get; }
         IEnumerable<IDemoStep> DemoSteps { get; }
         IEnumerable<(string line, int index)> Lines { get; }
-        IEnumerable<string> TextBetween(int startLineIndex, int endLineIndex);
+        IEnumerable<string> GetTextBetween(int startLineIndex, int endLineIndex);
+        Option<string> GetLineContent(int lineIndex);
         bool IsActive { get; }
         Option<int> CursorLineIndex { get; }
+        string SelectedText { get; }
         void Open();
         void Activate();
         void MoveSelectionToLine(int lineIndex);
