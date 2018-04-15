@@ -7,6 +7,7 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using VSExtension.Functional;
 using VSExtension.Implementation.Commands;
+using VSExtension.Implementation.Readers;
 using VSExtension.Interfaces;
 
 namespace VSExtension.Implementation
@@ -18,20 +19,25 @@ namespace VSExtension.Implementation
         private VSConstants.VSITEMID ItemId { get; }
         private IVsProject Project { get; }
         private DTE Dte { get; }
+        private IExpansionManager ExpansionManager { get; }
 
         public IEnumerable<IDemoStep> DemoSteps =>
             this.Lines.Aggregate(new RunningDemoSteps(this), (steps, tuple) => steps.Add(tuple.line, tuple.index)).All;
 
         private FileInfo File { get; }
 
-        public SourceFile(FileInfo file, VSConstants.VSITEMID itemId, IVsProject project, DTE dte, SourceReader reader)
+        public SourceFile(FileInfo file, VSConstants.VSITEMID itemId, IVsProject project, DTE dte, IExpansionManager expansionManager)
         {
             this.File = file ?? throw new ArgumentNullException(nameof(file));
             this.ItemId = itemId;
             this.Dte = dte ?? throw new ArgumentNullException(nameof(dte));
+            this.ExpansionManager = expansionManager ?? throw new ArgumentNullException(nameof(expansionManager));
             this.Project = project ?? throw new ArgumentNullException(nameof(project));
-            this.Reader = reader ?? throw new ArgumentNullException(nameof(reader));
+            this.Reader = this.ReaderFor(dte, file);
         }
+
+        private SourceReader ReaderFor(DTE dte, FileInfo file) =>
+            new OpenDocumentReader(dte, file, new FileReader(file));
 
         public IEnumerable<(string line, int index)> Lines => this.Reader.ReadAllLines();
 
