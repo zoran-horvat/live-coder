@@ -61,7 +61,8 @@ namespace VSExtension.Implementation
                 .TryGetValue(snippetShortcut)
                 .OfType<SnippetReplace>()
                 .Map(snippet => snippet.EndsOnLine(index))
-                .Map(this.Add).Reduce(this);
+                .Map(this.Add)
+                .Reduce(this);
 
         private RunningDemoSteps Add(IDemoStep step)
         {

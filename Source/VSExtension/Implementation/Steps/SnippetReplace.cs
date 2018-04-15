@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using VSExtension.Functional;
 using VSExtension.Implementation.Commands;
 using VSExtension.Interfaces;
 

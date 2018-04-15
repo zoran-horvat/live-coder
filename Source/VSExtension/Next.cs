@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using VSExtension.Implementation;
-using System.Linq;
 using VSExtension.Interfaces;
 
 namespace VSExtension
@@ -43,6 +41,7 @@ namespace VSExtension
             this.package = package;
 
             OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+
             if (commandService != null)
             {
                 var menuCommandID = new CommandID(CommandSet, CommandId);
@@ -85,5 +84,6 @@ namespace VSExtension
             DemoEngine = DemoEngine ?? new DemoEngine(this.ServiceProvider.GetSolution());
             DemoEngine.Step();
         }
+
     }
 }

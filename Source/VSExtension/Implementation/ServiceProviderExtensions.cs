@@ -4,28 +4,36 @@ using Microsoft.VisualStudio.Shell.Interop;
 using EnvDTE;
 using Microsoft.VisualStudio.TextManager.Interop;
 using VSExtension.Functional;
+using Microsoft.VisualStudio.Shell;
 
 namespace VSExtension.Implementation
 {
     static class ServiceProviderExtensions
     {
         public static ISolution GetSolution(this IServiceProvider serviceProvider) =>
-            new VsSolutionWrapper(serviceProvider.GetSolutionInterface(), serviceProvider.GetDte(), serviceProvider.GetExpansionManager());
+            new VsSolutionWrapper(serviceProvider.GetSolutionInterface(), serviceProvider.GetDte(), GetExpansionManager());
 
         private static IVsSolution GetSolutionInterface(this IServiceProvider serviceProvider) =>
-            (IVsSolution) serviceProvider.GetService(typeof(IVsSolution));
+            (IVsSolution)serviceProvider.GetService(typeof(IVsSolution));
 
         private static DTE GetDte(this IServiceProvider serviceProvider) =>
             (DTE)serviceProvider.GetService(typeof(DTE));
 
-        private static IExpansionManager GetExpansionManager(this IServiceProvider serviceProvider)
+        private static Option<IVsTextManager2> GetTextManager() =>
+            ((IVsTextManager2)Package.GetGlobalService(typeof(SVsTextManager))).FromNullable();
+
+        private static Option<IVsExpansionManager> GetVsExpansionManager() =>
+            GetTextManager().Map(GetExpansionManager);
+
+        private static IExpansionManager GetExpansionManager() =>
+            GetVsExpansionManager()
+                .Map(vsImplementation => (IExpansionManager)new VisualStudioExpansionManager(vsImplementation))
+                .Reduce(() => new NoExpansionManager());
+
+        private static IVsExpansionManager GetExpansionManager(IVsTextManager2 textManager)
         {
-            if (serviceProvider.GetService(typeof(IVsTextManager)) is IVsTextManager2 textManager)
-            {
-                textManager.GetExpansionManager(out IVsExpansionManager expansionManager);
-                return new VsExpansionManager(expansionManager);
-            }
-            return new NoExpansionManager();
+            textManager.GetExpansionManager(out IVsExpansionManager expansionManager);
+            return expansionManager;
         }
     }
 }

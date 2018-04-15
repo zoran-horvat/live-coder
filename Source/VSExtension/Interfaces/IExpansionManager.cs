@@ -1,4 +1,4 @@
-﻿namespace VSExtension.Implementation
+﻿namespace VSExtension.Interfaces
 {
     interface IExpansionManager
     {
