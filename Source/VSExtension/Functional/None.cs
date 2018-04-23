@@ -17,6 +17,8 @@ namespace VSExtension.Functional
 
         public override void Do(Action<T> action) { }
 
+        public override void Dispose() { }
+
         public static None<T> Value { get; } = new None<T>();
     }
 

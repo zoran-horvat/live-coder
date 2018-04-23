@@ -70,6 +70,7 @@
     <Compile Include="Implementation\Commands\SelectMultipleLines.cs" />
     <Compile Include="Implementation\Commands\VerifyStep.cs" />
     <Compile Include="Implementation\DemoEngine.cs" />
+    <Compile Include="Implementation\FileSystemSnippet.cs" />
     <Compile Include="Interfaces\IExpansionManager.cs" />
     <Compile Include="Implementation\NoExpansionManager.cs" />
     <Compile Include="Implementation\Readers\DocumentExtensions.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Interfaces\IDemoStep.cs" />
     <Compile Include="Interfaces\IEngine.cs" />
     <Compile Include="Interfaces\IProject.cs" />
+    <Compile Include="Interfaces\ISnippet.cs" />
     <Compile Include="Interfaces\ISolution.cs" />
     <Compile Include="Interfaces\ISource.cs" />
     <Compile Include="Interfaces\IStateVerifier.cs" />
@@ -215,6 +217,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="VSPackage.resx">

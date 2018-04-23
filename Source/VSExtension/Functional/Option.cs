@@ -2,7 +2,7 @@
 
 namespace VSExtension.Functional
 {
-    abstract class Option<T>
+    abstract class Option<T> : IDisposable
     {
         public abstract Option<TNew> Map<TNew>(Func<T, TNew> map);
         public abstract T Reduce(T whenNone);
@@ -13,6 +13,8 @@ namespace VSExtension.Functional
 
         public static implicit operator Option<T>(T value) => (Some<T>)value;
         public static implicit operator Option<T>(None none) => None<T>.Value;
+
+        public abstract void Dispose();
     }
 
     static class Option

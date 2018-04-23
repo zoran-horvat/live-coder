@@ -82,6 +82,16 @@ namespace VSExtension.Implementation
             this.TextSelection.Do(selection => selection.MoveToLineAndOffset(endLineIndex + 1, 1, true));
         }
 
+        public void ReplaceSelectionWithSnippet(string shortcut) =>
+            this.ExpansionManager.FindSnippet(shortcut)
+                .Do(this.ReplaceSelectionWithSnippet);
+
+        private void ReplaceSelectionWithSnippet(ISnippet snippet) =>
+            snippet.Content.Do(this.ReplaceSelectionWith);
+
+        private void ReplaceSelectionWith(string content) =>
+            this.TextSelection.Do(sel => sel.Insert(content));
+
         private Option<Document> Document => 
             this.Dte.Documents.Item(this.File.FullName).FromNullable();
 

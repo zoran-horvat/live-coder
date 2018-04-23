@@ -16,8 +16,7 @@ namespace VSExtension.Implementation.Commands
             this.LineIndex = lineIndex;
         }
 
-        public void Execute()
-        {
-        }
+        public void Execute() =>
+            this.File.ReplaceSelectionWithSnippet(this.SnippetShortcut);
     }
 }
