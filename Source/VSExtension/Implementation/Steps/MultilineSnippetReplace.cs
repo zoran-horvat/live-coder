@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using VSExtension.Functional;
 using VSExtension.Implementation.Commands;
 using VSExtension.Interfaces;
 
@@ -30,8 +31,15 @@ namespace VSExtension.Implementation.Steps
                 new Pause(),
                 new SelectMultipleLines(this.File, this.StartLineIndex, this.StartLineIndex + this.LinesCount),
                 new Pause(),
-                new ExpandMultipleLines(this.File, this.SnippetShortcut, this.StartLineIndex, this.StartLineIndex + this.LinesCount - 1)
+                new VerifyActiveDocument(this.File), 
+                new VerifySelectionText(this.File, this.SelectedText), 
+                new ExpandSelection(this.File, this.SnippetShortcut)
             };
+
+        private int EndLineIndex => this.StartLineIndex + this.LinesCount - 1;
+
+        private string SelectedText =>
+            this.File.GetTextBetween(this.StartLineIndex, this.EndLineIndex).Join(Environment.NewLine) + Environment.NewLine;
 
         public override string ToString() =>
             $"{this.SnippetShortcut} in {this.File.Name} lines {this.StartLineIndex}-{this.StartLineIndex + this.LinesCount - 1}";

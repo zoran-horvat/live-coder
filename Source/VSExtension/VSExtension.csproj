@@ -61,8 +61,7 @@
     <Compile Include="Functional\Some.cs" />
     <Compile Include="Implementation\Commands\ActivateDocument.cs" />
     <Compile Include="Implementation\Commands\DeleteLine.cs" />
-    <Compile Include="Implementation\Commands\ExpandLine.cs" />
-    <Compile Include="Implementation\Commands\ExpandMultipleLines.cs" />
+    <Compile Include="Implementation\Commands\ExpandSelection.cs" />
     <Compile Include="Implementation\Commands\MoveToLine.cs" />
     <Compile Include="Implementation\Commands\OpenDocument.cs" />
     <Compile Include="Implementation\Commands\Pause.cs" />

@@ -34,7 +34,7 @@ namespace VSExtension.Implementation.Steps
                 new Pause(),
                 new VerifyActiveDocument(this.File),
                 new VerifySelectionText(this.File, this.TextToSelect),
-                new ExpandLine(this.File, this.SnippetShortcut, this.LineIndex)
+                new ExpandSelection(this.File, this.SnippetShortcut)
             };
 
         private string TextToSelect =>
