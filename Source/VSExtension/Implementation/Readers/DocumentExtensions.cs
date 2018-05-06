@@ -19,10 +19,18 @@ namespace VSExtension.Implementation.Readers
             return textDoc.GetLines();
         }
 
-        private static IEnumerable<(string line, int index)> GetLines(this TextDocument document) =>
-            document.CreateEditPoint()
-                .GetText(document.EndPoint)
-                .Split(new[] {Environment.NewLine}, StringSplitOptions.None)
-                .Select((line, index) => (line, index));
+        private static IEnumerable<(string line, int index)> GetLines(this TextDocument document)
+        {
+            EditPoint currentLine = document.CreateEditPoint();
+            int processedLineIndex;
+            do
+            {
+                string lineText = currentLine.GetText(currentLine.LineLength);
+                yield return (lineText, currentLine.Line - 1);
+                processedLineIndex = currentLine.Line;
+                currentLine.LineDown();
+            }
+            while (processedLineIndex != currentLine.Line);
+        }
     }
 }
