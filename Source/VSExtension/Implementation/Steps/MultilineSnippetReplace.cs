@@ -36,12 +36,13 @@ namespace VSExtension.Implementation.Steps
                 new ExpandSelection(this.File, this.SnippetShortcut)
             };
 
+        public string Label => $"Expand snippet {this.SnippetShortcut} in {this.File.Name} on lines {this.StartLineIndex + 1}-{this.EndLineIndex + 1}";
+
         private int EndLineIndex => this.StartLineIndex + this.LinesCount - 1;
 
         private string SelectedText =>
             this.File.GetTextBetween(this.StartLineIndex, this.EndLineIndex).Join(Environment.NewLine) + Environment.NewLine;
 
-        public override string ToString() =>
-            $"{this.SnippetShortcut} in {this.File.Name} lines {this.StartLineIndex}-{this.StartLineIndex + this.LinesCount - 1}";
+        public override string ToString() => this.Label;
     }
 }

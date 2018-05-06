@@ -4,7 +4,7 @@ namespace VSExtension.Functional
 {
     class Some<T> : Option<T>
     {
-        private T Content { get; }
+        public T Content { get; }
         private bool Disposed { get; set; }
 
         public Some(T content)

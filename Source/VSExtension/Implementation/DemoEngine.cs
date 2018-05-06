@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using VSExtension.Events;
 using VSExtension.Functional;
 using VSExtension.Implementation.Commands;
 using VSExtension.Interfaces;
@@ -11,14 +12,17 @@ namespace VSExtension.Implementation
     {
         private Queue<IDemoCommand> Commands { get; } = new Queue<IDemoCommand>();
         private ISolution Solution { get; }
+        private ILogger Logger { get; }
 
-        public DemoEngine(ISolution solution)
+        public DemoEngine(ISolution solution, ILogger logger)
         {
             this.Solution = solution ?? throw new ArgumentNullException(nameof(solution));
+            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         private Option<IDemoStep> NextStep =>
-            this.Solution.DemoStepsOrdered.FirstOrNone();
+            this.Logger.LogAndReturn(FirstDemoStepFound.FromOptionalDemoStep,
+                this.Solution.DemoStepsOrdered.FirstOrNone());
 
         private IEnumerable<IDemoCommand> NextCommands =>
             this.NextStep.Map(step => step.Commands).Reduce(Enumerable.Empty<IDemoCommand>());

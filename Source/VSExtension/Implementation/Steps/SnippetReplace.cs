@@ -37,10 +37,11 @@ namespace VSExtension.Implementation.Steps
                 new ExpandSelection(this.File, this.SnippetShortcut)
             };
 
+        public string Label => $"Single-line snippet replacement {this.SnippetShortcut} in {this.File.Name} on line {this.LineIndex}";
+
         private string TextToSelect =>
             this.File.GetLineContent(this.LineIndex).Map(line => line + Environment.NewLine).Reduce(string.Empty);
 
-        public override string ToString() =>
-            $"{this.SnippetShortcut} in {this.File.Name} line {this.LineIndex}";
+        public override string ToString() => this.Label;
     }
 }

@@ -6,5 +6,6 @@ namespace VSExtension.Interfaces
     {
         string SnippetShortcut { get; }
         IEnumerable<IDemoCommand> Commands { get; }
+        string Label { get; }
     }
 }

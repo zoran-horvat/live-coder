@@ -54,8 +54,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Events\FirstDemoStepFound.cs" />
+    <Compile Include="Events\NoDemoStepsFound.cs" />
     <Compile Include="Functional\DictionaryExtensions.cs" />
     <Compile Include="Functional\EnumerableExtensions.cs" />
+    <Compile Include="Functional\LoggerExtensions.cs" />
     <Compile Include="Functional\None.cs" />
     <Compile Include="Functional\Option.cs" />
     <Compile Include="Functional\Some.cs" />
@@ -70,6 +73,8 @@
     <Compile Include="Implementation\Commands\VerifyStep.cs" />
     <Compile Include="Implementation\DemoEngine.cs" />
     <Compile Include="Implementation\FileSystemSnippet.cs" />
+    <Compile Include="Implementation\VsOutputLogger.cs" />
+    <Compile Include="Interfaces\IEvent.cs" />
     <Compile Include="Interfaces\IExpansionManager.cs" />
     <Compile Include="Implementation\NoExpansionManager.cs" />
     <Compile Include="Implementation\Readers\DocumentExtensions.cs" />
@@ -95,6 +100,7 @@
     <Compile Include="Interfaces\IDemoCommand.cs" />
     <Compile Include="Interfaces\IDemoStep.cs" />
     <Compile Include="Interfaces\IEngine.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\IProject.cs" />
     <Compile Include="Interfaces\ISnippet.cs" />
     <Compile Include="Interfaces\ISolution.cs" />

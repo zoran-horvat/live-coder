@@ -38,7 +38,8 @@ namespace VSExtension.Implementation.Steps
                 new DeleteLine(this.File, this.LineIndex)
             };
 
-        public override string ToString() =>
-            $"{this.SnippetShortcut} in {this.File.Name} reminder on line {this.LineIndex}";
+        public string Label => $"Reminder {this.SnippetShortcut} in {this.File.Name} on line {this.LineIndex}";
+
+        public override string ToString() => this.Label;
     }
 }

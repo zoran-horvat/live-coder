@@ -81,9 +81,11 @@ namespace VSExtension
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            DemoEngine = DemoEngine ?? new DemoEngine(this.ServiceProvider.GetSolution());
+            DemoEngine = DemoEngine ?? new DemoEngine(this.ServiceProvider.GetSolution(), this.CreateLogger());
             DemoEngine.Step();
         }
 
+        private ILogger CreateLogger() =>
+            new VsOutputLogger();
     }
 }
