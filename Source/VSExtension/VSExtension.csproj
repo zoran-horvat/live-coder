@@ -56,12 +56,14 @@
   <ItemGroup>
     <Compile Include="Events\FirstDemoStepFound.cs" />
     <Compile Include="Events\NoDemoStepsFound.cs" />
+    <Compile Include="Events\StepVerificationFailed.cs" />
     <Compile Include="Functional\DictionaryExtensions.cs" />
     <Compile Include="Functional\EnumerableExtensions.cs" />
     <Compile Include="Functional\LoggerExtensions.cs" />
     <Compile Include="Functional\None.cs" />
     <Compile Include="Functional\Option.cs" />
     <Compile Include="Functional\Some.cs" />
+    <Compile Include="Functional\StringExtensions.cs" />
     <Compile Include="Implementation\Commands\ActivateDocument.cs" />
     <Compile Include="Implementation\Commands\DeleteLine.cs" />
     <Compile Include="Implementation\Commands\ExpandSelection.cs" />

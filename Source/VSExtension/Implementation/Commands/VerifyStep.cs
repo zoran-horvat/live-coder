@@ -7,5 +7,7 @@ namespace VSExtension.Implementation.Commands
         public void Execute() { }
 
         public abstract bool IsStateAsExpected { get; }
+
+        public abstract string PrintableReport { get; }
     }
 }

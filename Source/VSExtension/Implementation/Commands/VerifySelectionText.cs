@@ -1,4 +1,5 @@
 ﻿using System;
+using VSExtension.Functional;
 using VSExtension.Interfaces;
 
 namespace VSExtension.Implementation.Commands
@@ -15,6 +16,20 @@ namespace VSExtension.Implementation.Commands
         }
 
         public override bool IsStateAsExpected =>
-            this.File.SelectedText == this.ExpectedSelectionText;
+            this.NormalizedSelectedText == this.NormalizedExpectedText;
+
+        private string NormalizedSelectedText => this.SelectedText.WithNormalizedNewLines();
+
+        private string NormalizedExpectedText => this.ExpectedSelectionText.WithNormalizedNewLines();
+
+        public override string PrintableReport => this.IsStateAsExpected
+            ? $"Selected text in {this.File.Name} as expected: {this.PrintableExpectedSelectedText}"
+            : $"Selected text in {this.File.Name} not as expected\nExpected: {this.PrintableExpectedSelectedText}\n  Actual: {this.PrintableActualSelectedText}";
+
+        private string PrintableExpectedSelectedText => this.NormalizedExpectedText.WithPrintableNewLines();
+
+        private string PrintableActualSelectedText => this.NormalizedSelectedText.WithPrintableNewLines();
+
+        private string SelectedText => this.File.SelectedText;
     }
 }

@@ -37,11 +37,12 @@ namespace VSExtension.Implementation
 
         private void PurgeIfVerificationFails()
         {
-            while (this.Commands.Count() > 0 && this.Commands.Peek() is IStateVerifier)
+            while (this.Commands.Any() && this.Commands.Peek() is IStateVerifier)
             {
                 IStateVerifier verifier = this.Commands.Dequeue() as IStateVerifier;
                 if (!verifier.IsStateAsExpected)
                 {
+                    this.Logger.Write(new StepVerificationFailed(verifier));
                     this.Commands.Clear();
                 }
             }
@@ -49,7 +50,7 @@ namespace VSExtension.Implementation
 
         private void PullCommandsIfEmpty()
         {
-            if (this.Commands.Count() == 0)
+            if (!this.Commands.Any())
             {
                 this.PullNewCommands();
             }

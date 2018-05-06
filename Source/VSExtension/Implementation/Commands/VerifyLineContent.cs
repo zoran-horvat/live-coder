@@ -20,15 +20,25 @@ namespace VSExtension.Implementation.Commands
         public override bool IsStateAsExpected =>
             this.ExpectedLineContent == this.ActualLineContent;
 
+        public override string PrintableReport => this.IsStateAsExpected
+            ? $"Content of line {this.LineIndex + 1} in {this.File.Name} as expected: {this.PrintableExpectedLineContent}"
+            : $"Content of line {this.LineIndex + 1} in {this.File.Name} not as expected\nExpected: {this.PrintableExpectedLineContent}\n  Actual: {this.PrintableActualLineContent}";
+
         private string ActualLineContent =>
             this.File.GetTextBetween(this.LineIndex, this.LineIndex).FirstOrNone().Reduce(string.Empty);
 
-        public override string ToString() =>
-            $"verify file={this.File.Name} line={this.LineIndex} content={this.PrintableExpectedLineContent}";
+        private string PrintableExpectedLineContent => this.ExpectedLineContent.WithPrintableNewLines();
 
-        private string PrintableExpectedLineContent =>
-            this.ExpectedLineContent.Length > 40
-                ? this.ExpectedLineContent.Substring(0, 40) + "..."
-                : this.ExpectedLineContent;
+        private string PrintableActualLineContent => this.ActualLineContent.WithPrintableNewLines();
+
+        public override string ToString() =>
+            $"verify file={this.File.Name} line={this.LineIndex} content={this.ShortenedExpectedLineContent}";
+
+        private string ShortenedExpectedLineContent => this.Shorten(this.PrintableExpectedLineContent, 40);
+
+        private string Shorten(string content, int maxLength) =>
+            content.Length > 40
+                ? content.Substring(0, 40) + "..."
+                : content;
     }
 }
