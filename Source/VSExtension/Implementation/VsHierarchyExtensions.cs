@@ -11,6 +11,9 @@ namespace VSExtension.Implementation
             hierarchy.GetProperty((uint)startingWith, (int)__VSHPROPID.VSHPROPID_FirstChild, out object idObj);
             while (idObj != null)
             {
+                if (idObj is System.Reflection.Missing)
+                    break;
+                
                 VSConstants.VSITEMID id = (VSConstants.VSITEMID)(int)idObj;
                 yield return id;
 
