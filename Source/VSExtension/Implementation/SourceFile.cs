@@ -16,10 +16,10 @@ namespace VSExtension.Implementation
     {
         public string Name => this.File.Name;
         private SourceReader Reader { get; }
-        private VSConstants.VSITEMID ItemId { get; }
+        public VSConstants.VSITEMID ItemId { get; }
         private IVsProject Project { get; }
-        private DTE Dte { get; }
-        private IExpansionManager ExpansionManager { get; }
+        public DTE Dte { get; }
+        public IExpansionManager ExpansionManager { get; }
 
         public IEnumerable<IDemoStep> DemoSteps =>
             this.Lines.Aggregate(new RunningDemoSteps(this), (steps, tuple) => steps.Add(tuple.line, tuple.index)).All;

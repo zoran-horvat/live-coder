@@ -35,9 +35,16 @@ namespace VSExtension.Implementation
         private static Option<string> FilePathFor(this IVsProject project, VSConstants.VSITEMID itemId) =>
             project.GetMkDocument((uint)itemId, out string path) == VSConstants.S_OK ? (Option<string>)path : None.Value;
 
-        private static IEnumerable<ISource> FilesUnder(this IVsProject inProject, DTE dte, VSConstants.VSITEMID id, IExpansionManager expansionManager) =>
-            inProject.TryFindFile(dte, id, expansionManager)
-                .Map<IEnumerable<ISource>>(file => new[] { file })
-                .Reduce(() => inProject.GetSourceFiles(dte, id, expansionManager));
+        private static IEnumerable<ISource> FilesUnder(this IVsProject inProject, DTE dte, VSConstants.VSITEMID id, IExpansionManager expansionManager)
+        {
+            Option<ISource> file = inProject.TryFindFile(dte, id, expansionManager);
+
+            IEnumerable<ISource> result = 
+                file.OfType<SourceFile>() is Some<SourceFile> some ? new [] {some.Content}.Concat(inProject.GetSourceFiles(some.Content.Dte, some.Content.ItemId, expansionManager))
+                : file is Some<ISource> general ? new[] {general.Content}
+                : inProject.GetSourceFiles(dte, id, expansionManager);
+
+            return result;
+        }
     }
 }

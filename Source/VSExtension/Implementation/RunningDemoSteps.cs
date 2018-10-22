@@ -20,9 +20,9 @@ namespace VSExtension.Implementation
 
             this.StepPatterns =  new (Regex, Func<string, int, RunningDemoSteps>)[]
             {
-                (new Regex(@"\/\/ Snippet (?<snippetShortcut>snp\d+\.\d+)"), AddReminder),
+                (new Regex(@"\/\/ (Snippet )?(?<snippetShortcut>snp\d+\.\d+)"), AddReminder),
                 (new Regex(@"\/\/ (?<snippetShortcut>snp\d+) end"), EndSnippet),
-                (new Regex(@"\/\/ Snippet (?<snippetShortcut>snp\d+)"), BeginSnippet)
+                (new Regex(@"\/\/ (Snippet )?(?<snippetShortcut>snp\d+)"), BeginSnippet)
             };
         }
 
