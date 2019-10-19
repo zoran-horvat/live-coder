@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSExtension", "VSExtension\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveDemoRunner", "LiveDemoRunner\LiveDemoRunner.csproj", "{028890BD-839F-4D00-9B2C-A038889E15EA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "Demo\Demo\Demo.csproj", "{E7426B58-7A96-40DD-90A4-89EED14F4A99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{028890BD-839F-4D00-9B2C-A038889E15EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{028890BD-839F-4D00-9B2C-A038889E15EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{028890BD-839F-4D00-9B2C-A038889E15EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7426B58-7A96-40DD-90A4-89EED14F4A99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7426B58-7A96-40DD-90A4-89EED14F4A99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7426B58-7A96-40DD-90A4-89EED14F4A99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7426B58-7A96-40DD-90A4-89EED14F4A99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
