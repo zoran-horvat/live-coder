@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSExtension", "VSExtension\VSExtension.csproj", "{37AA0ECC-3E24-4EA3-89B7-A9DDE2C01940}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveDemoRunner", "LiveDemoRunner\LiveDemoRunner.csproj", "{028890BD-839F-4D00-9B2C-A038889E15EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,11 +17,15 @@ Global
 		{37AA0ECC-3E24-4EA3-89B7-A9DDE2C01940}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37AA0ECC-3E24-4EA3-89B7-A9DDE2C01940}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37AA0ECC-3E24-4EA3-89B7-A9DDE2C01940}.Release|Any CPU.Build.0 = Release|Any CPU
+		{028890BD-839F-4D00-9B2C-A038889E15EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{028890BD-839F-4D00-9B2C-A038889E15EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{028890BD-839F-4D00-9B2C-A038889E15EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{028890BD-839F-4D00-9B2C-A038889E15EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {CFE42C8C-95A5-47A2-945B-6C88E5923072}
+		SolutionGuid = {48C83253-3675-42CE-9A7D-A59B8F619E45}
 	EndGlobalSection
 EndGlobal
