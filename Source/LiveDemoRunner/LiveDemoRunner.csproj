@@ -158,6 +158,7 @@
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\IntegralFile.cs" />
     <Compile Include="Models\SplittableSnippetsFile.cs" />
+    <Compile Include="Models\ScriptAppender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SnippetsLiveTracker.cs" />

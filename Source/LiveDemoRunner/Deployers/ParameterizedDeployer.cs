@@ -13,6 +13,8 @@ namespace LiveDemoRunner.Deployers
     {
 
         private Arguments Arguments { get; }
+        
+        private DateTime CreationTime { get; }
 
         private ILogger Logger { get; }
 
@@ -29,11 +31,28 @@ namespace LiveDemoRunner.Deployers
             Contract.Requires(logger != null, "Logger must be non-null.");
 
             this.Arguments = arguments;
+            this.CreationTime = DateTime.UtcNow;
             this.Logger = logger;
 
         }
 
-        private IFutureDestination GetFilesDestination() => new FileSystemDestination(new DirectoryInfo(@"C:\Demo"));
+        private IFutureDestination GetFilesDestination() => 
+            new FileSystemDestination(this.DestinationDirectory);
+
+        private DirectoryInfo DestinationDirectory =>
+            new DirectoryInfo(Path.Combine(@"C:\", "Demo", this.DestinationSubdirectoryName));
+
+        private string DestinationSubdirectoryName =>
+            $"{this.CreationTime:yyyyMMddHHmmss}";
+
+        private DirectoryInfo ScriptDirectory =>
+            new DirectoryInfo(Path.Combine(this.DestinationDirectory.FullName, ".livecoder"));
+
+        private FileInfo ScriptFile =>
+            new FileInfo(Path.Combine(this.ScriptDirectory.FullName, "script.lcs"));
+
+        private IDestination ScriptAppender =>
+            new ScriptAppender(this.ScriptFile);
 
         public void Deploy()
         {
@@ -124,7 +143,7 @@ namespace LiveDemoRunner.Deployers
             if (arguments.NormalizeSnippets)
                 beforeDeploySnippets = info => new SnippetsNormalizer(this.Logger).Normalize(info);
 
-            return new[] { new CodeSnippetsDeployer(arguments.SourceDirectory, Logger, beforeDeploySnippets) };
+            return new[] { new CodeSnippetsDeployer(arguments.SourceDirectory, this.ScriptAppender, Logger, beforeDeploySnippets) };
 
         }
 

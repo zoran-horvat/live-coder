@@ -15,6 +15,8 @@ namespace LiveDemoRunner.Deployers
         public bool IsDeployed { get; private set; }
 
         private DirectoryInfo SourceDirectory { get; }
+
+        private IDestination Script { get; }
         private string MyDocumentsPath => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private DirectoryInfo MyDocumentsDirectory => new DirectoryInfo(MyDocumentsPath);
         private IEnumerable<DirectoryInfo> VisualStudioDirectories => MyDocumentsDirectory.EnumerateDirectories(@"Visual Studio *", SearchOption.TopDirectoryOnly);
@@ -30,7 +32,7 @@ namespace LiveDemoRunner.Deployers
                 .SelectMany(dir => dir.GetDirectories("My Code Snippets"))
                 .ToList();
 
-        public CodeSnippetsDeployer(DirectoryInfo sourceDirectory, ILogger logger)
+        public CodeSnippetsDeployer(DirectoryInfo sourceDirectory, IDestination script, ILogger logger)
         {
 
             Contract.Requires(sourceDirectory != null, "Source directory must be non-null.");
@@ -38,12 +40,13 @@ namespace LiveDemoRunner.Deployers
             Contract.Requires(logger != null, "Logger must be non-null");
 
             this.SourceDirectory = sourceDirectory;
+            this.Script = script;
             this.Logger = logger;
 
         }
 
-        public CodeSnippetsDeployer(DirectoryInfo sourceDirectory, ILogger logger, Action<FileInfo> beforeDeployFile)
-            : this(sourceDirectory, logger)
+        public CodeSnippetsDeployer(DirectoryInfo sourceDirectory, IDestination script, ILogger logger, Action<FileInfo> beforeDeployFile)
+            : this(sourceDirectory, script, logger)
         {
             Contract.Requires(beforeDeployFile != null, "Action before file deployment must be non-null.");
             this.BeforeDeployFile = beforeDeployFile;
@@ -94,10 +97,14 @@ namespace LiveDemoRunner.Deployers
             return new FileSystemDirectory(dir);
         }
 
-        private IEnumerable<IDestination> PrepareSnippetsDestinations()
-        {
-            return this.CodeSnippetsDirectories.Select(this.PrepareSnippetsDestinations).ToList();
-        }
+        private IEnumerable<IDestination> PrepareSnippetsDestinations() => 
+            this.CodeSnippetDestinations.Concat(this.ScriptFileDestination).ToList();
+
+        private IEnumerable<IDestination> CodeSnippetDestinations =>
+            this.CodeSnippetsDirectories.Select(this.PrepareSnippetsDestinations);
+
+        private IEnumerable<IDestination> ScriptFileDestination =>
+            new[] {this.Script};
 
         private IEnumerable<Tuple<IDemoComponent, IDestination>> PrepareSnippetsDeployment(FileInfo snippetsFile)
         {

@@ -10,14 +10,11 @@ namespace LiveDemoRunner.Models
 
         private DirectoryInfo DeploymentDirectory { get; }
 
-        public FileSystemDestination(DirectoryInfo rootDirectory)
+        public FileSystemDestination(DirectoryInfo directory)
         {
 
-            Contract.Requires(rootDirectory != null, "Root directory must be non-null.");
-        
-            DateTime timestamp = DateTime.UtcNow;
-            string deploymentPath = $"{rootDirectory.FullName}\\{timestamp:yyyyMMddHHmmss}";
-            this.DeploymentDirectory = new DirectoryInfo(deploymentPath);
+            Contract.Requires(directory != null, "Root directory must be non-null.");
+            this.DeploymentDirectory = directory;
 
         }
 
