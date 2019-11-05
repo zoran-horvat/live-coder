@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Xml;
 using LiveDemoRunner.Interfaces;
 
 namespace LiveDemoRunner.Models
@@ -14,8 +13,15 @@ namespace LiveDemoRunner.Models
             this.ScriptFile = scriptFile;
         }
 
-        public void DeployFile(string name, Stream stream)
+        public void DeployFile(string name, Stream stream) =>
+            this.Deploy(new XmlSnippet(stream));
+
+        private void Deploy(XmlSnippet snippet) =>
+            this.Deploy(snippet.Number, snippet.Code);
+
+        private void Deploy(int snippetNumber, string content)
         {
+
         }
 
         public void DeployDirectory(string name)
