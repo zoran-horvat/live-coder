@@ -158,7 +158,8 @@
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\IntegralFile.cs" />
     <Compile Include="Models\SplittableSnippetsFile.cs" />
-    <Compile Include="Models\ScriptAppender.cs" />
+    <Compile Include="Models\XmlSnippetPublisher.cs" />
+    <Compile Include="Models\TextFileAppender.cs" />
     <Compile Include="Models\XmlSnippet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

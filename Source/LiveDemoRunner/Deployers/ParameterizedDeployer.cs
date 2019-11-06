@@ -52,7 +52,7 @@ namespace LiveDemoRunner.Deployers
             new FileInfo(Path.Combine(this.ScriptDirectory.FullName, "script.lcs"));
 
         private IDestination ScriptAppender =>
-            new ScriptAppender(this.ScriptFile);
+            new XmlSnippetPublisher(this.ScriptFile);
 
         public void Deploy()
         {
