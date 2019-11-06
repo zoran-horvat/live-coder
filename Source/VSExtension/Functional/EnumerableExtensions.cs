@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace VSExtension.Functional
+namespace LiveCoderExtension.Functional
 {
     static class EnumerableExtensions
     {

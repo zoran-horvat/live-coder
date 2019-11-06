@@ -2,12 +2,11 @@
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml;
 using System.Xml.Linq;
-using VSExtension.Functional;
-using VSExtension.Interfaces;
+using LiveCoderExtension.Functional;
+using LiveCoderExtension.Interfaces;
 
-namespace VSExtension.Implementation
+namespace LiveCoderExtension.Implementation
 {
     class FileSystemSnippet : ISnippet
     {

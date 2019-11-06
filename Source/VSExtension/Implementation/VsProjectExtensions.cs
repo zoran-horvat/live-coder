@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using EnvDTE;
+using LiveCoderExtension.Functional;
+using LiveCoderExtension.Interfaces;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
-using VSExtension.Functional;
-using VSExtension.Implementation.Readers;
-using VSExtension.Interfaces;
 
-namespace VSExtension.Implementation
+namespace LiveCoderExtension.Implementation
 {
     static class VsProjectExtensions
     {

@@ -1,8 +1,8 @@
 ﻿using System;
-using VSExtension.Functional;
-using VSExtension.Interfaces;
+using LiveCoderExtension.Functional;
+using LiveCoderExtension.Interfaces;
 
-namespace VSExtension.Events
+namespace LiveCoderExtension.Events
 {
     class FirstDemoStepFound : IEvent
     {

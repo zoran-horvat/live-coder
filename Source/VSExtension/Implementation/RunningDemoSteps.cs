@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using VSExtension.Functional;
-using VSExtension.Implementation.Steps;
-using VSExtension.Interfaces;
+using LiveCoderExtension.Functional;
+using LiveCoderExtension.Implementation.Steps;
+using LiveCoderExtension.Interfaces;
 
-namespace VSExtension.Implementation
+namespace LiveCoderExtension.Implementation
 {
     class RunningDemoSteps
     {

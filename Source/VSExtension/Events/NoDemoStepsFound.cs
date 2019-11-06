@@ -1,6 +1,6 @@
-﻿using VSExtension.Interfaces;
+﻿using LiveCoderExtension.Interfaces;
 
-namespace VSExtension.Events
+namespace LiveCoderExtension.Events
 {
     class NoDemoStepsFound : IEvent
     {

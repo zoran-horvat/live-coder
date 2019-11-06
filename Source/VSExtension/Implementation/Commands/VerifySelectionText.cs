@@ -1,8 +1,8 @@
 ﻿using System;
-using VSExtension.Functional;
-using VSExtension.Interfaces;
+using LiveCoderExtension.Functional;
+using LiveCoderExtension.Interfaces;
 
-namespace VSExtension.Implementation.Commands
+namespace LiveCoderExtension.Implementation.Commands
 {
     internal class VerifySelectionText : VerifyStep
     {

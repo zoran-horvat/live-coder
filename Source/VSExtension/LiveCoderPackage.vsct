@@ -36,7 +36,7 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Groups>
-      <Group guid="guidNextPackageCmdSet" id="MyMenuGroup" priority="0x0600">
+      <Group guid="guidLiveCoderPackageCmdSet" id="MyMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
       </Group>
     </Groups>
@@ -52,11 +52,11 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidNextPackageCmdSet" id="NextId" priority="0x0100" type="Button">
-        <Parent guid="guidNextPackageCmdSet" id="MyMenuGroup" />
+      <Button guid="guidLiveCoderPackageCmdSet" id="NextId" priority="0x0100" type="Button">
+        <Parent guid="guidLiveCoderPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Invoke Next</ButtonText>
+          <ButtonText>Live Coder Step</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -77,7 +77,7 @@
     <GuidSymbol name="guidNextPackage" value="{3bd07697-f944-49c0-ae95-1dc9a9e61842}" />
 
     <!-- This is the guid used to group the menu commands together -->
-    <GuidSymbol name="guidNextPackageCmdSet" value="{08f19186-2a4b-41ff-998a-80b8be279cc8}">
+    <GuidSymbol name="guidLiveCoderPackageCmdSet" value="{08f19186-2a4b-41ff-998a-80b8be279cc8}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="NextId" value="0x0100" />
     </GuidSymbol>

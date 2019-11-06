@@ -1,7 +1,7 @@
 ﻿using System;
-using VSExtension.Interfaces;
+using LiveCoderExtension.Interfaces;
 
-namespace VSExtension.Functional
+namespace LiveCoderExtension.Functional
 {
     static class LoggerExtensions
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using VSExtension.Implementation.Commands;
-using VSExtension.Interfaces;
+using LiveCoderExtension.Implementation.Commands;
+using LiveCoderExtension.Interfaces;
 
-namespace VSExtension.Implementation.Steps
+namespace LiveCoderExtension.Implementation.Steps
 {
     class SnippetReplace : IDemoStep
     {

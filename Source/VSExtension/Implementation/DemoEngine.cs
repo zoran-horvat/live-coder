@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VSExtension.Events;
-using VSExtension.Functional;
-using VSExtension.Implementation.Commands;
-using VSExtension.Interfaces;
+using LiveCoderExtension.Events;
+using LiveCoderExtension.Functional;
+using LiveCoderExtension.Implementation.Commands;
+using LiveCoderExtension.Interfaces;
 
-namespace VSExtension.Implementation
+namespace LiveCoderExtension.Implementation
 {
     class DemoEngine : IEngine
     {

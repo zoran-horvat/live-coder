@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VSExtension.Functional
+namespace LiveCoderExtension.Functional
 {
     static class StringExtensions
     {

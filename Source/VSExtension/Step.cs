@@ -1,15 +1,15 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using LiveCoderExtension.Implementation;
+using LiveCoderExtension.Interfaces;
 using Microsoft.VisualStudio.Shell;
-using VSExtension.Implementation;
-using VSExtension.Interfaces;
 
-namespace VSExtension
+namespace LiveCoderExtension
 {
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class Next
+    internal sealed class Step
     {
         /// <summary>
         /// Command ID.
@@ -27,11 +27,11 @@ namespace VSExtension
         private readonly Package package;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Next"/> class.
+        /// Initializes a new instance of the <see cref="Step"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        private Next(Package package)
+        private Step(Package package)
         {
             if (package == null)
             {
@@ -53,7 +53,7 @@ namespace VSExtension
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static Next Instance { get; private set; }
+        public static Step Instance { get; private set; }
 
         private static IEngine DemoEngine { get; set; }
 
@@ -68,7 +68,7 @@ namespace VSExtension
         /// <param name="package">Owner package, not null.</param>
         public static void Initialize(Package package)
         {
-            Instance = new Next(package);
+            Instance = new Step(package);
             DemoEngine = null;
         }
 

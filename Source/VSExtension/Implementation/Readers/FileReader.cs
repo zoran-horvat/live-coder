@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace VSExtension.Implementation.Readers
+namespace LiveCoderExtension.Implementation.Readers
 {
     class FileReader : SourceReader
     {

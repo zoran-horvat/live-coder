@@ -1,4 +1,4 @@
-﻿namespace VSExtension.Interfaces
+﻿namespace LiveCoderExtension.Interfaces
 {
     interface IStateVerifier : IDemoCommand
     {

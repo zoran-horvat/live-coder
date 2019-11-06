@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VSExtension.Functional
+namespace LiveCoderExtension.Functional
 {
     abstract class Option<T> : IDisposable
     {

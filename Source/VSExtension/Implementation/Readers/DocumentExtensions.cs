@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using EnvDTE;
-using VSExtension.Functional;
+using LiveCoderExtension.Functional;
 
-namespace VSExtension.Implementation.Readers
+namespace LiveCoderExtension.Implementation.Readers
 {
     static class DocumentExtensions
     {

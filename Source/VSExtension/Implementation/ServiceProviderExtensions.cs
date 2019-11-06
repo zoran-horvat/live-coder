@@ -1,12 +1,12 @@
-﻿using VSExtension.Interfaces;
-using System;
-using Microsoft.VisualStudio.Shell.Interop;
+﻿using System;
 using EnvDTE;
-using Microsoft.VisualStudio.TextManager.Interop;
-using VSExtension.Functional;
+using LiveCoderExtension.Functional;
+using LiveCoderExtension.Interfaces;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.TextManager.Interop;
 
-namespace VSExtension.Implementation
+namespace LiveCoderExtension.Implementation
 {
     static class ServiceProviderExtensions
     {

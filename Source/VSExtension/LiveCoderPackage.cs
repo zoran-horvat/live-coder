@@ -1,16 +1,8 @@
-﻿using System;
-using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.Win32;
 
-namespace VSExtension
+namespace LiveCoderExtension
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -32,9 +24,9 @@ namespace VSExtension
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [Guid(NextPackage.PackageGuidString)]
+    [Guid(LiveCoderPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
-    public sealed class NextPackage : Package
+    public sealed class LiveCoderPackage : Package
     {
         /// <summary>
         /// NextPackage GUID string.
@@ -42,9 +34,9 @@ namespace VSExtension
         public const string PackageGuidString = "3bd07697-f944-49c0-ae95-1dc9a9e61842";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Next"/> class.
+        /// Initializes a new instance of the <see cref="Step"/> class.
         /// </summary>
-        public NextPackage()
+        public LiveCoderPackage()
         {
             // Inside this method you can place any initialization code that does not require
             // any Visual Studio service because at this point the package object is created but
@@ -60,7 +52,7 @@ namespace VSExtension
         /// </summary>
         protected override void Initialize()
         {
-            Next.Initialize(this);
+            Step.Initialize(this);
             base.Initialize();
         }
 

@@ -1,14 +1,12 @@
-﻿using Microsoft.VisualStudio.TextManager.Interop;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using VSExtension.Functional;
-using VSExtension.Interfaces;
+using LiveCoderExtension.Functional;
+using LiveCoderExtension.Interfaces;
+using Microsoft.VisualStudio.TextManager.Interop;
 
-namespace VSExtension.Implementation
+namespace LiveCoderExtension.Implementation
 {
     class VisualStudioExpansionManager : IExpansionManager
     {

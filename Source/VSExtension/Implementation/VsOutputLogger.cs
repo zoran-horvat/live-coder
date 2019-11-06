@@ -1,10 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio;
+using LiveCoderExtension.Interfaces;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using VSExtension.Interfaces;
 
-namespace VSExtension.Implementation
+namespace LiveCoderExtension.Implementation
 {
     class VsOutputLogger : ILogger
     {

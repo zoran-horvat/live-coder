@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace VSExtension.Functional
+namespace LiveCoderExtension.Functional
 {
     static class DictionaryExtensions
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace VSExtension.Implementation
+namespace LiveCoderExtension.Implementation
 {
     abstract class SourceReader
     {

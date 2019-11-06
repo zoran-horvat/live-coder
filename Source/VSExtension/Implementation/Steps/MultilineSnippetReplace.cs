@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using VSExtension.Functional;
-using VSExtension.Implementation.Commands;
-using VSExtension.Interfaces;
+using LiveCoderExtension.Functional;
+using LiveCoderExtension.Implementation.Commands;
+using LiveCoderExtension.Interfaces;
 
-namespace VSExtension.Implementation.Steps
+namespace LiveCoderExtension.Implementation.Steps
 {
     class MultilineSnippetReplace : IDemoStep
     {

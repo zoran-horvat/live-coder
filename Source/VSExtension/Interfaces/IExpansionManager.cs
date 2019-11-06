@@ -1,6 +1,6 @@
-﻿using VSExtension.Functional;
+﻿using LiveCoderExtension.Functional;
 
-namespace VSExtension.Interfaces
+namespace LiveCoderExtension.Interfaces
 {
     interface IExpansionManager
     {

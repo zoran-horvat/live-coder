@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace VSExtension.Implementation
+namespace LiveCoderExtension.Implementation
 {
     static class VsSolutionExtensions
     {

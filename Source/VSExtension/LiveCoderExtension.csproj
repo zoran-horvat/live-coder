@@ -24,8 +24,8 @@
     <ProjectGuid>{37AA0ECC-3E24-4EA3-89B7-A9DDE2C01940}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VSExtension</RootNamespace>
-    <AssemblyName>VSExtension</AssemblyName>
+    <RootNamespace>LiveCoderExtension</RootNamespace>
+    <AssemblyName>LiveCoderExtension</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
@@ -109,8 +109,8 @@
     <Compile Include="Interfaces\ISolution.cs" />
     <Compile Include="Interfaces\ISource.cs" />
     <Compile Include="Interfaces\IStateVerifier.cs" />
-    <Compile Include="Next.cs" />
-    <Compile Include="NextPackage.cs" />
+    <Compile Include="Step.cs" />
+    <Compile Include="LiveCoderPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -121,7 +121,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <VSCTCompile Include="NextPackage.vsct">
+    <VSCTCompile Include="LiveCoderPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
     <Content Include="Resources\Next.png" />

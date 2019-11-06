@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace VSExtension.Interfaces
+namespace LiveCoderExtension.Interfaces
 {
     interface ISolution
     {

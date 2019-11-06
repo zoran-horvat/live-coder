@@ -1,7 +1,7 @@
-﻿using VSExtension.Functional;
-using VSExtension.Interfaces;
+﻿using LiveCoderExtension.Functional;
+using LiveCoderExtension.Interfaces;
 
-namespace VSExtension.Implementation
+namespace LiveCoderExtension.Implementation
 {
     class NoExpansionManager : IExpansionManager
     {

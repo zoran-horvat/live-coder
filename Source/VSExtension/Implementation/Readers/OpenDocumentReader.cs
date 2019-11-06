@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using EnvDTE;
-using VSExtension.Functional;
+using LiveCoderExtension.Functional;
 
-namespace VSExtension.Implementation.Readers
+namespace LiveCoderExtension.Implementation.Readers
 {
     class OpenDocumentReader : SourceReader
     {

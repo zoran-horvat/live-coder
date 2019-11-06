@@ -1,6 +1,6 @@
-﻿using VSExtension.Interfaces;
+﻿using LiveCoderExtension.Interfaces;
 
-namespace VSExtension.Implementation.Commands
+namespace LiveCoderExtension.Implementation.Commands
 {
     class Pause : IDemoCommand
     {
