@@ -10,6 +10,7 @@ namespace Common.Optional
 
         public abstract T Reduce(T whenNone);
         public abstract T Reduce(Func<T> whenNone);
+        public abstract Option<TNew> Reverse<TNew>(TNew whenNone);
         public abstract Option<T> When(Func<T, bool> predicate);
         public abstract Option<TNew> OfType<TNew>() where TNew : T;
         public abstract void Do(Action<T> action);

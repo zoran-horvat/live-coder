@@ -26,6 +26,8 @@ namespace Common.Optional
         public override T Reduce(T whenNone) => this.Content;
         public override T Reduce(Func<T> whenNone) => this.Content;
 
+        public override Option<TNew> Reverse<TNew>(TNew whenNone) => new None<TNew>();
+
         public override Option<T> When(Func<T, bool> predicate) =>
             predicate(this) ? (Option<T>)this : None.Value;
 

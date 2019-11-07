@@ -27,7 +27,7 @@ namespace LiveCoderExtension.Implementation
                 .When(file => file.Exists);
 
         private Option<DemoScript> ParseScript() =>
-            this.ScriptFile.MapOptional(DemoScript.TryParse);
+            this.ScriptFile.MapOptional(file => DemoScript.TryParse(file, this.Logger));
 
         public DemoEngine(ISolution solution, ILogger logger)
         {

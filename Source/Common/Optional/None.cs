@@ -4,7 +4,7 @@ namespace Common.Optional
 {
     public class None<T> : Option<T>
     {
-        private None() { }
+        public None() { }
 
         public override Option<TNew> Map<TNew>(Func<T, TNew> map) => new None<TNew>();
 
@@ -13,6 +13,7 @@ namespace Common.Optional
 
         public override T Reduce(T whenNone) => whenNone;
         public override T Reduce(Func<T> whenNone) => whenNone();
+        public override Option<TNew> Reverse<TNew>(TNew whenNone) => new Some<TNew>(whenNone);
 
         public override Option<T> When(Func<T, bool> predicate) => this;
 
