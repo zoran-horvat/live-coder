@@ -6,17 +6,18 @@ namespace LiveCoderExtension.Events
 {
     class FirstDemoStepFound : IEvent
     {
-        public FirstDemoStepFound(IDemoStep demoStep)
+        private FirstDemoStepFound(IDemoStep demoStep)
         {
             DemoStep = demoStep ?? throw new ArgumentNullException(nameof(demoStep));
         }
 
         private IDemoStep DemoStep { get; }
 
-        public static IEvent FromOptionalDemoStep(Option<IDemoStep> step) => step is Some<IDemoStep> some 
-            ? (IEvent)new FirstDemoStepFound(some.Content)
-            : new NoDemoStepsFound();
+        public static IEvent FromOptionalDemoStep(Option<IDemoStep> step) => 
+            step.Map<IEvent>(s => new FirstDemoStepFound(s))
+                .Reduce(new NoDemoStepsFound());
 
-        public string Label => "Found the next demo step to execute: " + this.DemoStep.Label;
+        public string Label =>
+            $"Found the next demo step to execute: {this.DemoStep.Label}";
     }
 }

@@ -5,6 +5,7 @@ namespace Common.Optional
     public abstract class Option<T> : IDisposable
     {
         public abstract Option<TNew> Map<TNew>(Func<T, TNew> map);
+        public abstract Option<TNew> MapNullable<TNew>(Func<T, TNew> map);
         public abstract T Reduce(T whenNone);
         public abstract T Reduce(Func<T> whenNone);
         public abstract Option<T> When(Func<T, bool> predicate);

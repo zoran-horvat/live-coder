@@ -6,7 +6,9 @@ namespace Common.Optional
     {
         private None() { }
 
-        public override Option<TNew> Map<TNew>(Func<T, TNew> map) => None.Value;
+        public override Option<TNew> Map<TNew>(Func<T, TNew> map) => new None<TNew>();
+
+        public override Option<TNew> MapNullable<TNew>(Func<T, TNew> map) => new None<TNew>();
 
         public override T Reduce(T whenNone) => whenNone;
         public override T Reduce(Func<T> whenNone) => whenNone();

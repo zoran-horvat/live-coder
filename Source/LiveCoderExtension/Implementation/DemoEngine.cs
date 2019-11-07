@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Common.Optional;
 using LiveCoderExtension.Events;
@@ -15,11 +16,22 @@ namespace LiveCoderExtension.Implementation
         private ISolution Solution { get; }
         private ILogger Logger { get; }
 
+        private Option<FileInfo> ScriptFile =>
+            this.Solution.SolutionFile
+                .MapNullable(file => file.Directory)
+                .Map(dir => Path.Combine(dir.FullName, ".livecoder", "script.lcs"))
+                .Map(path => new FileInfo(path))
+                .When(file => file.Exists);
+
         public DemoEngine(ISolution solution, ILogger logger)
         {
             this.Solution = solution ?? throw new ArgumentNullException(nameof(solution));
             this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.LogScriptFile();
         }
+
+        private void LogScriptFile() =>
+            this.ScriptFile.Do(file => this.Logger.Write(new ScriptFileFound(file)));
 
         private Option<IDemoStep> NextStep =>
             this.Logger.LogAndReturn(FirstDemoStepFound.FromOptionalDemoStep,

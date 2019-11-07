@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Events\FirstDemoStepFound.cs" />
     <Compile Include="Events\NoDemoStepsFound.cs" />
+    <Compile Include="Events\ScriptFileFound.cs" />
     <Compile Include="Events\StepVerificationFailed.cs" />
     <Compile Include="Functional\LoggerExtensions.cs" />
     <Compile Include="Functional\StringExtensions.cs" />

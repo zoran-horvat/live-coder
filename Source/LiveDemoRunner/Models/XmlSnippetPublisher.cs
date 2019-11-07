@@ -22,7 +22,7 @@ namespace LiveDemoRunner.Models
         private void Deploy(int snippetNumber, string content)
         {
             string endSnippet = "<-- end snippet";
-            this.ScriptFile.AppendLine($"snippet {snippetNumber} until {endSnippet}");
+            this.ScriptFile.AppendLine($"snippet {snippetNumber:00} until {endSnippet}");
             this.ScriptFile.AppendLine(content + endSnippet);
             this.ScriptFile.AppendLine(string.Empty);
         }

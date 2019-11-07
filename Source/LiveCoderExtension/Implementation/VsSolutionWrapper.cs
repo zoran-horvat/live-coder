@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Common.Optional;
 using EnvDTE;
 using LiveCoderExtension.Interfaces;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -19,6 +21,11 @@ namespace LiveCoderExtension.Implementation
             this.Dte = dte ?? throw new ArgumentNullException(nameof(dte));
             this.ExpansionManager = expansionManager ?? throw new ArgumentNullException(nameof(expansionManager));
         }
+
+        public Option<FileInfo> SolutionFile =>
+            this.SolutionInterface.GetSolutionInfo(out string solutionDirectory, out string solutionFile, out string userOptionsFile) == 0
+                ? solutionFile.FromNullable().Map(path => new FileInfo(path))
+                : None.Value;
 
         public IEnumerable<IProject> Projects =>
             this.SolutionInterface.GetProjects().Select(project => new VsProjectWrapper(project, this.Dte, this.ExpansionManager));
