@@ -5,9 +5,7 @@ namespace LiveCoderExtension.Scripting
 {
     class DemoScript
     {
-        public static Option<DemoScript> TryParse(FileInfo file)
-        {
-            return None.Value;
-        }
+        public static Option<DemoScript> TryParse(FileInfo file) => 
+            new ScriptTextParser().Parse(Text.Load(file));
     }
 }
