@@ -6,6 +6,8 @@ namespace Common.Optional
     {
         public abstract Option<TNew> Map<TNew>(Func<T, TNew> map);
         public abstract Option<TNew> MapNullable<TNew>(Func<T, TNew> map);
+        public abstract Option<TNew> MapOptional<TNew>(Func<T, Option<TNew>> map);
+
         public abstract T Reduce(T whenNone);
         public abstract T Reduce(Func<T> whenNone);
         public abstract Option<T> When(Func<T, bool> predicate);

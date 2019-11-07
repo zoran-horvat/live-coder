@@ -12,13 +12,16 @@ namespace Common.Optional
             this.Content = content;
         }
 
-        public override Option<TNew> Map<TNew>(Func<T, TNew> map) => 
-            map(this.Content);
+        public override Option<TNew> Map<TNew>(Func<T, TNew> map) =>
+            new Some<TNew>(map(this.Content));
 
         public override Option<TNew> MapNullable<TNew>(Func<T, TNew> map) =>
             map(this.Content) is TNew x 
                 ? (Option<TNew>)new Some<TNew>(x) 
                 : None.Value;
+
+        public override Option<TNew> MapOptional<TNew>(Func<T, Option<TNew>> map) =>
+            map(this.Content);
 
         public override T Reduce(T whenNone) => this.Content;
         public override T Reduce(Func<T> whenNone) => this.Content;

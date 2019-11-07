@@ -13,6 +13,6 @@ namespace LiveCoderExtension.Events
         }
 
         public string Label =>
-            $"Step verification failed:\n{this.Step.PrintableReport}";
+            $"Step verification failed:{Environment.NewLine}{this.Step.PrintableReport}";
     }
 }

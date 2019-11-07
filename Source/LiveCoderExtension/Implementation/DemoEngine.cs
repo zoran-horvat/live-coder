@@ -7,6 +7,7 @@ using LiveCoderExtension.Events;
 using LiveCoderExtension.Functional;
 using LiveCoderExtension.Implementation.Commands;
 using LiveCoderExtension.Interfaces;
+using LiveCoderExtension.Scripting;
 
 namespace LiveCoderExtension.Implementation
 {
@@ -16,6 +17,8 @@ namespace LiveCoderExtension.Implementation
         private ISolution Solution { get; }
         private ILogger Logger { get; }
 
+        private Option<DemoScript> Script { get; }
+
         private Option<FileInfo> ScriptFile =>
             this.Solution.SolutionFile
                 .MapNullable(file => file.Directory)
@@ -23,11 +26,15 @@ namespace LiveCoderExtension.Implementation
                 .Map(path => new FileInfo(path))
                 .When(file => file.Exists);
 
+        private Option<DemoScript> ParseScript() =>
+            this.ScriptFile.MapOptional(DemoScript.TryParse);
+
         public DemoEngine(ISolution solution, ILogger logger)
         {
             this.Solution = solution ?? throw new ArgumentNullException(nameof(solution));
             this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.LogScriptFile();
+            this.Script = this.ParseScript();
         }
 
         private void LogScriptFile() =>
