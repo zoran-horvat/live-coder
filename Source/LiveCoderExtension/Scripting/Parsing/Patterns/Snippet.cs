@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Common.Optional;
 
 namespace LiveCoderExtension.Scripting.Parsing.Patterns
@@ -17,7 +19,25 @@ namespace LiveCoderExtension.Scripting.Parsing.Patterns
             from record in this.ApplyAfterPreamble(text, preamble["number"].Value, preamble["terminator"].Value, script)
             select record;
 
-        private Option<(IText remaining, DemoScript script)> ApplyAfterPreamble(IText current, string snippetNumber, string terminator, DemoScript script) =>
-            None.Value;
+        private Option<(IText remaining, DemoScript script)> ApplyAfterPreamble(NonEmptyText current, string snippetNumber, string terminator, DemoScript script) =>
+            current.ConsumeUntilMatch(this.EndingIn(terminator))
+                .Map(pair => (
+                    remaining: pair.remaining, 
+                    script: this.Apply(snippetNumber, this.RemoveTerminator(pair.lines, terminator), script)));
+
+        private DemoScript Apply(string snippetNumber, string[] content, DemoScript script) => 
+            script;
+
+        private Regex EndingIn(string terminator) =>
+            new Regex($"{Regex.Escape(terminator)}$");
+
+        private string[] RemoveTerminator(IEnumerable<string> content, string terminator)
+        {
+            string[] array = content.ToArray();
+            string lastLine = array[array.Length - 1];
+            string trimmed = lastLine.Substring(0, lastLine.Length - terminator.Length);
+            array[array.Length - 1] = trimmed;
+            return array;
+        }
     }
 }
