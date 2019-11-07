@@ -7,9 +7,9 @@ namespace LiveCoderExtension.Scripting.Parsing.Events
         public string Label =>
             $"Error parsing line #{this.CurrentText.LineIndex + 1}: {this.CurrentText.CurrentLine}";
 
-        private Text CurrentText { get; }
+        private NonEmptyText CurrentText { get; }
 
-        public ErrorParsingLine(Text currentText)
+        public ErrorParsingLine(NonEmptyText currentText)
         {
             this.CurrentText = currentText;
         }

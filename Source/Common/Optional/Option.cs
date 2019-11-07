@@ -25,5 +25,8 @@ namespace Common.Optional
     {
         public static Option<T> FromNullable<T>(this T value) where T : class =>
             object.ReferenceEquals(value, null) ? (Option<T>)None.Value : new Some<T>(value);
+
+        public static Option<T> Of<T>(T obj) =>
+            new Some<T>(obj);
     }
 }

@@ -106,11 +106,13 @@
     <Compile Include="Interfaces\ISource.cs" />
     <Compile Include="Interfaces\IStateVerifier.cs" />
     <Compile Include="Scripting\DemoScript.cs" />
+    <Compile Include="Scripting\EmptyText.cs" />
+    <Compile Include="Scripting\NonEmptyText.cs" />
     <Compile Include="Scripting\Parsing\Events\ErrorParsingLine.cs" />
     <Compile Include="Scripting\Parsing\IPattern.cs" />
     <Compile Include="Scripting\Parsing\Patterns\Snippet.cs" />
     <Compile Include="Scripting\Parsing\ScriptTextParser.cs" />
-    <Compile Include="Scripting\Text.cs" />
+    <Compile Include="Scripting\IText.cs" />
     <Compile Include="ServiceProviderExtensions.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="LiveCoderPackage.cs" />

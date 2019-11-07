@@ -51,7 +51,10 @@
     <Compile Include="Optional\EnumerableExtensions.cs" />
     <Compile Include="Optional\None.cs" />
     <Compile Include="Optional\Option.cs" />
+    <Compile Include="Optional\OptionalLinq.cs" />
+    <Compile Include="Optional\RegexExtensions.cs" />
     <Compile Include="Optional\Some.cs" />
+    <Compile Include="Optional\TypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

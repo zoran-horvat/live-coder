@@ -8,6 +8,6 @@ namespace LiveCoderExtension.Scripting
     class DemoScript
     {
         public static Option<DemoScript> TryParse(FileInfo file, ILogger logger) =>
-            Text.TryLoad(file).MapOptional(new ScriptTextParser(logger).TryParse);
+            NonEmptyText.Load(file).MapOptional(new ScriptTextParser(logger).TryParse);
     }
 }

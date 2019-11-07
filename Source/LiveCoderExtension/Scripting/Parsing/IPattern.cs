@@ -6,6 +6,6 @@ namespace LiveCoderExtension.Scripting.Parsing
     interface IPattern
     {
         Regex StartsWith { get; }
-        (Option<Text> remaining, Option<DemoScript> script) Apply(Text current, DemoScript script);
+        Option<(IText remaining, DemoScript script)> Apply(NonEmptyText current, DemoScript script);
     }
 }

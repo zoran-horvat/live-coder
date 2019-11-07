@@ -20,25 +20,27 @@ namespace LiveCoderExtension.Scripting.Parsing
             };
         }
 
-        public Option<DemoScript> TryParse(Text content)
+        public Option<DemoScript> TryParse(NonEmptyText content)
         {
-            Option<DemoScript> script = new Some<DemoScript>(new DemoScript());
-            Option<Text> rest = new Some<Text>(content);
+            Option<DemoScript> script = Option.Of(new DemoScript());
+            IText rest = content;
 
-            while (script is Some<DemoScript> currentScript &&
-                   rest is Some<Text> remaining && 
+            while (script is Some<DemoScript> someScript &&
+                   rest is NonEmptyText remaining && 
                    this.TryMatch(remaining) is Some<IPattern> somePattern &&
                    somePattern.Content is IPattern pattern)
             {
-                (rest, script) = pattern.Apply(remaining, currentScript);
+                Option<(IText newRest, DemoScript newScript)> newState = pattern.Apply(remaining, someScript);
+                script = newState.Map(state => state.newScript);
+                rest = newState.Map(state => state.newRest).Reduce(rest);
             }
 
-            rest.Do(remaining => this.Logger.Write(new ErrorParsingLine(remaining)));
+            rest.OfType<NonEmptyText>().Do(remaining => this.Logger.Write(new ErrorParsingLine(remaining)));
 
-            return rest.Reverse(script).Reduce(None.Value);
+            return script;
         }
 
-        private Option<IPattern> TryMatch(Text content) =>
+        private Option<IPattern> TryMatch(NonEmptyText content) =>
             this.Patterns.FirstOrNone(pattern => pattern.StartsWith.IsMatch(content.CurrentLine));
     }
 }
