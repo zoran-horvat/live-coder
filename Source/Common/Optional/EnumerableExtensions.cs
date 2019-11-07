@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LiveCoderExtension.Functional
+namespace Common.Optional
 {
-    static class EnumerableExtensions
+    public static class EnumerableExtensions
     {
         public static Option<T> FirstOrNone<T>(this IEnumerable<T> sequence) =>
             sequence.Take(1).Select<T, Option<T>>(x => x).DefaultIfEmpty(None.Value).Single();

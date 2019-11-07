@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Common.Optional;
 using EnvDTE;
-using LiveCoderExtension.Functional;
 using LiveCoderExtension.Implementation.Readers;
 using LiveCoderExtension.Interfaces;
 using Microsoft.VisualStudio;

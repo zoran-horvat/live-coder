@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using LiveCoderExtension.Functional;
+using Common.Optional;
 using LiveCoderExtension.Interfaces;
 using Microsoft.VisualStudio.TextManager.Interop;
 

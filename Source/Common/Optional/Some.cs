@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace LiveCoderExtension.Functional
+namespace Common.Optional
 {
-    class Some<T> : Option<T>
+    public class Some<T> : Option<T>
     {
         public T Content { get; }
         private bool Disposed { get; set; }

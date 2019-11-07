@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace LiveCoderExtension.Functional
+namespace Common.Optional
 {
-    class None<T> : Option<T>
+    public class None<T> : Option<T>
     {
         private None() { }
 
@@ -22,7 +22,7 @@ namespace LiveCoderExtension.Functional
         public static None<T> Value { get; } = new None<T>();
     }
 
-    class None
+    public class None
     {
         private None() { }
 

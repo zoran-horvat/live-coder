@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Demo
+﻿namespace Demo
 {
     public class PersonalName
     {

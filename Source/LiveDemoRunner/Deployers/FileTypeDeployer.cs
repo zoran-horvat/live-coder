@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using LiveDemoRunner.Interfaces;
-using LiveDemoRunner.Models;
 
 namespace LiveDemoRunner.Deployers
 {

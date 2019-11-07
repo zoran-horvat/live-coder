@@ -33,22 +33,18 @@ namespace LiveCoderExtension
         /// <param name="package">Owner package, not null.</param>
         private Step(Package package)
         {
-            if (package == null)
+            this.package = package ?? throw new ArgumentNullException(nameof(package));
+
+            if (this.MenuCommandService is OleMenuCommandService commandService)
             {
-                throw new ArgumentNullException("package");
-            }
-
-            this.package = package;
-
-            OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-
-            if (commandService != null)
-            {
-                var menuCommandID = new CommandID(CommandSet, CommandId);
-                var menuItem = new MenuCommand(this.MenuItemCallback, menuCommandID);
+                var menuCommandId = new CommandID(CommandSet, CommandId);
+                var menuItem = new MenuCommand(this.MenuItemCallback, menuCommandId);
                 commandService.AddCommand(menuItem);
             }
         }
+
+        private IMenuCommandService MenuCommandService =>
+            this.ServiceProvider.GetService(typeof(IMenuCommandService)) as IMenuCommandService;
 
         /// <summary>
         /// Gets the instance of the command.

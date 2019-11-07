@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Common.Optional;
 using EnvDTE;
-using LiveCoderExtension.Functional;
 
 namespace LiveCoderExtension.Implementation.Readers
 {

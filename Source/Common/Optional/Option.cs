@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace LiveCoderExtension.Functional
+namespace Common.Optional
 {
-    abstract class Option<T> : IDisposable
+    public abstract class Option<T> : IDisposable
     {
         public abstract Option<TNew> Map<TNew>(Func<T, TNew> map);
         public abstract T Reduce(T whenNone);
@@ -17,7 +17,7 @@ namespace LiveCoderExtension.Functional
         public abstract void Dispose();
     }
 
-    static class Option
+    public static class Option
     {
         public static Option<T> FromNullable<T>(this T value) where T : class =>
             object.ReferenceEquals(value, null) ? (Option<T>)None.Value : new Some<T>(value);

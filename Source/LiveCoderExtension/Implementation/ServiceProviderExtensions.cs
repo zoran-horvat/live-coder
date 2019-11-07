@@ -1,6 +1,6 @@
 ﻿using System;
+using Common.Optional;
 using EnvDTE;
-using LiveCoderExtension.Functional;
 using LiveCoderExtension.Interfaces;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;

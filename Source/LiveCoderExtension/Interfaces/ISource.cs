@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using LiveCoderExtension.Functional;
+using Common.Optional;
 
 namespace LiveCoderExtension.Interfaces
 {

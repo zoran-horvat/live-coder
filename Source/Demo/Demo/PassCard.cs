@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Demo
+﻿namespace Demo
 {
     // snp00.1 Represents a pass card issued to visitors
     public class PassCard

@@ -1,4 +1,4 @@
-﻿using LiveCoderExtension.Functional;
+﻿using Common.Optional;
 
 namespace LiveCoderExtension.Interfaces
 {
