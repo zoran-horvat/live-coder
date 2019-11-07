@@ -110,6 +110,7 @@
     <Compile Include="Scripting\NonEmptyText.cs" />
     <Compile Include="Scripting\Parsing\Events\ErrorParsingLine.cs" />
     <Compile Include="Scripting\Parsing\IPattern.cs" />
+    <Compile Include="Scripting\Parsing\Patterns\BlankLine.cs" />
     <Compile Include="Scripting\Parsing\Patterns\Snippet.cs" />
     <Compile Include="Scripting\Parsing\ScriptTextParser.cs" />
     <Compile Include="Scripting\IText.cs" />

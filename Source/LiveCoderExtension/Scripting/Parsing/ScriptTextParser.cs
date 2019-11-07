@@ -14,9 +14,10 @@ namespace LiveCoderExtension.Scripting.Parsing
         public ScriptTextParser(ILogger logger)
         {
             this.Logger = logger;
-            this.Patterns = new[]
+            this.Patterns = new IPattern[]
             {
                 new Snippet(), 
+                new BlankLine(), 
             };
         }
 
