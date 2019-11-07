@@ -104,6 +104,7 @@
     <Compile Include="Interfaces\ISolution.cs" />
     <Compile Include="Interfaces\ISource.cs" />
     <Compile Include="Interfaces\IStateVerifier.cs" />
+    <Compile Include="ServiceProviderExtensions.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="LiveCoderPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -21,10 +21,7 @@ namespace LiveCoderExtension
         /// </summary>
         public static readonly Guid CommandSet = new Guid("08f19186-2a4b-41ff-998a-80b8be279cc8");
 
-        /// <summary>
-        /// VS Package that provides this command, not null.
-        /// </summary>
-        private readonly Package package;
+        private Package Package { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Step"/> class.
@@ -33,15 +30,15 @@ namespace LiveCoderExtension
         /// <param name="package">Owner package, not null.</param>
         private Step(Package package)
         {
-            this.package = package ?? throw new ArgumentNullException(nameof(package));
-
-            if (this.MenuCommandService is OleMenuCommandService commandService)
-            {
-                var menuCommandId = new CommandID(CommandSet, CommandId);
-                var menuItem = new MenuCommand(this.MenuItemCallback, menuCommandId);
-                commandService.AddCommand(menuItem);
-            }
+            this.Package = package ?? throw new ArgumentNullException(nameof(package));
+            this.ServiceProvider.TryGetService<OleMenuCommandService>().Do(this.AddMenuItem);
         }
+
+        private void AddMenuItem(OleMenuCommandService service) => 
+            this.AddMenuItem(service, new CommandID(CommandSet, CommandId));
+
+        private void AddMenuItem(OleMenuCommandService service, CommandID menuCommandId) => 
+            service.AddCommand(new MenuCommand(this.MenuItemCallback, menuCommandId));
 
         private IMenuCommandService MenuCommandService =>
             this.ServiceProvider.GetService(typeof(IMenuCommandService)) as IMenuCommandService;
@@ -56,7 +53,7 @@ namespace LiveCoderExtension
         /// <summary>
         /// Gets the service provider from the owner package.
         /// </summary>
-        private IServiceProvider ServiceProvider => this.package;
+        private IServiceProvider ServiceProvider => this.Package;
 
         /// <summary>
         /// Initializes the singleton instance of the command.
