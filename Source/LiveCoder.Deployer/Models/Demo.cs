@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using LiveCoder.Deployer.Interfaces;
 
 namespace LiveCoder.Deployer.Models
@@ -11,12 +10,7 @@ namespace LiveCoder.Deployer.Models
 
         public Demo(IEnumerable<IDemoComponent> components)
         {
-
-            Contract.Requires(components != null, "Demo components must be non-null.");
-            Contract.ForAll(components, component => !object.ReferenceEquals(component, null));
-
             this.Components = new List<IDemoComponent>(components);
-
         }
     }
 }

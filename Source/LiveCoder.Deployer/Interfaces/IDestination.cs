@@ -1,10 +1,7 @@
-﻿using System.Diagnostics.Contracts;
-using System.IO;
-using LiveCoder.Deployer.Interfaces.Contracts;
+﻿using System.IO;
 
 namespace LiveCoder.Deployer.Interfaces
 {
-    [ContractClass(typeof(DestinationContracts))]
     public interface IDestination
     {
 
@@ -13,10 +10,8 @@ namespace LiveCoder.Deployer.Interfaces
         IDestination GetDirectory(string name);
         IDeployedComponent GetFile(string name);
 
-        [Pure]
         bool DirectoryExists(string name);
 
-        [Pure]
         bool FileExists(string name);
 
     }

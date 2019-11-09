@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using LiveCoder.Deployer.Infrastructure;
@@ -26,13 +25,9 @@ namespace LiveCoder.Deployer.Deployers
 
         public ParameterizedDeployer(Arguments arguments, ILogger logger)
         {
-
-            Contract.Requires(arguments != null, "Arguments must be non-null for the parameterized deployer.");
-            Contract.Requires(logger != null, "Logger must be non-null.");
-
-            this.Arguments = arguments;
+            this.Arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
             this.CreationTime = DateTime.UtcNow;
-            this.Logger = logger;
+            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         }
 

@@ -139,10 +139,6 @@
     <Compile Include="Deployers\ParameterizedDeployer.cs" />
     <Compile Include="Infrastructure\ConsoleLogger.cs" />
     <Compile Include="Infrastructure\SnippetsNormalizer.cs" />
-    <Compile Include="Interfaces\Contracts\DemoComponentContracts.cs" />
-    <Compile Include="Interfaces\Contracts\DeployerContracts.cs" />
-    <Compile Include="Interfaces\Contracts\DestinationContracts.cs" />
-    <Compile Include="Interfaces\Contracts\FutureDestinationContracts.cs" />
     <Compile Include="Interfaces\IDemo.cs" />
     <Compile Include="Interfaces\IDemoComponent.cs" />
     <Compile Include="Interfaces\IDeployedComponent.cs" />

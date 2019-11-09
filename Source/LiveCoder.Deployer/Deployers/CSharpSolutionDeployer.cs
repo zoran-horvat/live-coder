@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LiveCoder.Deployer.Interfaces;
@@ -20,15 +20,9 @@ namespace LiveCoder.Deployer.Deployers
 
         public CSharpSolutionDeployer(DirectoryInfo sourceDirectory, IDestination destination, ILogger logger)
         {
-
-            Contract.Requires(sourceDirectory != null, "Source directory must be non-null.");
-            Contract.Requires(sourceDirectory.Exists, "Source directory must exist.");
-            Contract.Requires(destination != null, "Destination must be non-null.");
-            Contract.Requires(logger != null, "Logger must be non-null.");
-
-            this.SourceDirectory = sourceDirectory;
-            this.Destination = destination;
-            this.Logger = logger;
+            this.SourceDirectory = sourceDirectory ?? throw new ArgumentNullException(nameof(sourceDirectory));
+            this.Destination = destination ?? throw new ArgumentNullException(nameof(destination));
+            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         }
 

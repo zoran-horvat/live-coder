@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,8 +14,7 @@ namespace LiveCoder.Deployer.Infrastructure
 
         public SnippetsNormalizer(ILogger logger)
         {
-            Contract.Requires(logger != null, "Logger must be non-null.");
-            this.Logger = logger;
+            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public void Normalize(FileInfo file)

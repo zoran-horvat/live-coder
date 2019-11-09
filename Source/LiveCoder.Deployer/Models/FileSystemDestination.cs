@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System;
 using System.IO;
 using LiveCoder.Deployer.Interfaces;
 
@@ -11,10 +11,7 @@ namespace LiveCoder.Deployer.Models
 
         public FileSystemDestination(DirectoryInfo directory)
         {
-
-            Contract.Requires(directory != null, "Root directory must be non-null.");
-            this.DeploymentDirectory = directory;
-
+            this.DeploymentDirectory = directory ?? throw new ArgumentNullException(nameof(directory));
         }
 
         public void PrepareForDeployment() => this.CreateDeploymentDirectory();

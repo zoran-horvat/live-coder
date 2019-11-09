@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 using LiveCoder.Deployer.Interfaces;
 
@@ -19,20 +18,14 @@ namespace LiveCoder.Deployer.Models
 
         public File(FileInfo file, ILogger logger)
         {
-
-            Contract.Requires(file != null, "File must be non-null.");
-            Contract.Requires(file.Exists, "Source file must exist.");
-            Contract.Requires(logger != null, "Logger must be non-null.");
-
-            this.SourceFile = file;
-            this.Logger = logger;
+            this.SourceFile = file ?? throw new ArgumentNullException(nameof(file));
+            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         }
 
         public File(FileInfo file, ILogger logger, Action<FileInfo> beforeDeploy) : this(file, logger)
         {
-            Contract.Requires(beforeDeploy != null, "Action before file deployment must be non-null.");
-            this.BeforeDeploy = beforeDeploy;
+            this.BeforeDeploy = beforeDeploy ?? throw new ArgumentNullException(nameof(beforeDeploy));
         }
 
         public void DeployTo(IDestination destination)

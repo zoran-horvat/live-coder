@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -26,18 +25,10 @@ namespace LiveCoder.Deployer.Deployers
 
         public FileTypeDeployer(DirectoryInfo sourceDirectory, string fileExtension, IDestination deploymentDestination, ILogger logger)
         {
-
-            Contract.Requires(sourceDirectory != null, "Source directory must be non-null.");
-            Contract.Requires(sourceDirectory.Exists, "Source directory must exist.");
-            Contract.Requires(!string.IsNullOrEmpty(fileExtension), "File extension must be non-empty.");
-            Contract.Requires(Regex.IsMatch(fileExtension, @"^\w+$"), "Must be a valid file extension.");
-            Contract.Requires(deploymentDestination != null, "Deployment destination must be non-null.");
-            Contract.Requires(logger != null, "Logger must be non-null.");
-
-            this.SourceDirectory = sourceDirectory;
-            this.FileExtension = fileExtension;
-            this.DeploymentDestination = deploymentDestination;
-            this.Logger = logger;
+            this.SourceDirectory = sourceDirectory ?? throw new ArgumentNullException(nameof(sourceDirectory));
+            this.FileExtension = fileExtension ?? throw new ArgumentNullException(nameof(fileExtension));
+            this.DeploymentDestination = deploymentDestination ?? throw new ArgumentNullException(nameof(deploymentDestination));
+            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         }
 
@@ -45,8 +36,7 @@ namespace LiveCoder.Deployer.Deployers
             ILogger logger, Action<FileInfo> beforeDeployFile)
             : this(sourceDirectory, fileExtension, deploymentDestination, logger)
         {
-            Contract.Requires(beforeDeployFile != null, "Action before file deployment must be non-null.");
-            this.BeforeDeployFile = beforeDeployFile;
+            this.BeforeDeployFile = beforeDeployFile ?? throw new ArgumentNullException(nameof(beforeDeployFile));
         }
 
         public void Deploy()

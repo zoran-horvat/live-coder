@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using LiveCoder.Deployer.Interfaces;
@@ -34,22 +33,16 @@ namespace LiveCoder.Deployer.Deployers
 
         public CodeSnippetsDeployer(DirectoryInfo sourceDirectory, IDestination script, ILogger logger)
         {
-
-            Contract.Requires(sourceDirectory != null, "Source directory must be non-null.");
-            Contract.Requires(sourceDirectory.Exists, "Source directory must exist.");
-            Contract.Requires(logger != null, "Logger must be non-null");
-
-            this.SourceDirectory = sourceDirectory;
-            this.Script = script;
-            this.Logger = logger;
+            this.SourceDirectory = sourceDirectory ?? throw new ArgumentNullException(nameof(sourceDirectory));
+            this.Script = script ?? throw new ArgumentNullException(nameof(script));
+            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         }
 
         public CodeSnippetsDeployer(DirectoryInfo sourceDirectory, IDestination script, ILogger logger, Action<FileInfo> beforeDeployFile)
             : this(sourceDirectory, script, logger)
         {
-            Contract.Requires(beforeDeployFile != null, "Action before file deployment must be non-null.");
-            this.BeforeDeployFile = beforeDeployFile;
+            this.BeforeDeployFile = beforeDeployFile ?? throw new ArgumentNullException(nameof(beforeDeployFile));
         }
 
         public void Deploy()

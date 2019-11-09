@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System;
 using System.IO;
 using LiveCoder.Deployer.Interfaces;
 
@@ -11,9 +11,7 @@ namespace LiveCoder.Deployer.Models
 
         public FileSystemDirectory(DirectoryInfo directory)
         {
-            Contract.Requires(directory != null, "Directory must be non-null.");
-            Contract.Requires(directory.Exists, "Directory must exist.");
-            this.Directory = directory;
+            this.Directory = directory ?? throw new ArgumentNullException(nameof(directory));
         }
 
         public void DeployFile(string name, Stream stream)
