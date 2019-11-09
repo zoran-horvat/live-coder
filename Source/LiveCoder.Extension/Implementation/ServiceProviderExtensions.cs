@@ -10,8 +10,8 @@ namespace LiveCoder.Extension.Implementation
 {
     static class ServiceProviderExtensions
     {
-        public static ISolution GetSolution(this IServiceProvider serviceProvider) =>
-            new VsSolutionWrapper(serviceProvider.GetSolutionInterface(), serviceProvider.GetDte(), GetExpansionManager());
+        public static ISolution GetSolution(this IServiceProvider serviceProvider, ILogger logger) =>
+            new VsSolutionWrapper(serviceProvider.GetSolutionInterface(), serviceProvider.GetDte(), GetExpansionManager(), logger);
 
         private static IVsSolution GetSolutionInterface(this IServiceProvider serviceProvider) =>
             (IVsSolution)serviceProvider.GetService(typeof(IVsSolution));

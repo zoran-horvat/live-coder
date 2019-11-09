@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using LiveCoder.Extension.Implementation.Commands;
 using LiveCoder.Extension.Interfaces;
+using LiveCoder.Extension.Scripting;
 
 namespace LiveCoder.Extension.Implementation.Steps
 {
@@ -21,7 +22,7 @@ namespace LiveCoder.Extension.Implementation.Steps
         public MultilineSnippetReplace EndsOnLine(int index) =>
             new MultilineSnippetReplace(this.SnippetShortcut, this.File, this.LineIndex, index - this.LineIndex + 1);
 
-        public IEnumerable<IDemoCommand> Commands =>
+        public IEnumerable<IDemoCommand> GetCommands(DemoScript script) =>
             new IDemoCommand[]
             {
                 new OpenDocument(this.File),
@@ -34,7 +35,7 @@ namespace LiveCoder.Extension.Implementation.Steps
                 new Pause(),
                 new VerifyActiveDocument(this.File),
                 new VerifySelectionText(this.File, this.TextToSelect),
-                new ExpandSelection(this.File, this.SnippetShortcut)
+                new ExpandSelection(this.File, this.SnippetShortcut, script.TryGetSnippet(this.SnippetShortcut))
             };
 
         public string Label => $"Single-line snippet replacement {this.SnippetShortcut} in {this.File.Name} on line {this.LineIndex}";

@@ -74,7 +74,8 @@ namespace LiveCoder.Extension
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            DemoEngine = DemoEngine ?? new DemoEngine(this.ServiceProvider.GetSolution(), this.CreateLogger());
+            ILogger logger = this.CreateLogger();
+            DemoEngine = DemoEngine ?? new DemoEngine(this.ServiceProvider.GetSolution(logger), logger);
             DemoEngine.Step();
         }
 

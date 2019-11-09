@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using EnvDTE;
 using LiveCoder.Common.Optional;
+using LiveCoder.Extension.Events;
+using LiveCoder.Extension.Functional;
 using LiveCoder.Extension.Implementation.Readers;
 using LiveCoder.Extension.Interfaces;
 using Microsoft.VisualStudio;
@@ -19,13 +21,14 @@ namespace LiveCoder.Extension.Implementation
         private IVsProject Project { get; }
         public DTE Dte { get; }
         public IExpansionManager ExpansionManager { get; }
+        private ILogger Logger { get; }
 
         public IEnumerable<IDemoStep> DemoSteps =>
             this.Lines.Aggregate(new RunningDemoSteps(this), (steps, tuple) => steps.Add(tuple.line, tuple.index)).All;
 
         private FileInfo File { get; }
 
-        public SourceFile(FileInfo file, VSConstants.VSITEMID itemId, IVsProject project, DTE dte, IExpansionManager expansionManager)
+        public SourceFile(FileInfo file, VSConstants.VSITEMID itemId, IVsProject project, DTE dte, IExpansionManager expansionManager, ILogger logger)
         {
             this.File = file ?? throw new ArgumentNullException(nameof(file));
             this.ItemId = itemId;
@@ -33,6 +36,7 @@ namespace LiveCoder.Extension.Implementation
             this.ExpansionManager = expansionManager ?? throw new ArgumentNullException(nameof(expansionManager));
             this.Project = project ?? throw new ArgumentNullException(nameof(project));
             this.Reader = this.ReaderFor(dte, file);
+            this.Logger = logger;
         }
 
         private SourceReader ReaderFor(DTE dte, FileInfo file) =>
@@ -81,15 +85,22 @@ namespace LiveCoder.Extension.Implementation
             this.TextSelection.Do(selection => selection.MoveToLineAndOffset(endLineIndex + 1, 1, true));
         }
 
-        public void ReplaceSelectionWithSnippet(string shortcut) =>
+        public void ReplaceSelectionWithSnippet(string shortcut, Option<string> expectedContent) =>
             this.ExpansionManager.FindSnippet(shortcut)
-                .Do(this.ReplaceSelectionWithSnippet);
+                .Do(snippet => this.ReplaceSelectionWithSnippet(snippet, expectedContent));
 
-        private void ReplaceSelectionWithSnippet(ISnippet snippet) =>
-            snippet.Content.Do(this.ReplaceSelectionWith);
+        private void ReplaceSelectionWithSnippet(ISnippet snippet, Option<string> expectedContent) =>
+            snippet.Content.Do(content => this.ReplaceSelectionWith(content, expectedContent));
 
-        private void ReplaceSelectionWith(string content) =>
+        public void ReplaceSelectionWith(string content, Option<string> expectedContent)
+        {
+            if (expectedContent is None<string>)
+                this.Logger.Write(new Error("Snippet not found in script."));
+            else if (expectedContent is Some<string> some && some.Content.WithNormalizedNewLines() != content.WithNormalizedNewLines())
+                this.Logger.Write(new Error($"Snippet contents differ{Environment.NewLine}From snippets: [{content}]{Environment.NewLine}  From script: [{some.Content}]"));
+
             this.TextSelection.Do(sel => sel.Insert(content));
+        }
 
         private Option<Document> Document => 
             this.Dte.Documents.Item(this.File.FullName).FromNullable();

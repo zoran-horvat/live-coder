@@ -19,6 +19,7 @@ namespace LiveCoder.Extension.Interfaces
         void SelectLine(int lineIndex);
         void DeleteLine(int lineIndex);
         void SelectLines(int startLineIndex, int endLineIndex);
-        void ReplaceSelectionWithSnippet(string shortcut);
+        void ReplaceSelectionWithSnippet(string shortcut, Option<string> expectedContent);
+        void ReplaceSelectionWith(string content, Option<string> expectedContent);
     }
 }

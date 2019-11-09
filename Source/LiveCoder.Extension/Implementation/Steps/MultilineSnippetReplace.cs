@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Implementation.Commands;
 using LiveCoder.Extension.Interfaces;
+using LiveCoder.Extension.Scripting;
 
 namespace LiveCoder.Extension.Implementation.Steps
 {
     class MultilineSnippetReplace : IDemoStep
     {
         public string SnippetShortcut { get; }
-
         private ISource File { get; }
         private int StartLineIndex { get; }
         private int LinesCount { get; }
@@ -22,7 +22,7 @@ namespace LiveCoder.Extension.Implementation.Steps
             this.LinesCount = linesCount > 0 ? linesCount : throw new ArgumentException("Number of lines must be positive.");
         }
 
-        public IEnumerable<IDemoCommand> Commands =>
+        public IEnumerable<IDemoCommand> GetCommands(DemoScript script) =>
             new IDemoCommand[]
             {
                 new OpenDocument(this.File),
@@ -33,7 +33,7 @@ namespace LiveCoder.Extension.Implementation.Steps
                 new Pause(),
                 new VerifyActiveDocument(this.File), 
                 new VerifySelectionText(this.File, this.SelectedText), 
-                new ExpandSelection(this.File, this.SnippetShortcut)
+                new ExpandSelection(this.File, this.SnippetShortcut, script.TryGetSnippet(this.SnippetShortcut))
             };
 
         public string Label => $"Expand snippet {this.SnippetShortcut} in {this.File.Name} on lines {this.StartLineIndex + 1}-{this.EndLineIndex + 1}";

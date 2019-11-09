@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Implementation.Commands;
 using LiveCoder.Extension.Interfaces;
+using LiveCoder.Extension.Scripting;
 
 namespace LiveCoder.Extension.Implementation.Steps
 {
@@ -24,7 +25,7 @@ namespace LiveCoder.Extension.Implementation.Steps
             this.LineIndex = lineIndex >= 0 ? lineIndex : throw new ArgumentException("Line index must be non-negative.");
         }
 
-        public IEnumerable<IDemoCommand> Commands =>
+        public IEnumerable<IDemoCommand> GetCommands(DemoScript script) =>
             new IDemoCommand[]
             {
                 new OpenDocument(this.File),

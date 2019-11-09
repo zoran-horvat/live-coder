@@ -55,6 +55,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Events\Error.cs" />
     <Compile Include="Events\FirstDemoStepFound.cs" />
     <Compile Include="Events\NoDemoStepsFound.cs" />
     <Compile Include="Events\ScriptFileFound.cs" />

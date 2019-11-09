@@ -48,7 +48,9 @@ namespace LiveCoder.Extension.Implementation
         }
 
         private IEnumerable<IDemoCommand> NextCommands =>
-            this.GetNextStep().Map(step => step.Commands).Reduce(Enumerable.Empty<IDemoCommand>());
+            this.GetNextStep()
+                .MapOptional(step => this.Script.Map(step.GetCommands))
+                .Reduce(Enumerable.Empty<IDemoCommand>());
 
         private void PullNewCommands() => 
             this.NextCommands.ToList().ForEach(this.Commands.Enqueue);

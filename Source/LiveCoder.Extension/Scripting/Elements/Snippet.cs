@@ -2,8 +2,8 @@
 {
     class Snippet
     {
-        private int Number { get; }
-        private string Content { get; }
+        public int Number { get; }
+        public string Content { get; }
 
         public Snippet(int number, string content)
         {
