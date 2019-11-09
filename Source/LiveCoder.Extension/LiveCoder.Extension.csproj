@@ -59,7 +59,6 @@
     <Compile Include="Events\NoDemoStepsFound.cs" />
     <Compile Include="Events\ScriptFileFound.cs" />
     <Compile Include="Events\StepVerificationFailed.cs" />
-    <Compile Include="Functional\LoggerExtensions.cs" />
     <Compile Include="Functional\StringExtensions.cs" />
     <Compile Include="Implementation\Commands\ActivateDocument.cs" />
     <Compile Include="Implementation\Commands\DeleteLine.cs" />

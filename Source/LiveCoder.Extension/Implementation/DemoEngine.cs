@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Events;
-using LiveCoder.Extension.Functional;
 using LiveCoder.Extension.Implementation.Commands;
 using LiveCoder.Extension.Interfaces;
 using LiveCoder.Extension.Scripting;
@@ -40,12 +39,15 @@ namespace LiveCoder.Extension.Implementation
         private void LogScriptFile() =>
             this.ScriptFile.Do(file => this.Logger.Write(new ScriptFileFound(file)));
 
-        private Option<IDemoStep> NextStep =>
-            this.Logger.LogAndReturn(FirstDemoStepFound.FromOptionalDemoStep,
-                this.Solution.DemoStepsOrdered.FirstOrNone());
+        private Option<IDemoStep> GetNextStep()
+        {
+            Option<IDemoStep> step = this.Solution.DemoStepsOrdered.FirstOrNone();
+            this.Logger.Write(FirstDemoStepFound.FromOptionalDemoStep(step));
+            return step;
+        }
 
         private IEnumerable<IDemoCommand> NextCommands =>
-            this.NextStep.Map(step => step.Commands).Reduce(Enumerable.Empty<IDemoCommand>());
+            this.GetNextStep().Map(step => step.Commands).Reduce(Enumerable.Empty<IDemoCommand>());
 
         private void PullNewCommands()
         {
