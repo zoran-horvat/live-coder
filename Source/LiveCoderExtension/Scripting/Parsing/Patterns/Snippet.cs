@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Common.Optional;
@@ -19,18 +20,18 @@ namespace LiveCoderExtension.Scripting.Parsing.Patterns
             from record in this.ApplyAfterPreamble(text, preamble.number, preamble.terminator, script)
             select record;
 
-        private Option<(string number, string terminator)> TryExtractPreamble(NonEmptyText text) =>
+        private Option<(int number, string terminator)> TryExtractPreamble(NonEmptyText text) =>
             new Regex(PreamblePattern)
                 .TryExtract(text.CurrentLine)
-                .Map(groups => (number: groups["number"].Value, terminator: groups["terminator"].Value));
+                .Map(groups => (number: int.Parse(groups["number"].Value), terminator: groups["terminator"].Value));
 
-        private Option<(IText remaining, DemoScript script)> ApplyAfterPreamble(NonEmptyText current, string snippetNumber, string terminator, DemoScript script) =>
+        private Option<(IText remaining, DemoScript script)> ApplyAfterPreamble(NonEmptyText current, int snippetNumber, string terminator, DemoScript script) =>
             current.ConsumeUntilMatch(this.EndingIn(terminator)).Map(pair => (
                 remaining: pair.remaining, 
                 script: this.Apply(snippetNumber, this.RemoveTerminator(pair.lines, terminator), script)));
 
-        private DemoScript Apply(string snippetNumber, string[] content, DemoScript script) => 
-            script;
+        private DemoScript Apply(int snippetNumber, string[] content, DemoScript script) =>
+            script.Append(new Elements.Snippet(snippetNumber, string.Join(Environment.NewLine, content)));
 
         private Regex EndingIn(string terminator) =>
             new Regex($"{Regex.Escape(terminator)}$");
