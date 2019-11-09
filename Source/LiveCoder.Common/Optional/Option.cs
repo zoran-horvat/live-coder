@@ -24,9 +24,12 @@ namespace LiveCoder.Common.Optional
     public static class Option
     {
         public static Option<T> FromNullable<T>(this T value) where T : class =>
-            object.ReferenceEquals(value, null) ? (Option<T>)None.Value : new Some<T>(value);
+            object.ReferenceEquals(value, null) ? (Option<T>)Optional.None.Value : new Some<T>(value);
 
         public static Option<T> Of<T>(T obj) =>
             new Some<T>(obj);
+
+        public static Option<T> None<T>() =>
+            new None<T>();
     }
 }

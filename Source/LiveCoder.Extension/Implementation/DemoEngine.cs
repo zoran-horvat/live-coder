@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Events;
+using LiveCoder.Extension.Functional;
 using LiveCoder.Extension.Implementation.Commands;
 using LiveCoder.Extension.Interfaces;
 using LiveCoder.Extension.Scripting;
@@ -49,26 +50,30 @@ namespace LiveCoder.Extension.Implementation
         private IEnumerable<IDemoCommand> NextCommands =>
             this.GetNextStep().Map(step => step.Commands).Reduce(Enumerable.Empty<IDemoCommand>());
 
-        private void PullNewCommands()
+        private void PullNewCommands() => 
+            this.NextCommands.ToList().ForEach(this.Commands.Enqueue);
+
+        private void PurgeIfVerificationFails() =>
+            this.DequeueVerifiers()
+                .FirstOrNone(verifier => !verifier.IsStateAsExpected)
+                .Do(this.OnVerifierFailed);
+
+        private void OnVerifierFailed(IStateVerifier verifier)
         {
-            foreach (IDemoCommand command in this.NextCommands)
+            this.Logger.Write(new StepVerificationFailed(verifier));
+            this.Commands.Clear();
+        }
+
+        private IEnumerable<IStateVerifier> DequeueVerifiers()
+        {
+            while (this.TryDequeueVerifier() is Some<IStateVerifier> verifier)
             {
-                this.Commands.Enqueue(command);
+                yield return verifier.Content;
             }
         }
 
-        private void PurgeIfVerificationFails()
-        {
-            while (this.Commands.Any() && this.Commands.Peek() is IStateVerifier)
-            {
-                IStateVerifier verifier = this.Commands.Dequeue() as IStateVerifier;
-                if (!verifier.IsStateAsExpected)
-                {
-                    this.Logger.Write(new StepVerificationFailed(verifier));
-                    this.Commands.Clear();
-                }
-            }
-        }
+        private Option<IStateVerifier> TryDequeueVerifier() =>
+            this.Commands.TryDequeue<IDemoCommand, IStateVerifier>();
 
         private void PullCommandsIfEmpty()
         {
