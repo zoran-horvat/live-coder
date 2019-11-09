@@ -12,8 +12,8 @@ namespace LiveCoder.Extension.Implementation
 {
     static class VsProjectExtensions
     {
-        public static IEnumerable<ISource> GetSourceFiles(this IVsProject project, DTE dte, IExpansionManager expansionManager) =>
-            project.GetSourceFiles(dte, VSConstants.VSITEMID.Root, expansionManager);
+        public static IEnumerable<ISource> GetSourceFiles(this IVsProject project, DTE dte) =>
+            project.GetSourceFiles(dte, VSConstants.VSITEMID.Root);
 
         public static void Open(this IVsProject project, VSConstants.VSITEMID itemId)
         {
@@ -21,27 +21,27 @@ namespace LiveCoder.Extension.Implementation
             project.OpenItem((uint)itemId, ref view, IntPtr.Zero, out IVsWindowFrame _);
         }
 
-        private static IEnumerable<ISource> GetSourceFiles(this IVsProject inProject, DTE dte,  VSConstants.VSITEMID startingWith, IExpansionManager expansionManager) =>
-            ((IVsHierarchy)inProject).GetChildrenIds(startingWith).SelectMany(id => inProject.FilesUnder(dte, id, expansionManager));
+        private static IEnumerable<ISource> GetSourceFiles(this IVsProject inProject, DTE dte,  VSConstants.VSITEMID startingWith) =>
+            ((IVsHierarchy)inProject).GetChildrenIds(startingWith).SelectMany(id => inProject.FilesUnder(dte, id));
 
-        private static Option<ISource> TryFindFile(this IVsProject project, DTE dte, VSConstants.VSITEMID itemId, IExpansionManager expansionManager) =>
+        private static Option<ISource> TryFindFile(this IVsProject project, DTE dte, VSConstants.VSITEMID itemId) =>
             project.FilePathFor(itemId)
                 .When(path => !string.IsNullOrEmpty(path))
                 .When(File.Exists)
                 .Map(path => new FileInfo(path))
-                .Map<ISource>(file => new SourceFile(file, itemId, project, dte, expansionManager));
+                .Map<ISource>(file => new SourceFile(file, itemId, project, dte));
 
         private static Option<string> FilePathFor(this IVsProject project, VSConstants.VSITEMID itemId) =>
             project.GetMkDocument((uint)itemId, out string path) == VSConstants.S_OK ? (Option<string>)path : None.Value;
 
-        private static IEnumerable<ISource> FilesUnder(this IVsProject inProject, DTE dte, VSConstants.VSITEMID id, IExpansionManager expansionManager)
+        private static IEnumerable<ISource> FilesUnder(this IVsProject inProject, DTE dte, VSConstants.VSITEMID id)
         {
-            Option<ISource> file = inProject.TryFindFile(dte, id, expansionManager);
+            Option<ISource> file = inProject.TryFindFile(dte, id);
 
             IEnumerable<ISource> result = 
-                file.OfType<SourceFile>() is Some<SourceFile> some ? new [] {some.Content}.Concat(inProject.GetSourceFiles(some.Content.Dte, some.Content.ItemId, expansionManager))
+                file.OfType<SourceFile>() is Some<SourceFile> some ? new [] {some.Content}.Concat(inProject.GetSourceFiles(some.Content.Dte, some.Content.ItemId))
                 : file is Some<ISource> general ? new[] {general.Content}
-                : inProject.GetSourceFiles(dte, id, expansionManager);
+                : inProject.GetSourceFiles(dte, id);
 
             return result;
         }

@@ -75,8 +75,6 @@
     <Compile Include="Implementation\FileSystemSnippet.cs" />
     <Compile Include="Implementation\VsOutputLogger.cs" />
     <Compile Include="Interfaces\IEvent.cs" />
-    <Compile Include="Interfaces\IExpansionManager.cs" />
-    <Compile Include="Implementation\NoExpansionManager.cs" />
     <Compile Include="Implementation\Readers\DocumentExtensions.cs" />
     <Compile Include="Implementation\Readers\FileReader.cs" />
     <Compile Include="Implementation\Readers\OpenDocumentReader.cs" />
@@ -91,7 +89,6 @@
     <Compile Include="Implementation\Commands\VerifyCursorPosition.cs" />
     <Compile Include="Implementation\Commands\VerifyLineContent.cs" />
     <Compile Include="Implementation\Commands\VerifySelectionText.cs" />
-    <Compile Include="Implementation\VisualStudioExpansionManager.cs" />
     <Compile Include="Implementation\VsHierarchyExtensions.cs" />
     <Compile Include="Implementation\VsProjectExtensions.cs" />
     <Compile Include="Implementation\VsProjectWrapper.cs" />

@@ -12,19 +12,17 @@ namespace LiveCoder.Extension.Implementation
     {
         private IVsProject Project { get; }
         private DTE Dte { get; }
-        private IExpansionManager ExpansionManager { get; }
         private ILogger Logger { get; }
 
-        public VsProjectWrapper(IVsProject project, DTE dte, IExpansionManager expansionManager, ILogger logger)
+        public VsProjectWrapper(IVsProject project, DTE dte, ILogger logger)
         {
             this.Project = project ?? throw new ArgumentNullException(nameof(project));
             this.Dte = dte ?? throw new ArgumentNullException(nameof(dte));
-            this.ExpansionManager = expansionManager ?? throw new ArgumentNullException(nameof(expansionManager));
             this.Logger = logger;
         }
 
         public IEnumerable<ISource> SourceFiles =>
-            this.Project.GetSourceFiles(this.Dte, this.ExpansionManager);
+            this.Project.GetSourceFiles(this.Dte);
 
         public IEnumerable<IDemoStep> GetDemoSteps(DemoScript script) =>
             this.SourceFiles.SelectMany(file => file.GetDemoSteps(script));

@@ -11,7 +11,7 @@ namespace LiveCoder.Extension.Implementation
     static class ServiceProviderExtensions
     {
         public static ISolution GetSolution(this IServiceProvider serviceProvider, ILogger logger) =>
-            new VsSolutionWrapper(serviceProvider.GetSolutionInterface(), serviceProvider.GetDte(), GetExpansionManager(), logger);
+            new VsSolutionWrapper(serviceProvider.GetSolutionInterface(), serviceProvider.GetDte(), logger);
 
         private static IVsSolution GetSolutionInterface(this IServiceProvider serviceProvider) =>
             (IVsSolution)serviceProvider.GetService(typeof(IVsSolution));
@@ -24,11 +24,6 @@ namespace LiveCoder.Extension.Implementation
 
         private static Option<IVsExpansionManager> GetVsExpansionManager() =>
             GetTextManager().Map(GetExpansionManager);
-
-        private static IExpansionManager GetExpansionManager() =>
-            GetVsExpansionManager()
-                .Map(vsImplementation => (IExpansionManager)new VisualStudioExpansionManager(vsImplementation, CSharpLanguageId))
-                .Reduce(() => new NoExpansionManager());
 
         private static IVsExpansionManager GetExpansionManager(IVsTextManager2 textManager)
         {

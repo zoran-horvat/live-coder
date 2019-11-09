@@ -14,14 +14,12 @@ namespace LiveCoder.Extension.Implementation
     {
         private IVsSolution SolutionInterface { get; }
         private DTE Dte { get; }
-        private IExpansionManager ExpansionManager { get; }
         private ILogger Logger { get; }
 
-        public VsSolutionWrapper(IVsSolution solutionInterface, DTE dte, IExpansionManager expansionManager, ILogger logger)
+        public VsSolutionWrapper(IVsSolution solutionInterface, DTE dte, ILogger logger)
         {
             this.SolutionInterface = solutionInterface ?? throw new ArgumentNullException(nameof(SolutionInterface));
             this.Dte = dte ?? throw new ArgumentNullException(nameof(dte));
-            this.ExpansionManager = expansionManager ?? throw new ArgumentNullException(nameof(expansionManager));
             this.Logger = logger;
         }
 
@@ -31,7 +29,7 @@ namespace LiveCoder.Extension.Implementation
                 : None.Value;
 
         public IEnumerable<IProject> Projects =>
-            this.SolutionInterface.GetProjects().Select(project => new VsProjectWrapper(project, this.Dte, this.ExpansionManager, this.Logger));
+            this.SolutionInterface.GetProjects().Select(project => new VsProjectWrapper(project, this.Dte, this.Logger));
 
         public IEnumerable<IDemoStep> GetDemoStepsOrdered(DemoScript script) =>
             this.Projects.SelectMany(project => project.GetDemoSteps(script)).OrderBy(step => step.SnippetShortcut);

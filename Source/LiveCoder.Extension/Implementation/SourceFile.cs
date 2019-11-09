@@ -19,19 +19,17 @@ namespace LiveCoder.Extension.Implementation
         public VSConstants.VSITEMID ItemId { get; }
         private IVsProject Project { get; }
         public DTE Dte { get; }
-        private IExpansionManager ExpansionManager { get; }
         
         public IEnumerable<IDemoStep> GetDemoSteps(DemoScript script) =>
             this.Lines.Aggregate(new RunningDemoSteps(this, script), (steps, tuple) => steps.Add(tuple.line, tuple.lineIndex)).All;
 
         private FileInfo File { get; }
 
-        public SourceFile(FileInfo file, VSConstants.VSITEMID itemId, IVsProject project, DTE dte, IExpansionManager expansionManager)
+        public SourceFile(FileInfo file, VSConstants.VSITEMID itemId, IVsProject project, DTE dte)
         {
             this.File = file ?? throw new ArgumentNullException(nameof(file));
             this.ItemId = itemId;
             this.Dte = dte ?? throw new ArgumentNullException(nameof(dte));
-            this.ExpansionManager = expansionManager ?? throw new ArgumentNullException(nameof(expansionManager));
             this.Project = project ?? throw new ArgumentNullException(nameof(project));
             this.Reader = this.ReaderFor(dte, file);
         }
@@ -81,13 +79,6 @@ namespace LiveCoder.Extension.Implementation
             this.MoveSelectionToLine(startLineIndex);
             this.TextSelection.Do(selection => selection.MoveToLineAndOffset(endLineIndex + 1, 1, true));
         }
-
-        public void ReplaceSelectionWithSnippet(string shortcut) =>
-            this.ExpansionManager.FindSnippet(shortcut)
-                .Do(this.ReplaceSelectionWithSnippet);
-
-        private void ReplaceSelectionWithSnippet(ISnippet snippet) =>
-            snippet.Content.Do(this.ReplaceSelectionWith);
 
         public void ReplaceSelectionWith(string content) => 
             this.TextSelection.Do(sel => sel.Insert(content));
