@@ -1,24 +1,20 @@
 ﻿using System;
-using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Interfaces;
-using LiveCoder.Extension.Scripting.Elements;
 
 namespace LiveCoder.Extension.Implementation.Commands
 {
     class ExpandSelection : IDemoCommand
     {
         private ISource File { get; }
-        private string SnippetShortcut { get; }
-        private Option<string> SnippetContent { get; }
+        private string SnippetContent { get; }
 
-        public ExpandSelection(ISource file, string snippetShortcut, Option<Snippet> snippet)
+        public ExpandSelection(ISource file, string snippetContent)
         {
-            this.File = file ?? throw new ArgumentNullException();
-            this.SnippetShortcut = snippetShortcut ?? throw new ArgumentNullException();
-            this.SnippetContent = snippet.Map(s => s.Content);
+            this.File = file ?? throw new ArgumentNullException(nameof(file));
+            this.SnippetContent = snippetContent ?? throw new ArgumentNullException(nameof(snippetContent));
         }
 
         public void Execute() =>
-            this.File.ReplaceSelectionWithSnippet(this.SnippetShortcut, this.SnippetContent);
+            this.File.ReplaceSelectionWith(this.SnippetContent);
     }
 }

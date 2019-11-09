@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EnvDTE;
 using LiveCoder.Extension.Interfaces;
+using LiveCoder.Extension.Scripting;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace LiveCoder.Extension.Implementation
@@ -23,9 +24,9 @@ namespace LiveCoder.Extension.Implementation
         }
 
         public IEnumerable<ISource> SourceFiles =>
-            this.Project.GetSourceFiles(this.Dte, this.ExpansionManager, this.Logger);
+            this.Project.GetSourceFiles(this.Dte, this.ExpansionManager);
 
-        public IEnumerable<IDemoStep> DemoSteps =>
-            this.SourceFiles.SelectMany(file => file.DemoSteps);
+        public IEnumerable<IDemoStep> GetDemoSteps(DemoScript script) =>
+            this.SourceFiles.SelectMany(file => file.GetDemoSteps(script));
     }
 }

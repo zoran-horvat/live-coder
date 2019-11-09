@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using LiveCoder.Common.Optional;
+using LiveCoder.Extension.Scripting;
 
 namespace LiveCoder.Extension.Interfaces
 {
     internal interface ISource
     {
         string Name { get; }
-        IEnumerable<IDemoStep> DemoSteps { get; }
-        IEnumerable<(string line, int index)> Lines { get; }
+        IEnumerable<IDemoStep> GetDemoSteps(DemoScript script);
+        IEnumerable<(string line, int lineIndex)> Lines { get; }
         IEnumerable<string> GetTextBetween(int startLineIndex, int endLineIndex);
         Option<string> GetLineContent(int lineIndex);
         bool IsActive { get; }
@@ -19,7 +20,7 @@ namespace LiveCoder.Extension.Interfaces
         void SelectLine(int lineIndex);
         void DeleteLine(int lineIndex);
         void SelectLines(int startLineIndex, int endLineIndex);
-        void ReplaceSelectionWithSnippet(string shortcut, Option<string> expectedContent);
-        void ReplaceSelectionWith(string content, Option<string> expectedContent);
+        void ReplaceSelectionWithSnippet(string shortcut);
+        void ReplaceSelectionWith(string content);
     }
 }

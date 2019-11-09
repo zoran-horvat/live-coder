@@ -14,7 +14,7 @@ namespace LiveCoder.Extension.Implementation.Readers
             this.File = file ?? throw new ArgumentNullException(nameof(file));
         }
 
-        public override IEnumerable<(string line, int index)> ReadAllLines() =>
+        public override IEnumerable<(string line, int lineIndex)> ReadAllLines() =>
             System.IO.File.ReadAllLines(this.File.FullName).Select((line, index) => (line, index));
     }
 }

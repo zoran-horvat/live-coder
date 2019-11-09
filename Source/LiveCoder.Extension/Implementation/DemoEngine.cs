@@ -42,7 +42,7 @@ namespace LiveCoder.Extension.Implementation
 
         private Option<IDemoStep> GetNextStep()
         {
-            Option<IDemoStep> step = this.Solution.DemoStepsOrdered.FirstOrNone();
+            Option<IDemoStep> step = this.Script.MapOptional(script => this.Solution.GetDemoStepsOrdered(script).FirstOrNone());
             this.Logger.Write(FirstDemoStepFound.FromOptionalDemoStep(step));
             return step;
         }

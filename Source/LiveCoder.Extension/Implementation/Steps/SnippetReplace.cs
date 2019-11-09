@@ -3,24 +3,27 @@ using System.Collections.Generic;
 using LiveCoder.Extension.Implementation.Commands;
 using LiveCoder.Extension.Interfaces;
 using LiveCoder.Extension.Scripting;
+using LiveCoder.Extension.Scripting.Elements;
 
 namespace LiveCoder.Extension.Implementation.Steps
 {
     class SnippetReplace : IDemoStep
     {
-        public string SnippetShortcut { get; }
+        private Snippet Snippet { get; }
+        public string SnippetShortcut => $"snp{this.Snippet.Number:00}";
+        private string SnippetContent => this.Snippet.Content;
         private ISource File { get; }
         private int LineIndex { get; }
 
-        public SnippetReplace(string snippetShortcut, ISource file, int lineIndex)
+        public SnippetReplace(Snippet snippet, ISource file, int lineIndex)
         {
-            this.SnippetShortcut = snippetShortcut ?? throw new ArgumentNullException(nameof(snippetShortcut));
+            this.Snippet = snippet ?? throw new ArgumentNullException(nameof(snippet));
             this.File = file ?? throw new ArgumentNullException(nameof(file));
             this.LineIndex = lineIndex >= 0 ? lineIndex : throw new ArgumentException("Line index must be non-negative.");
         }
 
         public MultilineSnippetReplace EndsOnLine(int index) =>
-            new MultilineSnippetReplace(this.SnippetShortcut, this.File, this.LineIndex, index - this.LineIndex + 1);
+            new MultilineSnippetReplace(this.Snippet, this.File, this.LineIndex, index - this.LineIndex + 1);
 
         public IEnumerable<IDemoCommand> GetCommands(DemoScript script) =>
             new IDemoCommand[]
@@ -35,7 +38,7 @@ namespace LiveCoder.Extension.Implementation.Steps
                 new Pause(),
                 new VerifyActiveDocument(this.File),
                 new VerifySelectionText(this.File, this.TextToSelect),
-                new ExpandSelection(this.File, this.SnippetShortcut, script.TryGetSnippet(this.SnippetShortcut))
+                new ExpandSelection(this.File, this.SnippetContent)
             };
 
         public string Label => $"Single-line snippet replacement {this.SnippetShortcut} in {this.File.Name} on line {this.LineIndex}";

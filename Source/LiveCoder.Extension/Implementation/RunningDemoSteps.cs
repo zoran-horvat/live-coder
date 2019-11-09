@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Implementation.Steps;
 using LiveCoder.Extension.Interfaces;
+using LiveCoder.Extension.Scripting;
 
 namespace LiveCoder.Extension.Implementation
 {
@@ -12,13 +13,18 @@ namespace LiveCoder.Extension.Implementation
     {
         private ISource ForFile { get; }
         private IDictionary<string, IDemoStep> SnippetShortcutToStep { get; }
+        private DemoScript Script { get; }
 
-        public RunningDemoSteps(ISource forFile)
+        private IEnumerable<(Regex pattern, Func<string, int, Option<RunningDemoSteps>> factory)> StepPatterns { get; }
+
+        public RunningDemoSteps(ISource forFile, DemoScript script)
         {
             this.ForFile = forFile ?? throw new ArgumentNullException(nameof(forFile));
+            this.Script = script ?? throw new ArgumentNullException(nameof(script));
+
             this.SnippetShortcutToStep = new Dictionary<string, IDemoStep>();
 
-            this.StepPatterns =  new (Regex, Func<string, int, RunningDemoSteps>)[]
+            this.StepPatterns =  new (Regex, Func<string, int, Option<RunningDemoSteps>>)[]
             {
                 (new Regex(@"\/\/ (Snippet )?(?<snippetShortcut>snp\d+\.\d+)"), AddReminder),
                 (new Regex(@"\/\/ (?<snippetShortcut>snp\d+) end"), EndSnippet),
@@ -33,30 +39,28 @@ namespace LiveCoder.Extension.Implementation
             this.SnippetShortcutToStep = steps;
         }
 
-        public RunningDemoSteps Add(string line, int index) =>
-            this.TryMatch(line, index)
-                .Map(tuple => tuple.factory(tuple.snippetShortcut, tuple.index))
+        public RunningDemoSteps Add(string line, int lineIndex) =>
+            this.TryMatch(line, lineIndex)
+                .MapOptional(tuple => tuple.factory(tuple.snippetShortcut, tuple.lineIndex))
                 .Reduce(this);
 
         public IEnumerable<IDemoStep> All => this.SnippetShortcutToStep.Values;
 
-        private Option<(string snippetShortcut, int index, Func<string, int, RunningDemoSteps> factory)> TryMatch(string line, int index) =>
+        private Option<(string snippetShortcut, int lineIndex, Func<string, int, Option<RunningDemoSteps>> factory)> TryMatch(string line, int lineIndex) =>
             this.StepPatterns
-                .Select(pattern => (pattern.Item1.Match(line), pattern.Item2))
-                .Where(tuple => tuple.Item1.Success)
-                .Select(tuple => (tuple.Item1.Groups["snippetShortcut"].Value, index, tuple.Item2))
+                .Select(pair => (match: pair.pattern.Match(line), pair.factory))
+                .Where(pair => pair.match.Success)
+                .Select(pair => (shortcut: pair.match.Groups["snippetShortcut"].Value, lineIndex: lineIndex, pair.factory))
                 .FirstOrNone();
 
-
-        private IEnumerable<(Regex, Func<string, int, RunningDemoSteps>)> StepPatterns { get; }
-
-        private RunningDemoSteps AddReminder(string snippetShortcut, int index) =>
+        private Option<RunningDemoSteps> AddReminder(string snippetShortcut, int index) =>
             this.Add(new Reminder(snippetShortcut, this.ForFile, index));
 
-        private RunningDemoSteps BeginSnippet(string snippetShortcut, int index) =>
-            this.Add(new SnippetReplace(snippetShortcut, this.ForFile, index));
+        private Option<RunningDemoSteps> BeginSnippet(string snippetShortcut, int index) =>
+            this.Script.TryGetSnippet(snippetShortcut)
+                .Map(snippet => this.Add(new SnippetReplace(snippet, this.ForFile, index)));
 
-        private RunningDemoSteps EndSnippet(string snippetShortcut, int index) =>
+        private Option<RunningDemoSteps> EndSnippet(string snippetShortcut, int index) =>
             this.SnippetShortcutToStep
                 .TryGetValue(snippetShortcut)
                 .OfType<SnippetReplace>()

@@ -4,19 +4,22 @@ using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Implementation.Commands;
 using LiveCoder.Extension.Interfaces;
 using LiveCoder.Extension.Scripting;
+using LiveCoder.Extension.Scripting.Elements;
 
 namespace LiveCoder.Extension.Implementation.Steps
 {
     class MultilineSnippetReplace : IDemoStep
     {
-        public string SnippetShortcut { get; }
+        private Snippet Snippet { get; }
+        private string SnippetContent => this.Snippet.Content;
+        public string SnippetShortcut => $"snp{this.Snippet.Number:00}";
         private ISource File { get; }
         private int StartLineIndex { get; }
         private int LinesCount { get; }
 
-        public MultilineSnippetReplace(string snippetShortcut, ISource file, int startLineIndex, int linesCount)
+        public MultilineSnippetReplace(Snippet snippet, ISource file, int startLineIndex, int linesCount)
         {
-            this.SnippetShortcut = snippetShortcut ?? throw new ArgumentNullException(nameof(snippetShortcut));
+            this.Snippet = snippet ?? throw new ArgumentNullException(nameof(snippet));
             this.File = file ?? throw new ArgumentNullException(nameof(file));
             this.StartLineIndex = startLineIndex >= 0 ? startLineIndex : throw new ArgumentException("Start line index must be non-negative.");
             this.LinesCount = linesCount > 0 ? linesCount : throw new ArgumentException("Number of lines must be positive.");
@@ -33,7 +36,7 @@ namespace LiveCoder.Extension.Implementation.Steps
                 new Pause(),
                 new VerifyActiveDocument(this.File), 
                 new VerifySelectionText(this.File, this.SelectedText), 
-                new ExpandSelection(this.File, this.SnippetShortcut, script.TryGetSnippet(this.SnippetShortcut))
+                new ExpandSelection(this.File, this.SnippetContent)
             };
 
         public string Label => $"Expand snippet {this.SnippetShortcut} in {this.File.Name} on lines {this.StartLineIndex + 1}-{this.EndLineIndex + 1}";

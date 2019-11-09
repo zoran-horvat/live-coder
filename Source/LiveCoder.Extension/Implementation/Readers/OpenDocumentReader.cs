@@ -31,7 +31,7 @@ namespace LiveCoder.Extension.Implementation.Readers
         private Option<EnvDTE.Document> TargetDocument =>
             this.OpenDocuments.FirstOrNone(doc =>doc.FullName == this.File.FullName).NotSaved();
 
-        public override IEnumerable<(string line, int index)> ReadAllLines() =>
+        public override IEnumerable<(string line, int lineIndex)> ReadAllLines() =>
             this.TargetDocument
                 .Map(doc => doc.GetLines())
                 .Reduce(() => this.Next.ReadAllLines());
