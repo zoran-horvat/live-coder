@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using LiveCoder.Common.Optional;
 using LiveCoder.Deployer.Infrastructure;
 using LiveCoder.Deployer.Interfaces;
 using LiveCoder.Deployer.Models;
+using File = System.IO.File;
 
 namespace LiveCoder.Deployer.Deployers
 {
@@ -43,7 +45,7 @@ namespace LiveCoder.Deployer.Deployers
         private DirectoryInfo ScriptDirectory =>
             new DirectoryInfo(Path.Combine(this.DestinationDirectory.FullName, ".livecoder"));
 
-        private FileInfo ScriptFile =>
+        private FileInfo ScriptFile => 
             new FileInfo(Path.Combine(this.ScriptDirectory.FullName, "script.lcs"));
 
         private IDestination ScriptAppender =>
@@ -68,9 +70,10 @@ namespace LiveCoder.Deployer.Deployers
             if (this.Arguments.OpenFiles)
                 this.OpenDeployedFiles();
 
-            if (this.Arguments.LiveTrackSnippets && snippetsDeployer.Any())
-                TrackSnippets(this.Arguments.SourceDirectory, snippetsDeployer.First());
-
+            if (this.Arguments.LiveTrackSnippets && 
+                snippetsDeployer.FirstOrNone() is Some<IDeployer> someDeployer &&
+                someDeployer.Content is IDeployer snippetsLiveDeployer)
+                TrackSnippets(this.Arguments.SourceDirectory, snippetsLiveDeployer);
         }
 
         private void Deploy(params IDeployer[] deployers)

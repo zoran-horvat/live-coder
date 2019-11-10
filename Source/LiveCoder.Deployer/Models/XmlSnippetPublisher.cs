@@ -22,7 +22,13 @@ namespace LiveCoder.Deployer.Models
         private void Deploy(int snippetNumber, string content)
         {
             string endSnippet = "<-- end snippet";
-            this.ScriptFile.AppendLine($"snippet {snippetNumber:00} until {endSnippet}");
+
+            string snippetCommand = $"snippet {snippetNumber:00} until {endSnippet}";
+            if (snippetNumber == 1)
+                this.ScriptFile.WriteFirstLine(snippetCommand);
+            else
+                this.ScriptFile.AppendLine(snippetCommand);
+
             this.ScriptFile.AppendLine(content + endSnippet);
             this.ScriptFile.AppendLine(string.Empty);
         }

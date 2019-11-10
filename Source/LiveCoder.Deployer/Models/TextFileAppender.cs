@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace LiveCoder.Deployer.Models
 {
@@ -12,18 +13,30 @@ namespace LiveCoder.Deployer.Models
             this.Target = target;
         }
 
-        public void AppendLine(string text)
+        public void AppendLine(string text) =>
+            this.WriteLine(FileMode.Append, text);
+
+        public void WriteFirstLine(string text) =>
+            this.WriteLine(FileMode.Create, text);
+
+        private void WriteLine(FileMode mode, string text) =>
+            this.UseFile(mode, stream => this.WriteLine(stream, text));
+
+        private void WriteLine(FileStream stream, string text)
         {
-            using (StreamWriter writer = this.OpenForAppend())
+            using (StreamWriter writer = new StreamWriter(stream))
             {
                 writer.WriteLine(text);
             }
         }
 
-        private StreamWriter OpenForAppend()
+        private void UseFile(FileMode mode, Action<FileStream> action)
         {
             this.Directory.Create();
-            return System.IO.File.AppendText(this.Target.FullName);
+            using (FileStream stream = System.IO.File.Open(this.Target.FullName, mode))
+            {
+                action(stream);
+            }
         }
     }
 }
