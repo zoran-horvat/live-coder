@@ -6,7 +6,6 @@ using LiveCoder.Common.Optional;
 using LiveCoder.Deployer.Infrastructure;
 using LiveCoder.Deployer.Interfaces;
 using LiveCoder.Deployer.Models;
-using File = System.IO.File;
 
 namespace LiveCoder.Deployer.Deployers
 {
@@ -49,7 +48,7 @@ namespace LiveCoder.Deployer.Deployers
             new FileInfo(Path.Combine(this.ScriptDirectory.FullName, "script.lcs"));
 
         private IDestination ScriptAppender =>
-            new XmlSnippetPublisher(this.ScriptFile);
+            new XmlSnippetsPublisher(this.ScriptFile);
 
         public void Deploy()
         {

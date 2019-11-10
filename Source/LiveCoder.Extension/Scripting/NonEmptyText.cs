@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using LiveCoder.Common.Optional;
 
 namespace LiveCoder.Extension.Scripting
@@ -23,9 +25,28 @@ namespace LiveCoder.Extension.Scripting
         }
 
         public static Option<NonEmptyText> Load(FileInfo source) =>
-            File.ReadAllLines(source.FullName, Encoding.UTF8) is string[] array && array.Length > 0
+            LoadConcurrently(source) is string[] array && array.Length > 0
                 ? Option.Of(new NonEmptyText(array))
                 : None.Value;
+
+        private static string[] LoadConcurrently(FileInfo source)
+        {
+            int repeats = 10;
+            int waitMsec = 100;
+            for (int repeat = 0; repeat < repeats; repeat++)
+            {
+                try
+                {
+                    return File.ReadAllLines(source.FullName, Encoding.UTF8);
+                }
+                catch 
+                {
+                    Thread.Sleep(waitMsec);
+                }
+            }
+
+            return new string[0];
+        }
 
         public IText ConsumeLine() =>
             this.LineIndex < this.Content.Length - 1

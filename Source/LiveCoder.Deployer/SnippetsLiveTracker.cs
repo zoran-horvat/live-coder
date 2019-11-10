@@ -65,7 +65,7 @@ namespace LiveCoder.Deployer
 
         public void StartTracking()
         {
-            this.Worker = Task.Run(() => this.TrackChanges());
+            this.Worker = Task.Run(this.TrackChanges);
         }
 
         public void StopTracking()
