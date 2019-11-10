@@ -17,7 +17,8 @@ namespace LiveCoder.Extension.Implementation
         private ISolution Solution { get; }
         private ILogger Logger { get; }
 
-        private Option<DemoScript> Script { get; }
+        private Option<DemoScript> Script { get; set; }
+        private Option<ScriptLiveTracker> ScriptTracker { get; }
 
         private Option<FileInfo> ScriptFile =>
             this.Solution.SolutionFile
@@ -35,6 +36,15 @@ namespace LiveCoder.Extension.Implementation
             this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.LogScriptFile();
             this.Script = this.ParseScript();
+            this.ScriptTracker = this.ScriptFile.Map(file => new ScriptLiveTracker(file, this.OnScriptFileModified));
+        }
+
+        private void OnScriptFileModified(FileInfo scriptFile)
+        {
+            lock (this.Script)
+            {
+                this.Script = this.ParseScript();
+            }
         }
 
         private void LogScriptFile() =>
@@ -42,14 +52,30 @@ namespace LiveCoder.Extension.Implementation
 
         private Option<IDemoStep> GetNextStep()
         {
-            Option<IDemoStep> step = this.Script.MapOptional(script => this.Solution.GetDemoStepsOrdered(script).FirstOrNone());
+            Option<IDemoStep> step = this.ReadScriptOptional(script => this.Solution.GetDemoStepsOrdered(script).FirstOrNone());
             this.Logger.Write(FirstDemoStepFound.FromOptionalDemoStep(step));
             return step;
         }
 
+        private Option<TResult> ReadScript<TResult>(Func<DemoScript, TResult> map)
+        {
+            lock (this.Script)
+            {
+                return this.Script.Map(map);
+            }
+        }
+
+        private Option<TResult> ReadScriptOptional<TResult>(Func<DemoScript, Option<TResult>> map)
+        {
+            lock (this.Script)
+            {
+                return this.Script.MapOptional(map);
+            }
+        }
+
         private IEnumerable<IDemoCommand> NextCommands =>
             this.GetNextStep()
-                .MapOptional(step => this.Script.Map(step.GetCommands))
+                .MapOptional(step => this.ReadScript(step.GetCommands))
                 .Reduce(Enumerable.Empty<IDemoCommand>());
 
         private void PullNewCommands() => 

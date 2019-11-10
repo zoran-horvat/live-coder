@@ -112,6 +112,7 @@
     <Compile Include="Scripting\Parsing\Patterns\Snippet.cs" />
     <Compile Include="Scripting\Parsing\ScriptTextParser.cs" />
     <Compile Include="Scripting\IText.cs" />
+    <Compile Include="Scripting\ScriptLiveTracker.cs" />
     <Compile Include="ServiceProviderExtensions.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="LiveCoderPackage.cs" />
