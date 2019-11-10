@@ -13,12 +13,6 @@ namespace LiveCoder.Deployer.Models
         private string FileNameNoExtension { get; }
         private string FileExtension { get; }
 
-        public SplittableSnippetsFile(FileInfo file, ILogger logger) : base(file, logger)
-        {
-            this.FileExtension = file.Extension;
-            this.FileNameNoExtension = file.Name.Substring(0, file.Name.Length - file.Extension.Length);
-        }
-
         public SplittableSnippetsFile(FileInfo file, ILogger logger, Action<FileInfo> beforeDeploy) : base(file, logger, beforeDeploy)
         {
             this.FileExtension = file.Extension;
