@@ -9,35 +9,7 @@
 		<Snippet>
 			<Code Language="CSharp">
 				<![CDATA[        static IEnumerable<string> ReportNames(IEnumerable<PassCard> cards) =>
-			// snp02 Extract card holder object
-]]>
-			</Code>
-		</Snippet>
-	</CodeSnippet>
-	<CodeSnippet Format="1.0.0">
-		<Header>
-			<Title>Programming with No Nulls in C# 8</Title>
-			<Author>Zoran Horvat</Author>
-			<Shortcut>snp02</Shortcut>
-		</Header>
-		<Snippet>
-			<Code Language="CSharp">
-				<![CDATA[            cards.Select(card => card.Holder)  // snp05 Holder object must be non-null
-
-]]>
-			</Code>
-		</Snippet>
-	</CodeSnippet>
-	<CodeSnippet Format="1.0.0">
-		<Header>
-			<Title>Programming with No Nulls in C# 8</Title>
-			<Author>Zoran Horvat</Author>
-			<Shortcut>snp03</Shortcut>
-		</Header>
-		<Snippet>
-			<Code Language="CSharp">
-				<![CDATA[        public PersonalName Holder { get; }
-        // snp04 Accept a non-null object through constructor
+			// snp04 Extract card holder object
 ]]>
 			</Code>
 		</Snippet>
@@ -50,11 +22,8 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        // snp10 Add sponsor
-        public PassCard(PersonalName holder)
-        {
-            this.Holder = holder;  // snp06 Guard against null
-        }   // snp10 end
+				<![CDATA[            cards.Select(card => card.Holder)  // snp07 Holder object must be non-null
+
 ]]>
 			</Code>
 		</Snippet>
@@ -67,8 +36,8 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            cards.Select(card => card.Holder)                                    // snp29 Use the safe Format method
-                // snp07 Format components of the PersonalName object
+				<![CDATA[        public PersonalName Holder { get; }
+        // snp06 Accept a non-null object through constructor
 ]]>
 			</Code>
 		</Snippet>
@@ -81,7 +50,11 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            this.Holder = holder ?? throw new ArgumentNullException(nameof(holder));
+				<![CDATA[        // snp12 Add sponsor
+        public PassCard(PersonalName holder)
+        {
+            this.Holder = holder;  // snp08 Guard against null
+        }   // snp12 end
 ]]>
 			</Code>
 		</Snippet>
@@ -94,7 +67,8 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[                .Select(name => $"{name.LastName.ToUpper()} {name.FirstName}");  // snp08 Components must be non-null
+				<![CDATA[            cards.Select(card => card.Holder)                                    // snp31 Use the safe Format method
+                // snp09 Format components of the PersonalName object
 ]]>
 			</Code>
 		</Snippet>
@@ -107,9 +81,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[                .Select(name => $"{name.LastName.ToUpper()} {name.FirstName}");  // snp18 Call to ToUpper will fail
-        // snp09.1 Method above is now safe
-        // snp13 Count cards by country
+				<![CDATA[            this.Holder = holder ?? throw new ArgumentNullException(nameof(holder));
 ]]>
 			</Code>
 		</Snippet>
@@ -122,8 +94,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            this.FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));  // snp21 Remove null guards
-            this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));     // snp17 Allow null
+				<![CDATA[                .Select(name => $"{name.LastName.ToUpper()} {name.FirstName}");  // snp10 Components must be non-null
 ]]>
 			</Code>
 		</Snippet>
@@ -136,13 +107,9 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        public BusinessEntity Sponsor { get; }  // snp31 Make sponsor nullable
-
-        public PassCard(PersonalName holder, BusinessEntity sponsor)  // snp31 end
-        {
-            this.Holder = holder ?? throw new ArgumentNullException(nameof(holder));
-            this.Sponsor = sponsor;  // snp11 Sponsor can be missing!
-        }
+				<![CDATA[                .Select(name => $"{name.LastName.ToUpper()} {name.FirstName}");  // snp20 Call to ToUpper will fail
+        // snp11.1 Method above is now safe
+        // snp15 Count cards by country
 ]]>
 			</Code>
 		</Snippet>
@@ -155,7 +122,8 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            this.Sponsor = sponsor;  // snp56 end
+				<![CDATA[            this.FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));  // snp23 Remove null guards
+            this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));     // snp19 Allow null
 ]]>
 			</Code>
 		</Snippet>
@@ -168,7 +136,13 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        public string CountryIso2 { get; }              // snp58 Make country optional
+				<![CDATA[        public BusinessEntity Sponsor { get; }  // snp33 Make sponsor nullable
+
+        public PassCard(PersonalName holder, BusinessEntity sponsor)  // snp33 end
+        {
+            this.Holder = holder ?? throw new ArgumentNullException(nameof(holder));
+            this.Sponsor = sponsor;  // snp13 Sponsor can be missing!
+        }
 ]]>
 			</Code>
 		</Snippet>
@@ -181,8 +155,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        static IEnumerable<(string country, int count)> GetCountrySponsors(IEnumerable<PassCard> cards) =>
-            cards   // snp14 Filter out cards with no sponsor
+				<![CDATA[            this.Sponsor = sponsor;  // snp58 end
 ]]>
 			</Code>
 		</Snippet>
@@ -195,8 +168,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            cards.Where(card => card.Sponsor != null)          // snp33 Isolate the non-null sponsor
-                // snp15 Group by sponsor's country
+				<![CDATA[        public string CountryIso2 { get; }              // snp60 Make country optional
 ]]>
 			</Code>
 		</Snippet>
@@ -209,8 +181,8 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[                .GroupBy(card => card.Sponsor.CountryIso2)     // snp32 Compiler is unable to see that Sponsor is non-null
-                // snp16 Count cards in each group
+				<![CDATA[        static IEnumerable<(string country, int count)> GetCountrySponsors(IEnumerable<PassCard> cards) =>
+            cards   // snp16 Filter out cards with no sponsor
 ]]>
 			</Code>
 		</Snippet>
@@ -223,8 +195,8 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[                .Select(group => (group.Key, group.Count()));  // snp64 end
-                // snp16.1 Both reports work fine with Entity Framework
+				<![CDATA[            cards.Where(card => card.Sponsor != null)          // snp35 Isolate the non-null sponsor
+                // snp17 Group by sponsor's country
 ]]>
 			</Code>
 		</Snippet>
@@ -237,7 +209,8 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            this.LastName = lastName;  // snp19 Return null guard
+				<![CDATA[                .GroupBy(card => card.Sponsor.CountryIso2)     // snp34 Compiler is unable to see that Sponsor is non-null
+                // snp18 Count cards in each group
 ]]>
 			</Code>
 		</Snippet>
@@ -250,9 +223,8 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[                .Select(name => $"{name.LastName.ToUpper()} {name.FirstName}");  // snp29 end
-                // snp26.1 And now we have to guard at the consumer
-        // snp27 Format PersonalName depending on last name
+				<![CDATA[                .Select(group => (group.Key, group.Count()));  // snp66 end
+                // snp18.1 Both reports work fine with Entity Framework
 ]]>
 			</Code>
 		</Snippet>
@@ -265,10 +237,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));     // snp21 end
-            // snp19.1 Show Tools -> Options -> Preview Features and switch to .NET Core 3.0 and C# 8
-            // snp19.2 Edit .csproj and add <Nullable>Enable</Nullable>
-            // snp19.3 Rebuild the application and show that there are no warnings
+				<![CDATA[            this.LastName = lastName;  // snp21 Return null guard
 ]]>
 			</Code>
 		</Snippet>
@@ -281,7 +250,9 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        public PersonalName(string firstName, string lastName)  // snp24 Allow null lastName
+				<![CDATA[                .Select(name => $"{name.LastName.ToUpper()} {name.FirstName}");  // snp31 end
+                // snp28.1 And now we have to guard at the consumer
+        // snp29 Format PersonalName depending on last name
 ]]>
 			</Code>
 		</Snippet>
@@ -294,8 +265,10 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            this.FirstName = firstName;
-            this.LastName = lastName;  // snp25 Warning moves to assignment
+				<![CDATA[            this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));     // snp23 end
+            // snp21.1 Show Tools -> Options -> Preview Features and switch to .NET Core 3.0 and C# 8
+            // snp21.2 Edit .csproj and add <Nullable>Enable</Nullable>
+            // snp21.3 Rebuild the application and show that there are no warnings
 ]]>
 			</Code>
 		</Snippet>
@@ -308,8 +281,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            PersonalName friend = new PersonalName(null, null);  // snp23 Provide names
-            // snp22.1 Show warnings
+				<![CDATA[        public PersonalName(string firstName, string lastName)  // snp26 Allow null lastName
 ]]>
 			</Code>
 		</Snippet>
@@ -322,8 +294,8 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            PersonalName michelangelo = new PersonalName("Michelangelo", "Buonarroti");
-            // snp30 Demonstrate null last name
+				<![CDATA[            this.FirstName = firstName;
+            this.LastName = lastName;  // snp27 Warning moves to assignment
 ]]>
 			</Code>
 		</Snippet>
@@ -336,7 +308,8 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        public PersonalName(string firstName, string? lastName)  // snp50 No null allowed in this constructor
+				<![CDATA[            PersonalName friend = new PersonalName(null, null);  // snp25 Provide names
+            // snp24.1 Show warnings
 ]]>
 			</Code>
 		</Snippet>
@@ -349,7 +322,8 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            this.LastName = lastName;       // snp51 Wrap the last name into Some<string>
+				<![CDATA[            PersonalName michelangelo = new PersonalName("Michelangelo", "Buonarroti");
+            // snp32 Demonstrate null last name
 ]]>
 			</Code>
 		</Snippet>
@@ -362,7 +336,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        public string? LastName { get; }  // snp49 Replace with an optional string
+				<![CDATA[        public PersonalName(string firstName, string? lastName)  // snp52 No null allowed in this constructor
 ]]>
 			</Code>
 		</Snippet>
@@ -375,12 +349,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[
-        static string Format(PersonalName name) =>
-            name.LastName is string lastName                 // snp53 Isolate concrete last name with Select
-                ? $"{lastName.ToUpper()} {name.FirstName}"   // snp28 No warning
-                : name.FirstName.ToUpper();                  // snp53 end
-
+				<![CDATA[            this.LastName = lastName;       // snp53 Wrap the last name into Some<string>
 ]]>
 			</Code>
 		</Snippet>
@@ -393,7 +362,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[                ? $"{lastName.ToUpper()} {name.FirstName}"
+				<![CDATA[        public string? LastName { get; }  // snp51 Replace with an optional string
 ]]>
 			</Code>
 		</Snippet>
@@ -406,7 +375,12 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            cards.Select(card => card.Holder).Select(Format);
+				<![CDATA[
+        static string Format(PersonalName name) =>
+            name.LastName is string lastName                 // snp55 Isolate concrete last name with Select
+                ? $"{lastName.ToUpper()} {name.FirstName}"   // snp30 No warning
+                : name.FirstName.ToUpper();                  // snp55 end
+
 ]]>
 			</Code>
 		</Snippet>
@@ -419,9 +393,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            PersonalName aristotle = new PersonalName("Aristotle", null);  // snp55 Use constructor with one argument
-            // snp30.1 No warning
-
+				<![CDATA[                ? $"{lastName.ToUpper()} {name.FirstName}"
 ]]>
 			</Code>
 		</Snippet>
@@ -434,9 +406,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        public BusinessEntity? Sponsor { get; }    // snp56 Replace with optional sponsor
-
-        public PassCard(PersonalName holder, BusinessEntity? sponsor)
+				<![CDATA[            cards.Select(card => card.Holder).Select(Format);
 ]]>
 			</Code>
 		</Snippet>
@@ -449,7 +419,9 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[                .GroupBy(card => card.Sponsor.CountryIso2)     // snp33 end
+				<![CDATA[            PersonalName aristotle = new PersonalName("Aristotle", null);  // snp57 Use constructor with one argument
+            // snp32.1 No warning
+
 ]]>
 			</Code>
 		</Snippet>
@@ -462,9 +434,9 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            cards.Where(card => card.Sponsor != null)                                       // snp60 Just extract existing sponsors
-                .Select<PassCard, BusinessEntity>(card => card.Sponsor ?? throw new InvalidOperationException())  // snp34 Non-null BusinessEntity
-                .GroupBy(sponsor => sponsor.CountryIso2)       // snp63 end
+				<![CDATA[        public BusinessEntity? Sponsor { get; }    // snp58 Replace with optional sponsor
+
+        public PassCard(PersonalName holder, BusinessEntity? sponsor)
 ]]>
 			</Code>
 		</Snippet>
@@ -477,7 +449,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[                .Select(card => card.Sponsor ?? throw new InvalidOperationException())      // snp60 end
+				<![CDATA[                .GroupBy(card => card.Sponsor.CountryIso2)     // snp35 end
 ]]>
 			</Code>
 		</Snippet>
@@ -490,11 +462,9 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[    // snp35.1 Move to Option.cs
-    public abstract class Option<T>
-    {
-        // snp36 Create factory functions
-    }
+				<![CDATA[            cards.Where(card => card.Sponsor != null)                                       // snp62 Just extract existing sponsors
+                .Select<PassCard, BusinessEntity>(card => card.Sponsor ?? throw new InvalidOperationException())  // snp36 Non-null BusinessEntity
+                .GroupBy(sponsor => sponsor.CountryIso2)       // snp65 end
 ]]>
 			</Code>
 		</Snippet>
@@ -507,12 +477,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        // snp43 Define the mapping method Select
-    }
-
-    public static class Option
-    {
-        // snp37 Wrap an object with Of
+				<![CDATA[                .Select(card => card.Sponsor ?? throw new InvalidOperationException())      // snp62 end
 ]]>
 			</Code>
 		</Snippet>
@@ -525,9 +490,11 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        public static Option<T> Of<T>(T value) =>
-            throw new NotImplementedException();  // snp41 Wrap value into Some<T>
-        // snp38 Create none
+				<![CDATA[    // snp37.1 Move to Option.cs
+    public abstract class Option<T>
+    {
+        // snp38 Create factory functions
+    }
 ]]>
 			</Code>
 		</Snippet>
@@ -540,10 +507,12 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[
-        public static Option<T> None<T>() =>
-            throw new NotImplementedException();  // snp42 Return none
-        // snp39 Declare Some<T> variant
+				<![CDATA[        // snp45 Define the mapping method Select
+    }
+
+    public static class Option
+    {
+        // snp39 Wrap an object with Of
 ]]>
 			</Code>
 		</Snippet>
@@ -556,18 +525,9 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[    }
-    // snp40 Declare None<T> variant
-    // snp39.1 Move to Some.cs
-    public class Some<T> : Option<T>
-    {
-        public T Content { get; }
-     
-        public Some(T content)
-        {
-            this.Content = content;
-        }
-        // snp45 Implement the Select method
+				<![CDATA[        public static Option<T> Of<T>(T value) =>
+            throw new NotImplementedException();  // snp43 Wrap value into Some<T>
+        // snp40 Create none
 ]]>
 			</Code>
 		</Snippet>
@@ -580,12 +540,10 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[    // snp40.2 Move to None.cs
-    public class None<T> : Option<T>
-    {
-        // snp40.1 Contains no object
-        // snp47 Implement the Select method
-    }
+				<![CDATA[
+        public static Option<T> None<T>() =>
+            throw new NotImplementedException();  // snp44 Return none
+        // snp41 Declare Some<T> variant
 ]]>
 			</Code>
 		</Snippet>
@@ -598,7 +556,18 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            new Some<T>(value);
+				<![CDATA[    }
+    // snp42 Declare None<T> variant
+    // snp41.1 Move to Some.cs
+    public class Some<T> : Option<T>
+    {
+        public T Content { get; }
+     
+        public Some(T content)
+        {
+            this.Content = content;
+        }
+        // snp47 Implement the Select method
 ]]>
 			</Code>
 		</Snippet>
@@ -611,8 +580,12 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            new None<T>();
-        // snp59 Implement SelectMany extension method for optionals
+				<![CDATA[    // snp42.2 Move to None.cs
+    public class None<T> : Option<T>
+    {
+        // snp42.1 Contains no object
+        // snp49 Implement the Select method
+    }
 ]]>
 			</Code>
 		</Snippet>
@@ -625,8 +598,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        public abstract Option<TResult> Select<TResult>(Func<T, TResult> map);
-        // snp44 Define the Reduce method
+				<![CDATA[            new Some<T>(value);
 ]]>
 			</Code>
 		</Snippet>
@@ -639,7 +611,8 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        public abstract T Reduce(T substitute);
+				<![CDATA[            new None<T>();
+        // snp61 Implement SelectMany extension method for optionals
 ]]>
 			</Code>
 		</Snippet>
@@ -652,10 +625,8 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[
-        public override Option<TResult> Select<TResult>(Func<T, TResult> map) =>
-            new Some<TResult>(map(this.Content));
-        // snp46 Implement the Reduce method
+				<![CDATA[        public abstract Option<TResult> Select<TResult>(Func<T, TResult> map);
+        // snp46 Define the Reduce method
 ]]>
 			</Code>
 		</Snippet>
@@ -668,9 +639,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[
-        public override T Reduce(T substitute) =>
-            this.Content;
+				<![CDATA[        public abstract T Reduce(T substitute);
 ]]>
 			</Code>
 		</Snippet>
@@ -683,8 +652,9 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        public override Option<TResult> Select<TResult>(Func<T, TResult> map) =>
-            new None<TResult>();
+				<![CDATA[
+        public override Option<TResult> Select<TResult>(Func<T, TResult> map) =>
+            new Some<TResult>(map(this.Content));
         // snp48 Implement the Reduce method
 ]]>
 			</Code>
@@ -700,7 +670,7 @@
 			<Code Language="CSharp">
 				<![CDATA[
         public override T Reduce(T substitute) =>
-            substitute;
+            this.Content;
 ]]>
 			</Code>
 		</Snippet>
@@ -713,7 +683,9 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        public Option<string> LastName { get; }
+				<![CDATA[        public override Option<TResult> Select<TResult>(Func<T, TResult> map) =>
+            new None<TResult>();
+        // snp50 Implement the Reduce method
 ]]>
 			</Code>
 		</Snippet>
@@ -726,7 +698,9 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[        public PersonalName(string firstName, string lastName)
+				<![CDATA[
+        public override T Reduce(T substitute) =>
+            substitute;
 ]]>
 			</Code>
 		</Snippet>
@@ -739,8 +713,7 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            this.LastName = Option.Of(lastName);
-            // snp52 Now provide an alternate constructor with missing last name
+				<![CDATA[        public Option<string> LastName { get; }
 ]]>
 			</Code>
 		</Snippet>
@@ -750,6 +723,33 @@
 			<Title>Programming with No Nulls in C# 8</Title>
 			<Author>Zoran Horvat</Author>
 			<Shortcut>snp52</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public PersonalName(string firstName, string lastName)
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp53</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            this.LastName = Option.Of(lastName);
+            // snp54 Now provide an alternate constructor with missing last name
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp54</Shortcut>
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
@@ -767,13 +767,13 @@
 		<Header>
 			<Title>Programming with No Nulls in C# 8</Title>
 			<Author>Zoran Horvat</Author>
-			<Shortcut>snp53</Shortcut>
+			<Shortcut>snp55</Shortcut>
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
 				<![CDATA[            name.LastName
                 .Select(lastName => $"{lastName.ToUpper()} {name.FirstName}")
-                // : name.FirstName.ToUpper();    // snp54 Or else, use first name only
+                // : name.FirstName.ToUpper();    // snp56 Or else, use first name only
 ]]>
 			</Code>
 		</Snippet>
@@ -782,12 +782,12 @@
 		<Header>
 			<Title>Programming with No Nulls in C# 8</Title>
 			<Author>Zoran Horvat</Author>
-			<Shortcut>snp54</Shortcut>
+			<Shortcut>snp56</Shortcut>
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
 				<![CDATA[                .Reduce(name.FirstName.ToUpper());
-                // snp54.1 It is impossible to forget negative scenario
+                // snp56.1 It is impossible to forget negative scenario
 ]]>
 			</Code>
 		</Snippet>
@@ -796,7 +796,7 @@
 		<Header>
 			<Title>Programming with No Nulls in C# 8</Title>
 			<Author>Zoran Horvat</Author>
-			<Shortcut>snp55</Shortcut>
+			<Shortcut>snp57</Shortcut>
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
@@ -809,7 +809,7 @@
 		<Header>
 			<Title>Programming with No Nulls in C# 8</Title>
 			<Author>Zoran Horvat</Author>
-			<Shortcut>snp56</Shortcut>
+			<Shortcut>snp58</Shortcut>
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
@@ -833,11 +833,11 @@
 		<Header>
 			<Title>Programming with No Nulls in C# 8</Title>
 			<Author>Zoran Horvat</Author>
-			<Shortcut>snp57</Shortcut>
+			<Shortcut>snp59</Shortcut>
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            cards.SelectOptional(card => card.Sponsor)          // snp62 Start from separate cards
+				<![CDATA[            cards.SelectOptional(card => card.Sponsor)          // snp64 Start from separate cards
 ]]>
 			</Code>
 		</Snippet>
@@ -846,7 +846,7 @@
 		<Header>
 			<Title>Programming with No Nulls in C# 8</Title>
 			<Author>Zoran Horvat</Author>
-			<Shortcut>snp58</Shortcut>
+			<Shortcut>snp60</Shortcut>
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
@@ -868,7 +868,7 @@
 		<Header>
 			<Title>Programming with No Nulls in C# 8</Title>
 			<Author>Zoran Horvat</Author>
-			<Shortcut>snp59</Shortcut>
+			<Shortcut>snp61</Shortcut>
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
@@ -885,40 +885,12 @@
 		<Header>
 			<Title>Programming with No Nulls in C# 8</Title>
 			<Author>Zoran Horvat</Author>
-			<Shortcut>snp60</Shortcut>
-		</Header>
-		<Snippet>
-			<Code Language="CSharp">
-				<![CDATA[            from card in cards
-            // snp61 Filter optional sponsor from each card
-]]>
-			</Code>
-		</Snippet>
-	</CodeSnippet>
-	<CodeSnippet Format="1.0.0">
-		<Header>
-			<Title>Programming with No Nulls in C# 8</Title>
-			<Author>Zoran Horvat</Author>
-			<Shortcut>snp61</Shortcut>
-		</Header>
-		<Snippet>
-			<Code Language="CSharp">
-				<![CDATA[            from sponsor in card.Sponsor
-            // snp62 Filter optional country code from each sponsor
-]]>
-			</Code>
-		</Snippet>
-	</CodeSnippet>
-	<CodeSnippet Format="1.0.0">
-		<Header>
-			<Title>Programming with No Nulls in C# 8</Title>
-			<Author>Zoran Horvat</Author>
 			<Shortcut>snp62</Shortcut>
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            from countryIso2 in sponsor.CountryIso2
-            // snp63 Group country codes
+				<![CDATA[            from card in cards
+            // snp63 Filter optional sponsor from each card
 ]]>
 			</Code>
 		</Snippet>
@@ -931,8 +903,8 @@
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">
-				<![CDATA[            group countryIso2 by countryIso2 into g
-            // snp64 Construct a (country, count) pair from each group
+				<![CDATA[            from sponsor in card.Sponsor
+            // snp64 Filter optional country code from each sponsor
 ]]>
 			</Code>
 		</Snippet>
@@ -942,6 +914,34 @@
 			<Title>Programming with No Nulls in C# 8</Title>
 			<Author>Zoran Horvat</Author>
 			<Shortcut>snp64</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            from countryIso2 in sponsor.CountryIso2
+            // snp65 Group country codes
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp65</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            group countryIso2 by countryIso2 into g
+            // snp66 Construct a (country, count) pair from each group
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp66</Shortcut>
 		</Header>
 		<Snippet>
 			<Code Language="CSharp">

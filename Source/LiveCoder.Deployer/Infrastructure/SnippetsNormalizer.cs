@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using LiveCoder.Common.Optional;
 using LiveCoder.Deployer.Interfaces;
 
 namespace LiveCoder.Deployer.Infrastructure
@@ -37,77 +39,85 @@ namespace LiveCoder.Deployer.Infrastructure
 
         private string ReadFile(FileInfo file)
         {
-            file.Refresh();
-            byte[] buffer = new byte[file.Length];
+            int retries = 10;
+            int waitMsec = 100;
+            string content = string.Empty;
+
+            for (int retry = 0; retry < retries; retry++)
+            {
+                content = this.ReadFileRaw(file);
+                if (content.Length > 0)
+                    return content;
+                Thread.Sleep(waitMsec);
+            }
+
+            return content;
+        }
+
+        private string ReadFileRaw(FileInfo file)
+        {
             using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                stream.Read(buffer, 0, buffer.Length);
+                using (TextReader reader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    return reader.ReadToEnd();
+                }
             }
-            return Encoding.UTF8.GetString(buffer);
         }
 
         private void WriteFile(FileInfo file, string rewrittenContent)
         {
-            FileInfo destFile = file.CopyTo(file.FullName + ".bak", true);
+            file.CopyTo(file.FullName + ".bak", true);
             byte[] buffer = Encoding.UTF8.GetBytes(rewrittenContent.ToCharArray());
-            using (FileStream stream = file.OpenWrite())
+            using (FileStream stream = File.Open(file.FullName, FileMode.Create))
             {
                 stream.Write(buffer, 0, buffer.Length);
                 stream.SetLength(buffer.Length);
             }
         }
 
-        private IEnumerable<string> GetOriginalShortcuts(string content)
-        {
-            return Regex
+        private IEnumerable<(string shortcut, string becomes)> GetShortcutRewrites(string content) =>
+            this.GetOriginalShortcuts(content)
+                .Select((shortcut, index) => (shortcut: shortcut, becomes: $"snp{index + 1:00}"))
+                .Where(pair => pair.shortcut != pair.becomes);
+
+        private IEnumerable<string> GetOriginalShortcuts(string content) =>
+            Regex
                 .Matches(content, @"\<Shortcut\>(?<snippet>\w+)\<\/Shortcut\>")
                 .Cast<Match>()
                 .Select(match => match.Groups["snippet"].Value);
-        }
 
         private string Rewrite(string content, string[] snippets)
         {
-            return string.Join(string.Empty, this.GetRewrittenSegments(content, snippets).ToArray());
-        }
+            List<(string shortcut, string becomes)> changes = this.GetShortcutRewrites(content).ToList();
+            if (changes.Count == 0) return content;
 
-        private IEnumerable<string> GetRewrittenSegments(string content, string[] snippets)
-        {
+            StringBuilder newContent = new StringBuilder();
+
             int pos = 0;
-
             while (pos < content.Length)
             {
-                var potentialWinner =
-                    snippets
-                        .Select((snippet, snippetIndex) =>
-                            new
-                            {
-                                Snippet = snippet,
-                                Index = content.IndexOf(snippet, pos, StringComparison.InvariantCulture),
-                                RewrittenSnippet = $"snp{snippetIndex + 1:00}"
-                            }
-                        )
-                        .Where(pair => pair.Index >= 0)
-                        .OrderBy(pair => pair.Index)
-                        .ThenByDescending(pair => pair.Snippet.Length)
-                        .Take(1);
+                Option<(string shortcut, string becomes, int at)> possibleUpdate =
+                    changes.MapOptional(change => content
+                        .IndexOfOrNone(change.shortcut, pos)
+                        .Map(occurencePos => (shortcut: change.shortcut, becomes: change.becomes, at: occurencePos)))
+                        .WithMinOrNone(tuple => tuple.at);
 
-                if (!potentialWinner.Any())
+                if (possibleUpdate is Some<(string shortcut, string becomes, int at)> some)
                 {
-                    yield return content.Substring(pos);
-                    yield break;
+                    (string shortcut, string becomes, int at) = some.Content;
+                    if (at > pos) newContent.Append(content.Substring(pos, at - pos));
+                    newContent.Append(becomes);
+                    pos = at + shortcut.Length;
                 }
-
-                var winner = potentialWinner.Single();
-
-                if (winner.Index > pos)
-                    yield return content.Substring(pos, winner.Index - pos);
-
-                yield return winner.RewrittenSnippet;
-
-                pos = winner.Index + winner.Snippet.Length;
-
+                else
+                {
+                    newContent.Append(content.Substring(pos));
+                    pos = content.Length;
+                }
             }
-        }
 
+            return newContent.ToString();
+        }
     }
 }

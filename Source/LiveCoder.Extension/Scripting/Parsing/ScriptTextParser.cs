@@ -36,7 +36,7 @@ namespace LiveCoder.Extension.Scripting.Parsing
                 rest = newState.Map(state => state.newRest).Reduce(rest);
             }
 
-            rest.OfType<NonEmptyText>().Do(remaining => this.Logger.Write(new ErrorParsingLine(remaining)));
+            rest.ObjectOfType<NonEmptyText>().Do(remaining => this.Logger.Write(new ErrorParsingLine(remaining)));
 
             return script;
         }

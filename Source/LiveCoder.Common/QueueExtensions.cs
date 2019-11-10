@@ -2,9 +2,9 @@
 using System.Linq;
 using LiveCoder.Common.Optional;
 
-namespace LiveCoder.Extension.Functional
+namespace LiveCoder.Common
 {
-    static class QueueExtensions
+    public static class QueueExtensions
     {
         public static Option<TDerived> TryDequeue<T, TDerived>(this Queue<T> queue) where TDerived : T =>
             queue.Any() && queue.Peek() is TDerived && queue.Dequeue() is TDerived derived

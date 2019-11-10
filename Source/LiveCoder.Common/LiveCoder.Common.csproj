@@ -54,8 +54,11 @@
     <Compile Include="Optional\OptionalLinq.cs" />
     <Compile Include="Optional\RegexExtensions.cs" />
     <Compile Include="Optional\Some.cs" />
+    <Compile Include="Optional\StringExtensions.cs" />
     <Compile Include="Optional\TypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueueExtensions.cs" />
+    <Compile Include="StringEnumerableExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

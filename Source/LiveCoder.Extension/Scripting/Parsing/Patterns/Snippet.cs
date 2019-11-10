@@ -16,7 +16,7 @@ namespace LiveCoder.Extension.Scripting.Parsing.Patterns
 
         private Option<(IText remaining, DemoScript script)> ApplyBeforePreamble(NonEmptyText current, DemoScript script) =>
             from preamble in this.TryExtractPreamble(current)
-            from text in current.ConsumeLine().OfType<NonEmptyText>()
+            from text in current.ConsumeLine().ObjectOfType<NonEmptyText>()
             from record in this.ApplyAfterPreamble(text, preamble.number, preamble.terminator, script)
             select record;
 
