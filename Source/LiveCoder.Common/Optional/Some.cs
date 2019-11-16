@@ -35,6 +35,7 @@ namespace LiveCoder.Common.Optional
             this.Content is TNew modified ? (Option<TNew>)modified : None.Value;
 
         public override void Do(Action<T> action) => action(this);
+        public override void Do(Action<T> action, Action orElse) => this.Do(action);
 
         public override void Dispose() => this.Dispose(true);
 

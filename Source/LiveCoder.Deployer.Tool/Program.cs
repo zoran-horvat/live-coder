@@ -5,6 +5,7 @@ using System.Reflection;
 using LiveCoder.Deployer.Tool.Deployers;
 using LiveCoder.Deployer.Tool.Infrastructure;
 using LiveCoder.Deployer.Tool.Interfaces;
+using LiveCoder.Deployer;
 
 namespace LiveCoder.Deployer.Tool
 {
@@ -73,10 +74,18 @@ namespace LiveCoder.Deployer.Tool
             Arguments arguments = Arguments.Parse(args);
 
             if (arguments.IsValid)
+            {
                 new ParameterizedDeployer(arguments, Logger).Deploy();
+
+                new DeploymentBuilder()
+                    .From(arguments.SourceDirectory)
+                    .TryBuild()
+                    .Do(deployment => deployment.Execute(), ShowUsage);
+            }
             else
+            {
                 ShowUsage();
-            
+            }
         }
     }
 }

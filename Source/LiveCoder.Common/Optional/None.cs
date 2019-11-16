@@ -20,6 +20,7 @@ namespace LiveCoder.Common.Optional
         public override Option<TNew> OfType<TNew>() => None.Value;
 
         public override void Do(Action<T> action) { }
+        public override void Do(Action<T> action, Action orElse) => orElse();
 
         public override void Dispose() { }
 

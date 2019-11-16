@@ -41,7 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Deployment.cs" />
+    <Compile Include="DeploymentBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LiveCoder.Common\LiveCoder.Common.csproj">
+      <Project>{93FDF21A-CCBD-474C-ACFE-C5A7D0D6D974}</Project>
+      <Name>LiveCoder.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

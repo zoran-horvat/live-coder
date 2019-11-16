@@ -169,6 +169,10 @@
       <Project>{93FDF21A-CCBD-474C-ACFE-C5A7D0D6D974}</Project>
       <Name>LiveCoder.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LiveCoder.Deployer\LiveCoder.Deployer.csproj">
+      <Project>{c7dbce84-8c18-4487-8d8e-ac45ce60c546}</Project>
+      <Name>LiveCoder.Deployer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
