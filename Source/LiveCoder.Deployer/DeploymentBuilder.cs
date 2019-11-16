@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using LiveCoder.Common.Optional;
+using LiveCoder.Deployer.Implementation;
 
 namespace LiveCoder.Deployer
 {
@@ -15,6 +18,10 @@ namespace LiveCoder.Deployer
         }
 
         public Option<Deployment> TryBuild() =>
-            None.Value;
+            this.Source
+                .Map(DirectoryBrowser.For)
+                .Map(browser => browser.GetAllFiles())
+                .Map(files => files.Select(SourceFile.From).ToList())
+                .Map(files => new Deployment());
     }
 }

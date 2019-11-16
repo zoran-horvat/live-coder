@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Deployment.cs" />
     <Compile Include="DeploymentBuilder.cs" />
+    <Compile Include="Implementation\DirectoryBrowser.cs" />
+    <Compile Include="Implementation\SourceFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -51,5 +53,6 @@
       <Name>LiveCoder.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
