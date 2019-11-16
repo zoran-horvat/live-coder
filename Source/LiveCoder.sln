@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveCoder.Common", "LiveCod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveCoder.Extension", "LiveCoder.Extension\LiveCoder.Extension.csproj", "{37AA0ECC-3E24-4EA3-89B7-A9DDE2C01940}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveCoder.Deployer", "LiveCoder.Deployer\LiveCoder.Deployer.csproj", "{028890BD-839F-4D00-9B2C-A038889E15EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveCoder.Deployer.Tool", "LiveCoder.Deployer.Tool\LiveCoder.Deployer.Tool.csproj", "{028890BD-839F-4D00-9B2C-A038889E15EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
