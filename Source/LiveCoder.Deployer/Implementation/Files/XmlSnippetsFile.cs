@@ -13,7 +13,7 @@ namespace LiveCoder.Deployer.Implementation.Files
 
         protected override void Deploy(FileInfo source, Directories to)
         {
-            new XmlSnippetsReader().LoadMany(source).ToList().ForEach(snippet => Debug.WriteLine(snippet));
+            new XmlSnippetsReader(source).LoadMany().ToList().ForEach(snippet => Debug.WriteLine(snippet));
             Debug.WriteLine($"Ignoring file {source.FullName}");
         }
     }

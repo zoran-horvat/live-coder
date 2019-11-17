@@ -3,49 +3,31 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using LiveCoder.Common;
+using LiveCoder.Common.Optional;
+using LiveCoder.Common.Text;
+using LiveCoder.Common.Text.Regex;
+using LiveCoder.Common.Xml;
 
 namespace LiveCoder.Deployer.Implementation.Snippets
 {
     class XmlSnippetsReader
     {
-        public IEnumerable<XmlSnippet> LoadMany(FileInfo from) =>
-            Disposable.Using(() => File.OpenRead(from.FullName)).Map(this.LoadMany);
+        private FileInfo File { get; }
 
-        private IEnumerable<XmlSnippet> LoadMany(FileStream stream) =>
-            this.LoadMany(XDocument.Load(stream));
+        public XmlSnippetsReader(FileInfo file)
+        {
+            this.File = file;
+        }
+
+        public IEnumerable<XmlSnippet> LoadMany() =>
+            this.LoadMany(this.File.LoadXml());
 
         private IEnumerable<XmlSnippet> LoadMany(XDocument from) =>
-            this.LoadMany(from.Root?.Elements() ?? new XElement[0]);
+            from.RootChildren().MapOptional(this.ToSnippet);
 
-        private IEnumerable<XmlSnippet> LoadMany(IEnumerable<XElement> elements) =>
-            elements.Select(this.ToSnippet);
-
-        private XmlSnippet ToSnippet(XElement snippet) =>
-            this.ToSnippet(this.GetShortcut(snippet), this.GetCode(snippet));
-
-        private string GetShortcut(XElement snippet) =>
-            snippet.Element(this.Name("Header"))?.Element(this.Name("Shortcut"))?.Value ?? string.Empty;
-
-        private string GetCode(XElement snippet) =>
-            snippet.Element(this.Name("Snippet"))?.Element(this.Name("Code"))?.Value ?? string.Empty;
-
-        private XName Name(string of) =>
-            XName.Get(of, this.Namespace);
-
-        private string Namespace => 
-            @"http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet";
-
-        private XmlSnippet ToSnippet(string shortcut, string code) =>
-            new XmlSnippet(this.SnippetNumber(shortcut), code);
-
-        private int SnippetNumber(string shortcut) =>
-            int.TryParse(this.RawSnippetNumber(shortcut), out int number) ? number : -1;
-
-        private string RawSnippetNumber(string shortcut) =>
-            Regex.Match(shortcut, @"^snp(?<number>\d+)$") is Match match && match.Success
-                ? match.Groups["number"].Value
-                : string.Empty;
-
+        private Option<XmlSnippet> ToSnippet(XElement snippet) =>
+            from snippetNumber in snippet.ValueOf("Header", "Shortcut").Extract("number", @"^snp(?<number>\d+)$").ParseInt()
+            from code in snippet.ValueOf("Snippet", "Code")
+            select new XmlSnippet(snippetNumber, code);
     }
 }
