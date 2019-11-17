@@ -10,6 +10,7 @@ namespace LiveCoder.Deployer.Implementation
     {
         private string[] SkipNames { get; } = {"bin", "obj", "Release", "Debug"};
         private string[] SkipPrefixes { get; } = {"."};
+        private string[] SkipFileExtensions { get; } = {".suo", ".bak"};
 
         private DirectoryInfo Directory { get; }
      
@@ -22,7 +23,12 @@ namespace LiveCoder.Deployer.Implementation
             new DirectoryBrowser(directory);
 
         public IEnumerable<FileInfo> GetAllFiles() =>
-            this.GetAllDirectories().SelectMany(dir => dir.GetFiles());
+            this.GetAllDirectories()
+                .SelectMany(dir => dir.GetFiles())
+                .Where(IsAcceptableFileExtension);
+
+        private bool IsAcceptableFileExtension(FileInfo file) =>
+            !this.SkipFileExtensions.Contains(file.Extension, StringComparer.OrdinalIgnoreCase);
 
         private IEnumerable<DirectoryInfo> SubdirectoriesOf(DirectoryInfo directory) =>
             this.Filter(directory)
