@@ -47,7 +47,11 @@
     <Compile Include="Deployment.cs" />
     <Compile Include="DeploymentSpecification.cs" />
     <Compile Include="DeploymentBuilder.cs" />
-    <Compile Include="Implementation\Artefact.cs" />
+    <Compile Include="Artifact.cs" />
+    <Compile Include="Implementation\Artifacts\CommonFile.cs" />
+    <Compile Include="Implementation\Artifacts\Slides.cs" />
+    <Compile Include="Implementation\Artifacts\TranslatedSnippetsScript.cs" />
+    <Compile Include="Implementation\Artifacts\VisualStudioSolution.cs" />
     <Compile Include="Implementation\Directories.cs" />
     <Compile Include="Implementation\Files\CommonSourceFile.cs" />
     <Compile Include="Implementation\DirectoryBrowser.cs" />

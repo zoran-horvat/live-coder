@@ -11,13 +11,13 @@ namespace LiveCoder.Deployer.Implementation.Files
         {
         }
 
-        protected override IEnumerable<Artefact> Deploy(FileInfo source, Directories directories) =>
+        protected override IEnumerable<Artifact> Deploy(FileInfo source, Directories directories) =>
             this.Deploy(source, this.GetDestination(source, directories));
 
-        private IEnumerable<Artefact> Deploy(FileInfo source, FileInfo destination)
+        private IEnumerable<Artifact> Deploy(FileInfo source, FileInfo destination)
         {
             source.CopyTo(destination.FullName);
-            return Enumerable.Empty<Artefact>();
+            return Artifact.ManyFor(source, destination);
         }
 
         private FileInfo GetDestination(FileInfo source, Directories directories) =>

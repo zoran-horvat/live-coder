@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using LiveCoder.Deployer.Implementation;
 
@@ -6,11 +7,15 @@ namespace LiveCoder.Deployer
 {
     public class Deployment
     {
-        private IEnumerable<Artefact> Artefacts { get; }
+        private IEnumerable<Artifact> Artifacts { get; }
 
-        public Deployment(IEnumerable<Artefact> artefacts)
+        public Deployment(IEnumerable<Artifact> artifacts)
         {
-            this.Artefacts = artefacts.ToList();
+            this.Artifacts = artifacts.ToList();
+            foreach (Artifact obj in this.Artifacts)
+            {
+                Debug.WriteLine(obj);
+            }
         }
     }
 }

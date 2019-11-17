@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using LiveCoder.Deployer.Implementation.Artifacts;
 using LiveCoder.Deployer.Implementation.Snippets;
 
 namespace LiveCoder.Deployer.Implementation.Files
@@ -12,16 +13,16 @@ namespace LiveCoder.Deployer.Implementation.Files
         {
         }
 
-        protected override IEnumerable<Artefact> Deploy(FileInfo source, Directories to) =>
+        protected override IEnumerable<Artifact> Deploy(FileInfo source, Directories to) =>
             this.Deploy(source, this.Destination(to));
 
-        private IEnumerable<Artefact> Deploy(FileInfo source, FileInfo destination) =>
-            this.Deploy(new XmlSnippetsReader(source).LoadMany(), destination);
+        private IEnumerable<Artifact> Deploy(FileInfo source, FileInfo destination) =>
+            this.Deploy(source, new XmlSnippetsReader(source).LoadMany(), destination);
 
-        private IEnumerable<Artefact> Deploy(IEnumerable<XmlSnippet> snippets, FileInfo destination)
+        private IEnumerable<Artifact> Deploy(FileInfo source, IEnumerable<XmlSnippet> snippets, FileInfo destination)
         {
             new SnippetsScriptWriter(destination).Write(snippets);
-            return Enumerable.Empty<Artefact>();
+            return new[] {new TranslatedSnippetsScript(source, destination)};
         }
 
         private FileInfo Destination(Directories to) =>
