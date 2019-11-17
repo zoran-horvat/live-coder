@@ -7,12 +7,12 @@ using LiveCoder.Deployer.Implementation;
 
 namespace LiveCoder.Deployer
 {
-    public class Deployment
+    public class DeploymentSpecification
     {
         private ImmutableList<SourceFile> Files { get; }
         private Func<Option<Directories>> DirectoriesFactory { get; }
 
-        internal Deployment(IEnumerable<SourceFile> files, Func<Option<Directories>> directoriesFactory)
+        internal DeploymentSpecification(IEnumerable<SourceFile> files, Func<Option<Directories>> directoriesFactory)
         {
             this.Files = files.ToImmutableList();
             this.DirectoriesFactory = directoriesFactory;

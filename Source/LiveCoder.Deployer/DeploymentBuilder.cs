@@ -18,12 +18,12 @@ namespace LiveCoder.Deployer
             return this;
         }
 
-        public Option<Deployment> TryBuild() =>
+        public Option<DeploymentSpecification> TryBuild() =>
             this.Source
                 .Map(DirectoryBrowser.For)
                 .Map(browser => browser.GetAllFiles())
                 .Map(files => files.Select(SourceFile.From))
-                .Map(files => new Deployment(files, this.DirectoriesFactory));
+                .Map(files => new DeploymentSpecification(files, this.DirectoriesFactory));
 
         private Option<Directories> DirectoriesFactory() =>
             this.Source.MapOptional(this.DirectoriesFactory);
