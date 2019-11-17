@@ -43,7 +43,9 @@
   <ItemGroup>
     <Compile Include="Deployment.cs" />
     <Compile Include="DeploymentBuilder.cs" />
+    <Compile Include="Implementation\Files\CommonSourceFile.cs" />
     <Compile Include="Implementation\DirectoryBrowser.cs" />
+    <Compile Include="Implementation\Files\InternalSourceFile.cs" />
     <Compile Include="Implementation\SourceFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
