@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LiveCoder.Deployer.Implementation.Files;
@@ -19,10 +20,10 @@ namespace LiveCoder.Deployer.Implementation
             : IsSlidesFile(location) ? (SourceFile)new InternalSourceFile(location)
             : new CommonSourceFile(location);
 
-        public void Deploy(Directories directories) =>
+        public IEnumerable<Artefact> Deploy(Directories directories) =>
             this.Deploy(this.Location, directories);
 
-        protected abstract void Deploy(FileInfo source, Directories to);
+        protected abstract IEnumerable<Artefact> Deploy(FileInfo source, Directories to);
 
         private static bool IsXmlSnippets(FileInfo location) =>
             location.Extension.Equals(".snippet", StringComparison.OrdinalIgnoreCase);

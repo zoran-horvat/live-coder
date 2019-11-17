@@ -12,16 +12,16 @@ namespace LiveCoder.Deployer.Implementation.Files
         {
         }
 
-        protected override void Deploy(FileInfo source, Directories to) =>
+        protected override IEnumerable<Artefact> Deploy(FileInfo source, Directories to) =>
             this.Deploy(source, this.Destination(to));
 
-        private void Deploy(FileInfo source, FileInfo destination) =>
+        private IEnumerable<Artefact> Deploy(FileInfo source, FileInfo destination) =>
             this.Deploy(new XmlSnippetsReader(source).LoadMany(), destination);
 
-        private void Deploy(IEnumerable<XmlSnippet> snippets, FileInfo destination)
+        private IEnumerable<Artefact> Deploy(IEnumerable<XmlSnippet> snippets, FileInfo destination)
         {
             new SnippetsScriptWriter(destination).Write(snippets);
-            Debug.WriteLine($"Deployed {this} to {destination.FullName}");
+            return Enumerable.Empty<Artefact>();
         }
 
         private FileInfo Destination(Directories to) =>

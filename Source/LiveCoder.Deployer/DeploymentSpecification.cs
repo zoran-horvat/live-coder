@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Linq;
 using LiveCoder.Common.Optional;
 using LiveCoder.Deployer.Implementation;
 
@@ -18,16 +19,21 @@ namespace LiveCoder.Deployer
             this.DirectoriesFactory = directoriesFactory;
         }
 
-        public void Execute() =>
-            this.Directories.Do(this.DeployTo, this.OnFailedCreateDirectories);
+        public Option<Deployment> Execute() =>
+            this.Directories
+                .Map(directories => Option.Of(this.DeployTo(directories)))
+                .Reduce(this.OnFailedCreateDirectories);
 
         private Option<Directories> Directories => 
             this.DirectoriesFactory();
 
-        private void DeployTo(Directories directories) => 
-            this.Files.ForEach(file => file.Deploy(directories));
+        private Deployment DeployTo(Directories directories) =>
+            new Deployment(this.Files.SelectMany(file => file.Deploy(directories)));
 
-        private void OnFailedCreateDirectories() => 
+        private Option<Deployment> OnFailedCreateDirectories()
+        {
             Debug.WriteLine("Failed to create directories.");
+            return None.Value;
+        }
     }
 }

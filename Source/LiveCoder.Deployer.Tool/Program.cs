@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using LiveCoder.Deployer.Tool.Deployers;
@@ -80,12 +81,20 @@ namespace LiveCoder.Deployer.Tool
                 new DeploymentBuilder()
                     .From(arguments.SourceDirectory)
                     .TryBuild()
-                    .Do(deployment => deployment.Execute(), ShowUsage);
+                    .Do(Deploy, ShowUsage);
             }
             else
             {
                 ShowUsage();
             }
+        }
+
+        static void Deploy(DeploymentSpecification specification) =>
+            specification.Execute().Do(Open);
+
+        static void Open(Deployment deployment)
+        {
+            Debug.WriteLine("Ready to open deployed components.");
         }
     }
 }

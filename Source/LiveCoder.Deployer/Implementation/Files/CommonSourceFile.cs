@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace LiveCoder.Deployer.Implementation.Files
 {
@@ -10,13 +12,13 @@ namespace LiveCoder.Deployer.Implementation.Files
         {
         }
 
-        protected override void Deploy(FileInfo source, Directories to) => 
+        protected override IEnumerable<Artefact> Deploy(FileInfo source, Directories to) => 
             this.Deploy(source, this.GetDestinationFile(source, to));
 
-        private void Deploy(FileInfo source, FileInfo destination)
+        private IEnumerable<Artefact> Deploy(FileInfo source, FileInfo destination)
         {
             source.CopyTo(destination?.FullName ?? throw new ArgumentNullException(nameof(destination)));
-            Debug.WriteLine($"Deployed {this} to {destination.FullName}");
+            return Enumerable.Empty<Artefact>();
         }
 
         private FileInfo GetDestinationFile(FileInfo source, Directories to) =>

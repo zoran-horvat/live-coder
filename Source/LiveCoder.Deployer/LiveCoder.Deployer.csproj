@@ -44,8 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Deployment.cs" />
     <Compile Include="DeploymentSpecification.cs" />
     <Compile Include="DeploymentBuilder.cs" />
+    <Compile Include="Implementation\Artefact.cs" />
     <Compile Include="Implementation\Directories.cs" />
     <Compile Include="Implementation\Files\CommonSourceFile.cs" />
     <Compile Include="Implementation\DirectoryBrowser.cs" />
