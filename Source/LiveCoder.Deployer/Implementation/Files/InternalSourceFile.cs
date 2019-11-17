@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 
 namespace LiveCoder.Deployer.Implementation.Files
 {
@@ -6,6 +7,11 @@ namespace LiveCoder.Deployer.Implementation.Files
     {
         public InternalSourceFile(FileInfo location) : base(location)
         {
+        }
+
+        protected override void Deploy(FileInfo source, Directories directories)
+        {
+            Debug.WriteLine($"Ignoring deployment of {source.FullName}");
         }
     }
 }

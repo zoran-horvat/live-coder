@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IO\RelativeDirectories.cs" />
     <Compile Include="Optional\DictionaryExtensions.cs" />
     <Compile Include="Optional\EnumerableExtensions.cs" />
     <Compile Include="Optional\None.cs" />
@@ -63,5 +64,6 @@
   <ItemGroup>
     <None Include="Key.snk" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using LiveCoder.Deployer.Implementation.Files;
@@ -15,16 +14,15 @@ namespace LiveCoder.Deployer.Implementation
             this.Location = location;
         }
 
-        public static SourceFile From(FileInfo location)
-        {
-            SourceFile file = 
-                IsXmlSnippets(location) ? new XmlSnippetsFile(location)
-                : IsSlidesFile(location) ? (SourceFile)new InternalSourceFile(location)
-                : new CommonSourceFile(location);
+        public static SourceFile From(FileInfo location) =>
+            IsXmlSnippets(location) ? new XmlSnippetsFile(location)
+            : IsSlidesFile(location) ? (SourceFile)new InternalSourceFile(location)
+            : new CommonSourceFile(location);
 
-            Debug.WriteLine($"Preparing to deploy {file}");
-            return file;
-        }
+        public void Deploy(Directories directories) =>
+            this.Deploy(this.Location, directories);
+
+        protected abstract void Deploy(FileInfo source, Directories to);
 
         private static bool IsXmlSnippets(FileInfo location) =>
             location.Extension.Equals(".snippet", StringComparison.OrdinalIgnoreCase);
