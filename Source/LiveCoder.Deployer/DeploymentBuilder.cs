@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LiveCoder.Common.Optional;
@@ -17,11 +18,14 @@ namespace LiveCoder.Deployer
             return this;
         }
 
+        private Option<Directories> DirectoriesFactory() =>
+            Directories.TryCreateDestinationIn(new DirectoryInfo(@"C:\Demo"));
+
         public Option<Deployment> TryBuild() =>
             this.Source
                 .Map(DirectoryBrowser.For)
                 .Map(browser => browser.GetAllFiles())
-                .Map(files => files.Select(SourceFile.From).ToList())
-                .Map(files => new Deployment());
+                .Map(files => files.Select(SourceFile.From))
+                .Map(files => new Deployment(files, this.DirectoriesFactory));
     }
 }
