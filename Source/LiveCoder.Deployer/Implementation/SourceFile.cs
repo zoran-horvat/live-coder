@@ -18,12 +18,16 @@ namespace LiveCoder.Deployer.Implementation
         public static SourceFile From(FileInfo location)
         {
             SourceFile file = 
-                IsSlidesFile(location) ? (SourceFile)new InternalSourceFile(location)
+                IsXmlSnippets(location) ? new XmlSnippetsFile(location)
+                : IsSlidesFile(location) ? (SourceFile)new InternalSourceFile(location)
                 : new CommonSourceFile(location);
 
             Debug.WriteLine($"Preparing to deploy {file}");
             return file;
         }
+
+        private static bool IsXmlSnippets(FileInfo location) =>
+            location.Extension.Equals(".snippet", StringComparison.OrdinalIgnoreCase);
 
         private static bool IsSlidesFile(FileInfo location) =>
             new[] {".ppt", ".pptx"}.Contains(location.Extension, StringComparer.OrdinalIgnoreCase);
