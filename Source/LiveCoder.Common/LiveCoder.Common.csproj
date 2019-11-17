@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Disposable.cs" />
+    <Compile Include="DisposableFactory.cs" />
     <Compile Include="IO\RelativeDirectories.cs" />
     <Compile Include="Optional\DictionaryExtensions.cs" />
     <Compile Include="Optional\EnumerableExtensions.cs" />
