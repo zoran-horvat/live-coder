@@ -15,7 +15,6 @@ namespace LiveCoder.Deployer.Implementation.Files
 
         private void Deploy(FileInfo source, FileInfo destination)
         {
-            destination?.Directory?.Create();
             source.CopyTo(destination?.FullName ?? throw new ArgumentNullException(nameof(destination)));
             Debug.WriteLine($"Deployed {this} to {destination.FullName}");
         }

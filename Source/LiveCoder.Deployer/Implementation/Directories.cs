@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using LiveCoder.Common.IO;
@@ -51,7 +50,10 @@ namespace LiveCoder.Deployer.Implementation
             new DirectoryInfo(Path.Combine(parent.FullName, Timestamp));
 
         public DirectoryInfo DestinationFor(DirectoryInfo source) =>
-            new DirectoryInfo(this.DestinationPathFor(source));
+            Directory.CreateDirectory(this.DestinationPathFor(source));
+
+        public DirectoryInfo InternalDestination =>
+            this.DestinationRoot.CreateSubdirectory(".livecoder");
 
         private string DestinationPathFor(DirectoryInfo source) =>
             Path.Combine(this.DestinationRoot.FullName, this.RelativeSourcePath(source));
