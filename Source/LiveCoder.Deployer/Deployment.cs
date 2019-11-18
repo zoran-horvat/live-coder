@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using LiveCoder.Deployer.Implementation;
+using LiveCoder.Common.Optional;
+using LiveCoder.Deployer.Implementation.Artifacts;
 
 namespace LiveCoder.Deployer
 {
@@ -17,5 +18,8 @@ namespace LiveCoder.Deployer
                 Debug.WriteLine(obj);
             }
         }
+
+        public Option<VisualStudioSolution> SolutionFile =>
+            this.Artifacts.OfType<VisualStudioSolution>().FirstOrNone();
     }
 }

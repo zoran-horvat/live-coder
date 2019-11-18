@@ -1,10 +1,11 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 
 namespace LiveCoder.Deployer.Implementation.Artifacts
 {
     public class VisualStudioSolution : Artifact
     {
-        public FileInfo Location { get; }
+        private FileInfo Location { get; }
      
         private VisualStudioSolution(FileInfo location)
         {
@@ -13,6 +14,9 @@ namespace LiveCoder.Deployer.Implementation.Artifacts
 
         public static Artifact At(FileInfo location) =>
             new VisualStudioSolution(location);
+
+        public void Open() =>
+            Process.Start(this.Location.FullName);
 
         public override string ToString() =>
             $"VisualStudio solution file {this.Location.FullName}";
