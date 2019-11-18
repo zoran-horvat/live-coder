@@ -94,8 +94,8 @@ namespace LiveCoder.Deployer.Tool
 
         static void Open(Deployment deployment)
         {
-            Debug.WriteLine("Ready to open deployed components.");
             deployment.SolutionFile.Do(solution => solution.Open());
+            deployment.SlidesFile.Do(slides => slides.Open());
         }
     }
 }

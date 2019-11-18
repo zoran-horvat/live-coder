@@ -21,5 +21,8 @@ namespace LiveCoder.Deployer
 
         public Option<VisualStudioSolution> SolutionFile =>
             this.Artifacts.OfType<VisualStudioSolution>().FirstOrNone();
+
+        public Option<Slides> SlidesFile =>
+            this.Artifacts.OfType<Slides>().FirstOrNone();
     }
 }

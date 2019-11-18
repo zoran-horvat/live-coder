@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 
 namespace LiveCoder.Deployer.Implementation.Artifacts
 {
@@ -13,6 +14,9 @@ namespace LiveCoder.Deployer.Implementation.Artifacts
 
         public static Artifact At(FileInfo location) =>
             new Slides(location);
+        
+        public void Open() =>
+            Process.Start(this.Location.FullName);
 
         public override string ToString() =>
             $"Slides file {this.Location.FullName}";
