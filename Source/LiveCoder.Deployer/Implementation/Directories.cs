@@ -6,7 +6,7 @@ using LiveCoder.Common.Optional;
 
 namespace LiveCoder.Deployer.Implementation
 {
-    class Directories
+    public class Directories
     {
         private DirectoryInfo DestinationRoot { get; }
         private DirectoryInfo Source { get; }

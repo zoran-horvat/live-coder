@@ -22,6 +22,9 @@ namespace LiveCoder.Deployer.Implementation.Snippets
         public IEnumerable<XmlSnippet> LoadMany() =>
             this.LoadMany(this.File.LoadXml());
 
+        public Option<IEnumerable<XmlSnippet>> LoadManyConcurrent() =>
+            this.File.TryLoadConcurrent().Map(this.LoadMany);
+
         private IEnumerable<XmlSnippet> LoadMany(XDocument from) =>
             from.RootChildren().MapOptional(this.ToSnippet);
 

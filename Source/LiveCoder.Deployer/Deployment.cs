@@ -24,5 +24,8 @@ namespace LiveCoder.Deployer
 
         public Option<Slides> SlidesFile =>
             this.Artifacts.OfType<Slides>().FirstOrNone();
+
+        public Option<TranslatedSnippetsScript> XmlSnippets =>
+            this.Artifacts.OfType<TranslatedSnippetsScript>().FirstOrNone();
     }
 }

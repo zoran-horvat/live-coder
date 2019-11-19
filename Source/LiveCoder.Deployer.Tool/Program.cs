@@ -96,6 +96,18 @@ namespace LiveCoder.Deployer.Tool
         {
             deployment.SolutionFile.Do(solution => solution.Open());
             deployment.SlidesFile.Do(slides => slides.Open());
+            deployment.XmlSnippets.Do(snippets => snippets.RedeployOnChange());
+            WaitForExit();
+        }
+
+        static void WaitForExit()
+        {
+            Console.WriteLine("Type 'exit' to quit tracking changes");
+            while (true)
+            {
+                string line = Console.ReadLine();
+                if (line == null || line.Equals("exit", StringComparison.OrdinalIgnoreCase)) break;
+            }
         }
     }
 }

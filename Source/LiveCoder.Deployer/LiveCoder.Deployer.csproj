@@ -57,6 +57,7 @@
     <Compile Include="Implementation\DirectoryBrowser.cs" />
     <Compile Include="Implementation\Files\InternalSourceFile.cs" />
     <Compile Include="Implementation\Files\XmlSnippetsFile.cs" />
+    <Compile Include="Implementation\Files\XmlSnippetsRedeployer.cs" />
     <Compile Include="Implementation\Snippets\SnippetsScriptWriter.cs" />
     <Compile Include="Implementation\Snippets\XmlSnippet.cs" />
     <Compile Include="Implementation\Snippets\XmlSnippetsReader.cs" />

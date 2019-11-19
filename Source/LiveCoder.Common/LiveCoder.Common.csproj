@@ -49,7 +49,9 @@
   <ItemGroup>
     <Compile Include="Disposable.cs" />
     <Compile Include="DisposableFactory.cs" />
+    <Compile Include="IO\ConcurrentFIleAccess.cs" />
     <Compile Include="IO\RelativeDirectories.cs" />
+    <Compile Include="OptionalDisposableFactory.cs" />
     <Compile Include="Optional\DictionaryExtensions.cs" />
     <Compile Include="Optional\EnumerableExtensions.cs" />
     <Compile Include="Optional\None.cs" />
