@@ -41,21 +41,16 @@ namespace LiveCoder.Deployer.Tool.Models
             return new DestinationFile(file);
         }
 
-        public bool DirectoryExists(string name)
-        {
-            string path = Path.Combine(this.Directory.FullName, name);
-            return System.IO.Directory.Exists(path);
-        }
+        public bool DirectoryExists(string name) => 
+            System.IO.Directory.Exists(Path.Combine(this.Directory.FullName, name));
 
-        public bool FileExists(string name)
-        {
-            string path = Path.Combine(this.Directory.FullName, name);
-            return System.IO.File.Exists(path);
-        }
+        public bool FileExists(string name) => 
+            System.IO.File.Exists(Path.Combine(this.Directory.FullName, name));
 
-        private string GetSubdirectoryPath(string name) => $"{this.Directory.FullName}{Path.DirectorySeparatorChar}{name}";
+        private string GetSubdirectoryPath(string name) => 
+            $"{this.Directory.FullName}{Path.DirectorySeparatorChar}{name}";
 
-        private DirectoryInfo GetSubdirectory(string name) => new DirectoryInfo(this.GetSubdirectoryPath(name));
-
+        private DirectoryInfo GetSubdirectory(string name) => 
+            new DirectoryInfo(this.GetSubdirectoryPath(name));
     }
 }

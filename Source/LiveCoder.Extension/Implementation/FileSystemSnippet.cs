@@ -33,7 +33,7 @@ namespace LiveCoder.Extension.Implementation
                 .FirstOrNone();
 
         private Option<Stream> OpenFile() =>
-            this.File.Exists
+            System.IO.File.Exists(this.File.FullName)
                 ? (Option<Stream>)this.File.Open(FileMode.Open, FileAccess.Read, FileShare.Read)
                 : None.Value;
 

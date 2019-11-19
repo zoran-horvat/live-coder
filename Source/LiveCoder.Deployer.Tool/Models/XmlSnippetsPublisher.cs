@@ -65,10 +65,10 @@ namespace LiveCoder.Deployer.Tool.Models
         }
 
         public bool DirectoryExists(string name) =>
-            new DirectoryInfo(Path.Combine(this.Directory.FullName, name)).Exists;
+            System.IO.Directory.Exists(Path.Combine(this.Directory.FullName, name));
 
-        public bool FileExists(string name) => 
-            new FileInfo(Path.Combine(this.Directory.FullName, name)).Exists;
+        public bool FileExists(string name) =>
+            System.IO.File.Exists(Path.Combine(this.Directory.FullName, name));
 
         private string GetSubdirectoryPath(string name) => 
             Path.Combine(this.Directory.FullName, name);

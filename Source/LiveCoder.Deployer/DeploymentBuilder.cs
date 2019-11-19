@@ -13,7 +13,7 @@ namespace LiveCoder.Deployer
 
         public DeploymentBuilder From(DirectoryInfo source)
         {
-            if (source?.Exists ?? false)
+            if (Directory.Exists(source?.FullName))
                 this.Source = Option.Of(source);
             return this;
         }

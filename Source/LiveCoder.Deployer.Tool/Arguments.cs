@@ -49,11 +49,14 @@ namespace LiveCoder.Deployer.Tool
             this.LiveTrackSnippets = true;
         }
 
-        private bool CanHandleFlag(string argument) => this.Handlers.Any(handler => handler.CanHandle(argument));
+        private bool CanHandleFlag(string argument) => 
+            this.Handlers.Any(handler => handler.CanHandle(argument));
 
-        private void HandleFlag(string argument) => this.Handlers.First(handler => handler.CanHandle(argument)).Handle(argument);
+        private void HandleFlag(string argument) => 
+            this.Handlers.First(handler => handler.CanHandle(argument)).Handle(argument);
 
-        private bool CanHandleSourceDirectory(string[] args, int pos) => args[pos] == "-src" && args.Length > pos + 1 && Directory.Exists(args[pos + 1]);
+        private bool CanHandleSourceDirectory(string[] args, int pos) =>
+            args[pos] == "-src" && args.Length > pos + 1 && Directory.Exists(args[pos + 1]);
 
         private void HandleSourceDirectory(string[] args, int pos) => this.SourceDirectory = new DirectoryInfo(args[pos + 1]);
 

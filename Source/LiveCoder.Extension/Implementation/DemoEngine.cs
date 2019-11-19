@@ -25,7 +25,7 @@ namespace LiveCoder.Extension.Implementation
                 .MapNullable(file => file.Directory)
                 .Map(dir => Path.Combine(dir.FullName, ".livecoder", "script.lcs"))
                 .Map(path => new FileInfo(path))
-                .When(file => file.Exists);
+                .When(file => File.Exists(file.FullName));
 
         private Option<DemoScript> ParseScript() =>
             this.ScriptFile.MapOptional(file => DemoScript.TryParse(file, this.Logger));
