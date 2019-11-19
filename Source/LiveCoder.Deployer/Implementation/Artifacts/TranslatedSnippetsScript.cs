@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using LiveCoder.Common;
 using LiveCoder.Common.Optional;
 using LiveCoder.Deployer.Implementation.Files;
 
@@ -38,11 +42,16 @@ namespace LiveCoder.Deployer.Implementation.Artifacts
                 EnableRaisingEvents = true,
             };
 
-        private void OnSnippetsChanged(object sender, EventArgs args)
-        {
-            this.Redeployer.TryRedeployConcurrently();
-            Debug.WriteLine($"Snippets [{this.Snippets.FullName}] redeployed");
-        }
+        private void OnSnippetsChanged(object sender, EventArgs args) =>
+            this.Redeployer.TryRedeployConcurrently().Do(this.Report);
+
+        private void Report(IEnumerable<Artifact> artifacts) =>
+            this.ToString(artifacts).Do(report => Debug.WriteLine(report));
+
+        private Option<string> ToString(IEnumerable<Artifact> artifacts) =>
+            artifacts.Select(artifact => $"{artifact}").Join(Environment.NewLine) is string report && report.Length > 0
+                ? Option.Of(report)
+                : None.Value;
 
         public override string ToString() =>
             $"Translated XML snippets {this.Snippets.FullName} -> {this.Script.FullName}";

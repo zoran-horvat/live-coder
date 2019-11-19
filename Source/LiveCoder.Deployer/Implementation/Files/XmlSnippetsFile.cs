@@ -23,13 +23,18 @@ namespace LiveCoder.Deployer.Implementation.Files
         public Option<IEnumerable<Artifact>> DeployConcurrent(Directories directories, FileInfo source, FileInfo destination) =>
             new XmlSnippetsReader(source).LoadManyConcurrent().Map(snippets => this.Deploy(directories, source, snippets, destination));
 
-        private IEnumerable<Artifact> Deploy(Directories directories, FileInfo source, IEnumerable<XmlSnippet> snippets, FileInfo destination)
+        private IEnumerable<Artifact> Deploy(Directories directories, FileInfo source, IEnumerable<XmlSnippet> snippets, FileInfo destination) =>
+            snippets.ToList() is List<XmlSnippet> list && list.Any()
+                ? this.DeployNonEmpty(directories, source, list, destination)
+                : Enumerable.Empty<Artifact>();
+
+        private IEnumerable<Artifact> DeployNonEmpty(Directories directories, FileInfo source, List<XmlSnippet> snippets, FileInfo destination)
         {
             new SnippetsScriptWriter(destination).Write(snippets);
             XmlSnippetsRedeployer redeployer = new XmlSnippetsRedeployer(directories, source, destination);
             return new[] {new TranslatedSnippetsScript(redeployer, source, destination)};
         }
-        
+
         private FileInfo Destination(Directories to) =>
             new FileInfo(Path.Combine(to.InternalDestination.FullName, "script.lcs"));
     }
