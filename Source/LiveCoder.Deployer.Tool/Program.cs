@@ -81,7 +81,7 @@ namespace LiveCoder.Deployer.Tool
                 new DeploymentBuilder()
                     .From(arguments.SourceDirectory)
                     .TryBuild()
-                    .Do(Deploy, ShowUsage);
+                    .Do(spec => Deploy(spec, arguments), ShowUsage);
             }
             else
             {
@@ -89,15 +89,22 @@ namespace LiveCoder.Deployer.Tool
             }
         }
 
-        static void Deploy(DeploymentSpecification specification) =>
-            specification.Execute().Do(Open);
+        static void Deploy(DeploymentSpecification specification, Arguments arguments) =>
+            specification.Execute().Do(deployment => Open(deployment, arguments));
 
-        static void Open(Deployment deployment)
+        static void Open(Deployment deployment, Arguments arguments)
         {
-            deployment.SolutionFile.Do(solution => solution.Open());
-            deployment.SlidesFile.Do(slides => slides.Open());
-            deployment.XmlSnippets.Do(snippets => snippets.RedeployOnChange());
-            WaitForExit();
+            if (arguments.OpenFiles)
+            {
+                deployment.SolutionFile.Do(solution => solution.Open());
+                deployment.SlidesFile.Do(slides => slides.Open());
+            }
+
+            if (arguments.LiveTrackSnippets)
+            {
+                deployment.XmlSnippets.Do(snippets => snippets.RedeployOnChange());
+                WaitForExit();
+            }
         }
 
         static void WaitForExit()
