@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Text;
 using System.Threading;
 using LiveCoder.Common.Optional;
 
@@ -9,7 +11,13 @@ namespace LiveCoder.Common.IO
         public static FileStream OpenRead(this FileInfo file) =>
             File.OpenRead(file.FullName);
 
-        public static Option<FileStream> TryOpenReadConcurrent(this FileInfo file)
+        public static Option<FileStream> TryOpenReadConcurrent(this FileInfo file) =>
+            RepeatUntilNoException(() =>File.OpenRead(file.FullName));
+
+        public static Option<string[]> TryReadAllLines(this FileInfo file, Encoding encoding) =>
+            RepeatUntilNoException(() => File.ReadAllLines(file.FullName, encoding));
+
+        private static Option<T> RepeatUntilNoException<T>(Func<T> factory)
         {
             int retries = 10;
             int waitMsec = 100;
@@ -18,7 +26,7 @@ namespace LiveCoder.Common.IO
             {
                 try
                 {
-                    return File.OpenRead(file.FullName);
+                    return Option.Of(factory());
                 }
                 catch (IOException)
                 {
@@ -27,7 +35,7 @@ namespace LiveCoder.Common.IO
                 retries -= 1;
             }
 
-            return None.Value;
+            return Option.None<T>();
         }
     }
 }

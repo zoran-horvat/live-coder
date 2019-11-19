@@ -30,7 +30,9 @@ namespace LiveCoder.Deployer.Implementation.Files
 
         private IEnumerable<Artifact> DeployNonEmpty(Directories directories, FileInfo source, List<XmlSnippet> snippets, FileInfo destination)
         {
-            new SnippetsScriptWriter(destination).Write(snippets);
+            if (!new SnippetsScriptWriter(destination).WriteIfModified(snippets)) 
+                return Enumerable.Empty<Artifact>();
+
             XmlSnippetsRedeployer redeployer = new XmlSnippetsRedeployer(directories, source, destination);
             return new[] {new TranslatedSnippetsScript(redeployer, source, destination)};
         }

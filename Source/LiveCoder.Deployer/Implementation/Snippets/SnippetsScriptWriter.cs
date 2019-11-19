@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using LiveCoder.Common;
+using LiveCoder.Common.IO;
 
 namespace LiveCoder.Deployer.Implementation.Snippets
 {
@@ -14,8 +16,15 @@ namespace LiveCoder.Deployer.Implementation.Snippets
             this.File = file;
         }
 
-        public void Write(IEnumerable<XmlSnippet> snippets) =>
-            System.IO.File.WriteAllLines(this.File.FullName, this.GetScriptLines(snippets));
+        public bool WriteIfModified(IEnumerable<XmlSnippet> snippets) =>
+            this.Write(this.GetScriptLines(snippets).ToArray());
+
+        private bool Write(string[] lines)
+        {
+            if (!this.File.IsContentModified(lines, Encoding.UTF8)) return false;
+            System.IO.File.WriteAllLines(this.File.FullName, lines);
+            return true;
+        }
 
         private IEnumerable<string> GetScriptLines(IEnumerable<XmlSnippet> snippets) =>
             snippets.Select(this.GetScriptLines)

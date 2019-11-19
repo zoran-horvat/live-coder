@@ -51,6 +51,7 @@
     <Compile Include="DisposableFactory.cs" />
     <Compile Include="IO\ConcurrentFIleAccess.cs" />
     <Compile Include="IO\RelativeDirectories.cs" />
+    <Compile Include="IO\TextContentComparison.cs" />
     <Compile Include="OptionalDisposableFactory.cs" />
     <Compile Include="Optional\DictionaryExtensions.cs" />
     <Compile Include="Optional\EnumerableExtensions.cs" />
