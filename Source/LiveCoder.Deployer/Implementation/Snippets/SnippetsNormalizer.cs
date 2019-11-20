@@ -44,9 +44,16 @@ namespace LiveCoder.Deployer.Implementation.Snippets
         private bool RewriteFile(string[] originalLines, string[] rewrittenLines)
         {
             if (originalLines.SequenceEqual(rewrittenLines)) return false;
+            this.BackupSnippets();
             this.SnippetsFile.RewriteIfModified(rewrittenLines, Encoding.UTF8);
             return true;
         }
+
+        private void BackupSnippets() => 
+            File.Copy(this.SnippetsFile.FullName, this.SnippetsFileBackup.FullName, true);
+
+        private FileInfo SnippetsFileBackup =>
+            new FileInfo(this.SnippetsFile.FullName + ".bak");
 
         private IDictionary<string, string> GetShortcutRewrites(string[] lines) =>
             this.GetOriginalShortcuts(lines)

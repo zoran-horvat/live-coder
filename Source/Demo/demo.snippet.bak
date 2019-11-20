@@ -1,0 +1,953 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp01</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        static IEnumerable<string> ReportNames(IEnumerable<PassCard> cards) =>
+            // snp03 Extract card holder object
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp03</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            cards.Select(card => card.Holder)  // snp06 Holder object must be non-null
+
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp04</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public PersonalName Holder { get; }
+        // snp05 Accept a non-null object through constructor
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp05</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        // snp11 Add sponsor
+        public PassCard(PersonalName holder)
+        {
+            this.Holder = holder;  // snp07 Guard against null
+        }   // snp11 end
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp06</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            cards.Select(card => card.Holder)                                    // snp30 Use the safe Format method
+                // snp08 Format components of the PersonalName object
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp07</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            this.Holder = holder ?? throw new ArgumentNullException(nameof(holder));
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp08</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[                .Select(name => $"{name.LastName.ToUpper()} {name.FirstName}");  // snp09 Components must be non-null
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp09</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[                .Select(name => $"{name.LastName.ToUpper()} {name.FirstName}");  // snp19 Call to ToUpper will fail
+        // snp10.1 Method above is now safe
+        // snp14 Count cards by country
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp10</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            this.FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));  // snp22 Remove null guards
+            this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));     // snp18 Allow null
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp11</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public BusinessEntity Sponsor { get; }  // snp32 Make sponsor nullable
+
+        public PassCard(PersonalName holder, BusinessEntity sponsor)  // snp32 end
+        {
+            this.Holder = holder ?? throw new ArgumentNullException(nameof(holder));
+            this.Sponsor = sponsor;  // snp12 Sponsor can be missing!
+        }
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp12</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            this.Sponsor = sponsor;  // snp57 end
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp13</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public string CountryIso2 { get; }              // snp59 Make country optional
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp14</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        static IEnumerable<(string country, int count)> GetCountrySponsors(IEnumerable<PassCard> cards) =>
+            cards   // snp15 Filter out cards with no sponsor
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp15</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            cards.Where(card => card.Sponsor != null)          // snp34 Isolate the non-null sponsor
+                // snp16 Group by sponsor's country
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp16</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[                .GroupBy(card => card.Sponsor.CountryIso2)     // snp33 Compiler is unable to see that Sponsor is non-null
+                // snp17 Count cards in each group
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp17</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[                .Select(group => (group.Key, group.Count()));  // snp65 end
+                // snp17.1 Both reports work fine with Entity Framework
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp18</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            this.LastName = lastName;  // snp20 Return null guard
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp19</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[                .Select(name => $"{name.LastName.ToUpper()} {name.FirstName}");  // snp30 end
+                // snp27.1 And now we have to guard at the consumer
+        // snp28 Format PersonalName depending on last name
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp20</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));     // snp22 end
+            // snp20.1 Show Tools -> Options -> Preview Features and switch to .NET Core 3.0 and C# 8
+            // snp20.2 Edit .csproj and add <Nullable>Enable</Nullable>
+            // snp20.3 Rebuild the application and show that there are no warnings
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp21</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public PersonalName(string firstName, string lastName)  // snp25 Allow null lastName
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp22</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            this.FirstName = firstName;
+            this.LastName = lastName;  // snp26 Warning moves to assignment
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp23</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            PersonalName friend = new PersonalName(null, null);  // snp24 Provide names
+            // snp23.1 Show warnings
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp24</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            PersonalName michelangelo = new PersonalName("Michelangelo", "Buonarroti");
+            // snp31 Demonstrate null last name
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp25</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public PersonalName(string firstName, string? lastName)  // snp51 No null allowed in this constructor
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp26</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            this.LastName = lastName;       // snp52 Wrap the last name into Some<string>
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp27</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public string? LastName { get; }  // snp50 Replace with an optional string
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp28</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[
+        static string Format(PersonalName name) =>
+            name.LastName is string lastName                 // snp54 Isolate concrete last name with Select
+                ? $"{lastName.ToUpper()} {name.FirstName}"   // snp29 No warning
+                : name.FirstName.ToUpper();                  // snp54 end
+
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp29</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[                ? $"{lastName.ToUpper()} {name.FirstName}"
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp30</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            cards.Select(card => card.Holder).Select(Format);
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp31</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            PersonalName aristotle = new PersonalName("Aristotle", null);  // snp56 Use constructor with one argument
+            // snp31.1 No warning
+
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp32</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public BusinessEntity? Sponsor { get; }    // snp57 Replace with optional sponsor
+
+        public PassCard(PersonalName holder, BusinessEntity? sponsor)
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp33</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[                .GroupBy(card => card.Sponsor.CountryIso2)     // snp34 end
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp34</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            cards.Where(card => card.Sponsor != null)                                       // snp61 Just extract existing sponsors
+                .Select<PassCard, BusinessEntity>(card => card.Sponsor ?? throw new InvalidOperationException())  // snp35 Non-null BusinessEntity
+                .GroupBy(sponsor => sponsor.CountryIso2)       // snp64 end
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp35</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[                .Select(card => card.Sponsor ?? throw new InvalidOperationException())      // snp61 end
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp36</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[    // snp36.1 Move to Option.cs
+    public abstract class Option<T>
+    {
+        // snp37 Create factory functions
+    }
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp37</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        // snp44 Define the mapping method Select
+    }
+
+    public static class Option
+    {
+        // snp38 Wrap an object with Of
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp38</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public static Option<T> Of<T>(T value) =>
+            throw new NotImplementedException();  // snp42 Wrap value into Some<T>
+        // snp39 Create none
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp39</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[
+        public static Option<T> None<T>() =>
+            throw new NotImplementedException();  // snp43 Return none
+        // snp40 Declare Some<T> variant
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp40</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[    }
+    // snp41 Declare None<T> variant
+    // snp40.1 Move to Some.cs
+    public class Some<T> : Option<T>
+    {
+        public T Content { get; }
+     
+        public Some(T content)
+        {
+            this.Content = content;
+        }
+        // snp46 Implement the Select method
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp41</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[    // snp41.2 Move to None.cs
+    public class None<T> : Option<T>
+    {
+        // snp41.1 Contains no object
+        // snp48 Implement the Select method
+    }
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp42</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            new Some<T>(value);
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp43</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            new None<T>();
+        // snp60 Implement SelectMany extension method for optionals
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp44</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public abstract Option<TResult> Select<TResult>(Func<T, TResult> map);
+        // snp45 Define the Reduce method
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp45</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public abstract T Reduce(T substitute);
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp46</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[
+        public override Option<TResult> Select<TResult>(Func<T, TResult> map) =>
+            new Some<TResult>(map(this.Content));
+        // snp47 Implement the Reduce method
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp47</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[
+        public override T Reduce(T substitute) =>
+            this.Content;
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp48</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public override Option<TResult> Select<TResult>(Func<T, TResult> map) =>
+            new None<TResult>();
+        // snp49 Implement the Reduce method
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp49</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[
+        public override T Reduce(T substitute) =>
+            substitute;
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp50</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public Option<string> LastName { get; }
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp51</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public PersonalName(string firstName, string lastName)
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp52</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            this.LastName = Option.Of(lastName);
+            // snp53 Now provide an alternate constructor with missing last name
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp53</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        }
+
+        public PersonalName(string firstName)
+        {
+            this.FirstName = firstName;
+            this.LastName = Option.None<string>();
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp54</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            name.LastName
+                .Select(lastName => $"{lastName.ToUpper()} {name.FirstName}")
+                // : name.FirstName.ToUpper();    // snp55 Or else, use first name only
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp55</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[                .Reduce(name.FirstName.ToUpper());
+                // snp55.1 It is impossible to forget negative scenario
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp56</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            PersonalName aristotle = new PersonalName("Aristotle");
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp57</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public Option<BusinessEntity> Sponsor { get; }
+
+        public PassCard(PersonalName holder, BusinessEntity sponsor)
+        {
+            this.Holder = holder;
+            this.Sponsor = Option.Of(sponsor);
+        }
+
+        public PassCard(PersonalName holder)
+        {
+            this.Holder = holder;
+            this.Sponsor = Option.None<BusinessEntity>();
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp58</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            cards.SelectOptional(card => card.Sponsor)          // snp63 Start from separate cards
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp59</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[        public Option<string> CountryIso2 { get; }
+
+        public BusinessEntity()
+        {
+            this.CountryIso2 = Option.None<string>();
+        }
+     
+        public BusinessEntity(string countryIso2)
+        {
+            this.CountryIso2 = Option.Of(countryIso2);
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp60</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[
+        public static IEnumerable<TResult> SelectMany<T, T1, TResult>(this IEnumerable<T> sequence, Func<T, Option<T1>> map, Func<T, T1, TResult> reduce) =>
+            sequence.Select(item => map(item).Select(intermediate => reduce(item, intermediate)))
+                .OfType<Some<TResult>>()
+                .Select(item => item.Content);
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp61</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            from card in cards
+            // snp62 Filter optional sponsor from each card
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp62</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            from sponsor in card.Sponsor
+            // snp63 Filter optional country code from each sponsor
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp63</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            from countryIso2 in sponsor.CountryIso2
+            // snp64 Group country codes
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp64</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            group countryIso2 by countryIso2 into g
+            // snp65 Construct a (country, count) pair from each group
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Programming with No Nulls in C# 8</Title>
+			<Author>Zoran Horvat</Author>
+			<Shortcut>snp65</Shortcut>
+		</Header>
+		<Snippet>
+			<Code Language="CSharp">
+				<![CDATA[            select (g.Key, g.Count());
+]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
