@@ -49,6 +49,7 @@
     <Compile Include="DeploymentBuilder.cs" />
     <Compile Include="Artifact.cs" />
     <Compile Include="Implementation\Artifacts\CommonFile.cs" />
+    <Compile Include="Implementation\Artifacts\NormalizedSnippetsFile.cs" />
     <Compile Include="Implementation\Artifacts\Slides.cs" />
     <Compile Include="Implementation\Artifacts\TranslatedSnippetsScript.cs" />
     <Compile Include="Implementation\Artifacts\VisualStudioSolution.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Implementation\Files\InternalSourceFile.cs" />
     <Compile Include="Implementation\Files\XmlSnippetsFile.cs" />
     <Compile Include="Implementation\Files\XmlSnippetsRedeployer.cs" />
+    <Compile Include="Implementation\Snippets\SnippetsNormalizer.cs" />
     <Compile Include="Implementation\Snippets\SnippetsScriptWriter.cs" />
     <Compile Include="Implementation\Snippets\XmlSnippet.cs" />
     <Compile Include="Implementation\Snippets\XmlSnippetsReader.cs" />
