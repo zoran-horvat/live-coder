@@ -19,12 +19,8 @@ namespace LiveCoder.Deployer.Implementation.Snippets
         public bool WriteIfModified(IEnumerable<XmlSnippet> snippets) =>
             this.Write(this.GetScriptLines(snippets).ToArray());
 
-        private bool Write(string[] lines)
-        {
-            if (!this.File.IsContentModified(lines, Encoding.UTF8)) return false;
-            System.IO.File.WriteAllLines(this.File.FullName, lines);
-            return true;
-        }
+        private bool Write(string[] lines) =>
+            this.File.RewriteIfModified(lines, Encoding.UTF8);
 
         private IEnumerable<string> GetScriptLines(IEnumerable<XmlSnippet> snippets) =>
             snippets.Select(this.GetScriptLines)

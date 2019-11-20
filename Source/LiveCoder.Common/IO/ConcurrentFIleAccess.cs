@@ -12,7 +12,7 @@ namespace LiveCoder.Common.IO
             File.OpenRead(file.FullName);
 
         public static Option<FileStream> TryOpenReadConcurrent(this FileInfo file) =>
-            RepeatUntilNoException(() =>File.OpenRead(file.FullName));
+            RepeatUntilNoException(() => File.OpenRead(file.FullName));
 
         public static Option<string[]> TryReadAllLines(this FileInfo file, Encoding encoding) =>
             RepeatUntilNoException(() => File.ReadAllLines(file.FullName, encoding));
