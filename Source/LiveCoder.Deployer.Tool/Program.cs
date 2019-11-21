@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using LiveCoder.Common;
@@ -11,54 +12,28 @@ namespace LiveCoder.Deployer.Tool
 {
     class Program
     {
-        private static void ShowUsage()
-        {
+        private static void ShowUsage() =>
+            Console.WriteLine(LoadUsage());
 
-            string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+        private static string LoadUsage() =>
+            Disposable.Using(TryGetUsageStream)
+                .TryMap(ReadText)
+                .Map(text => text.Replace("%toolName%", Assembly.GetExecutingAssembly().GetName().Name))
+                .Reduce(string.Empty);
 
-            string[] usage =
-            {
-                "Demo deployment tool",
-                "--------------------",
-                "",
-                "Deploys C# solution, code snippets and PowerPoint presentation",
-                "to isolated locations from which demonstration can be performed.",
-                "",
-                "Usage:",
-                "",
-                $"{assemblyName} -src <directory> [-copy-vs] [-copy-snippets] [-copy-pp] ",
-                "        [-copy-all] [-track-snippets] [-normalize-snippets] [-open]",
-                "",
-                "Meaning of attributes:",
-                "",
-                "-src                - Indicates source directory from which files are copied",
-                "",
-                "-copy-vs            - Instructs to copy Visual Studio solution files",
-                "",
-                "-copy-snippets      - Instructs to copy snippets file to all Visual Studios",
-                "",
-                "-copy-pp            - Instructs to copy PowerPoint presentations",
-                "",
-                "-copy-all           - Instructs to copy all files to their corresponding",
-                "                      destinations",
-                "",
-                "-track-snippets     - When present indicates that only .snippet",
-                "                      file(s) should be located, deployed and then",
-                "                      watched for changes; whenever changed, file(s)",
-                "                      will be re-deployed",
-                "",
-                "-normalize-snippets - Indicates that snippets file(s) should be normalized",
-                "                      before deployment, i.e. that all snippet shortcuts",
-                "                      should follow uninterrupted sequence ",
-                "                      snp01, snp02, snp03, and so on.",
-                "",
-                "-open               - Indicates that Visual Studio and/or PowerPoint",
-                "                      should be open after deployment.",
-                ""
-            };
+        private static Option<Stream> TryGetUsageStream() =>
+            TryGetResourceStream(typeof(Program).Assembly, "LiveCoder.Deployer.Tool.res.usage.txt");
 
-            Console.WriteLine(usage.Join(Environment.NewLine));
-        }
+        private static Option<Stream> TryGetResourceStream(Assembly assembly, string name) =>
+            assembly.GetManifestResourceNames()
+                .FirstOrNone(resource => resource == name)
+                .Map(assembly.GetManifestResourceStream);
+
+        private static string ReadText(Stream stream) =>
+            Disposable.Using(() => new StreamReader(stream)).Map(ReadText);
+
+        private static string ReadText(TextReader reader) =>
+            reader.ReadToEnd();
 
         private static IEnumerable<IDeployedComponent> GetDeployedComponents(IEnumerable<IDeployer> deployers) =>
             deployers.SelectMany(deployer => deployer.DeployedComponents);
@@ -102,6 +77,9 @@ namespace LiveCoder.Deployer.Tool
                 .ToList();
 
         private static bool NotExitCommand(string line) =>
+            !IsExitCommand(line);
+
+        private static bool IsExitCommand(string line) =>
             line?.Equals("exit", StringComparison.OrdinalIgnoreCase) ?? true;
 
         private static void PromptExit() => 
