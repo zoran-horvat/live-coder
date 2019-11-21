@@ -7,7 +7,13 @@ namespace LiveCoder.Deployer
 {
     public class DeploymentBuilder
     {
+        private IAuditor Auditor { get; }
         private Option<DirectoryInfo> Source { get; set; }
+
+        public DeploymentBuilder(IAuditor auditor)
+        {
+            this.Auditor = auditor;
+        }
 
         public DeploymentBuilder From(DirectoryInfo source)
         {
@@ -20,8 +26,11 @@ namespace LiveCoder.Deployer
             this.Source
                 .Map(DirectoryBrowser.For)
                 .Map(browser => browser.GetAllFiles())
-                .Map(files => files.Select(SourceFile.From))
+                .Map(files => files.Select(this.CreateSourceFile))
                 .Map(files => new DeploymentSpecification(files, this.DirectoriesFactory));
+
+        private SourceFile CreateSourceFile(FileInfo file) =>
+            SourceFile.From(this.Auditor, file);
 
         private Option<Directories> DirectoriesFactory() =>
             this.Source.MapOptional(this.DirectoriesFactory);

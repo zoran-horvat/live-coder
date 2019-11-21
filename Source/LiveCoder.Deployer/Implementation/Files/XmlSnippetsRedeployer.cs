@@ -7,12 +7,14 @@ namespace LiveCoder.Deployer.Implementation.Files
 {
     public class XmlSnippetsRedeployer
     {
+        private IAuditor Auditor { get; }
         private Directories Directories { get; }
         private FileInfo Snippets { get; }
         private FileInfo Script { get; }
 
-        public XmlSnippetsRedeployer(Directories directories, FileInfo snippets, FileInfo script)
+        public XmlSnippetsRedeployer(IAuditor auditor, Directories directories, FileInfo snippets, FileInfo script)
         {
+            this.Auditor = auditor;
             this.Directories = directories;
             this.Snippets = snippets;
             this.Script = script;
@@ -29,6 +31,7 @@ namespace LiveCoder.Deployer.Implementation.Files
                 : None.Value;
 
         private Option<Artifact> TryRedeployNormalized() =>
-            new XmlSnippetsFile(this.Snippets).DeployConcurrent(this.Directories, this.Snippets, this.Script);
+            new XmlSnippetsFile(this.Auditor, this.Snippets)
+                .DeployConcurrent(this.Auditor, this.Directories, this.Snippets, this.Script);
     }
 }

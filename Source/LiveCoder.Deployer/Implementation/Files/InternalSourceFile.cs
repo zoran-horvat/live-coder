@@ -5,11 +5,11 @@ namespace LiveCoder.Deployer.Implementation.Files
 {
     class InternalSourceFile : SourceFile
     {
-        public InternalSourceFile(FileInfo location) : base(location)
+        public InternalSourceFile(IAuditor auditor, FileInfo location) : base(auditor, location)
         {
         }
 
-        protected override IEnumerable<Artifact> Deploy(FileInfo source, Directories directories) =>
+        protected override IEnumerable<Artifact> Deploy(IAuditor auditor, FileInfo source, Directories directories) =>
             this.Deploy(source, this.GetDestination(source, directories));
 
         private IEnumerable<Artifact> Deploy(FileInfo source, FileInfo destination)

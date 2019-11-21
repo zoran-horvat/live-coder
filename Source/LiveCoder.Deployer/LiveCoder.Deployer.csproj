@@ -48,6 +48,7 @@
     <Compile Include="DeploymentSpecification.cs" />
     <Compile Include="DeploymentBuilder.cs" />
     <Compile Include="Artifact.cs" />
+    <Compile Include="IAuditor.cs" />
     <Compile Include="Implementation\Artifacts\CommonFile.cs" />
     <Compile Include="Implementation\Artifacts\NormalizedSnippetsFile.cs" />
     <Compile Include="Implementation\Artifacts\Slides.cs" />

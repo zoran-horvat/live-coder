@@ -13,10 +13,6 @@ namespace LiveCoder.Deployer
         public Deployment(IEnumerable<Artifact> artifacts)
         {
             this.Artifacts = artifacts.ToList();
-            foreach (Artifact obj in this.Artifacts)
-            {
-                Debug.WriteLine(obj);
-            }
         }
 
         public Option<VisualStudioSolution> SolutionFile =>

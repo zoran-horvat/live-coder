@@ -22,7 +22,7 @@ namespace LiveCoder.Deployer.Tool
             Deploy(Arguments.Parse(args));
 
         private static void Deploy(Arguments arguments) =>
-            Option.Of(new DeploymentBuilder())
+            Option.Of(new DeploymentBuilder(new ConsoleAuditor()))
                 .When(_ => arguments.IsValid)
                 .Map(builder => builder.From(arguments.SourceDirectory))
                 .MapOptional(builder => builder.TryBuild())
