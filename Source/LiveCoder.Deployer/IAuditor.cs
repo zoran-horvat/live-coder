@@ -3,6 +3,6 @@
     public interface IAuditor
     {
         void ComponentDeployed(Artifact artifact);
-        void FailedToCreateDestination();
+        void FailedToCreateDestination(string message);
     }
 }

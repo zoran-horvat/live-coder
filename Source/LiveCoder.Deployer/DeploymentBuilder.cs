@@ -36,6 +36,6 @@ namespace LiveCoder.Deployer
             this.Source.MapOptional(this.DirectoriesFactory);
 
         private Option<Directories> DirectoriesFactory(DirectoryInfo source) =>
-            Directories.TryCreateDestinationIn(new DirectoryInfo(@"C:\Demo"), source);
+            Directories.TryCreateDestinationIn(this.Auditor, new DirectoryInfo(@"C:\Demo"), source);
     }
 }

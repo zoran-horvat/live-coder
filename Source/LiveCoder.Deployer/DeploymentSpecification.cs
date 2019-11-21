@@ -23,7 +23,7 @@ namespace LiveCoder.Deployer
         public Option<Deployment> Execute() =>
             this.CreateDirectories()
                 .Map(this.DeployTo)
-                .AuditNone(() => this.Auditor.FailedToCreateDestination());
+                .AuditNone(() => this.Auditor.FailedToCreateDestination("Unknown error."));
 
         private Deployment DeployTo(Directories directories) =>
             new Deployment(this.Files.SelectMany(file => file.Deploy(directories)));

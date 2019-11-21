@@ -17,17 +17,25 @@ namespace LiveCoder.Deployer.Implementation
             this.DestinationRoot = destinationRoot;
         }
 
-        public static Option<Directories> TryCreateDestinationIn(DirectoryInfo destinationParent, DirectoryInfo source)
+        public static Option<Directories> TryCreateDestinationIn(IAuditor auditor, DirectoryInfo destinationParent, DirectoryInfo source)
         {
             int repeats = 10;
             int pauseMsec = 100;
 
             while (repeats > 0)
             {
-                if (TryCreate(GetDestinationCandidate(destinationParent)) is Some<DirectoryInfo> created)
-                    return new Directories(source, created.Content);
-                repeats -= 1;
-                Thread.Sleep(pauseMsec);
+                try
+                {
+                    if (TryCreate(GetDestinationCandidate(destinationParent)) is Some<DirectoryInfo> created)
+                        return new Directories(source, created.Content);
+                    repeats -= 1;
+                    Thread.Sleep(pauseMsec);
+                }
+                catch (Exception ex)
+                {
+                    auditor.FailedToCreateDestination(ex.Message);
+                    return None.Value;
+                }
             }
 
             return None.Value;
@@ -40,7 +48,7 @@ namespace LiveCoder.Deployer.Implementation
                 directory.Create();
                 return directory;
             }
-            catch
+            catch (IOException)
             {
                 return None.Value;
             }
