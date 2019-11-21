@@ -22,6 +22,8 @@ namespace LiveCoder.Common.Optional
         public override void Do(Action<T> action) { }
         public override void Do(Action<T> action, Action orElse) => orElse();
 
+        public override Option<T> Audit(Action<T> action) => this;
+
         public override void Dispose() { }
 
         public static None<T> Value { get; } = new None<T>();

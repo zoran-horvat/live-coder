@@ -23,7 +23,8 @@ namespace LiveCoder.Deployer.Implementation.Files
         public Option<Artifact> TryRedeployConcurrently() =>
             this.TryNormalizeSnippets()
                 .Map(Option.Of)
-                .Reduce(this.TryRedeployNormalized);
+                .Reduce(this.TryRedeployNormalized)
+                .Audit(this.Auditor.ComponentDeployed);
 
         private Option<Artifact> TryNormalizeSnippets() =>
             new SnippetsNormalizer(this.Snippets).Normalize()

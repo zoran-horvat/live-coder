@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using LiveCoder.Common.Optional;
 using LiveCoder.Deployer.Implementation.Files;
@@ -39,12 +38,9 @@ namespace LiveCoder.Deployer.Implementation.Artifacts
             };
 
         private void OnSnippetsChanged(object sender, EventArgs args) =>
-            this.Redeployer.TryRedeployConcurrently().Do(this.Report);
-
-        private void Report(Artifact artifact) =>
-            Debug.WriteLine(artifact);
+            this.Redeployer.TryRedeployConcurrently();
 
         public override string ToString() =>
-            $"Translated XML snippets {this.Snippets.FullName} -> {this.Script.FullName}";
+            $"Snippets {this.Snippets.FullName} -> {this.Script.FullName}";
     }
 }

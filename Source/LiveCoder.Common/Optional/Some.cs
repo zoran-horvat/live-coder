@@ -37,6 +37,12 @@ namespace LiveCoder.Common.Optional
         public override void Do(Action<T> action) => action(this);
         public override void Do(Action<T> action, Action orElse) => this.Do(action);
 
+        public override Option<T> Audit(Action<T> action)
+        {
+            action(this.Content);
+            return this;
+        }
+
         public override void Dispose() => this.Dispose(true);
 
         private void Dispose(bool disposing)
