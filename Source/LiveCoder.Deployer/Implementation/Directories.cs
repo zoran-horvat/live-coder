@@ -70,7 +70,7 @@ namespace LiveCoder.Deployer.Implementation
             source.RelativeTo(this.Source);
            
         private static string Timestamp =>
-            $"{DateTime.UtcNow:yyyyMMddHHmmssfff}.new";
+            $"{DateTime.UtcNow:yyyyMMddHHmmss}";
 
         public override string ToString() =>
             $"Destination [{this.DestinationRoot.FullName}]";
