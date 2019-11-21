@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using LiveCoder.Common.Optional;
 using LiveCoder.Deployer.Implementation.Artifacts;
 using LiveCoder.Deployer.Implementation.Snippets;

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using LiveCoder.Common;
 using LiveCoder.Common.Optional;
+using LiveCoder.Common.Resources;
 using LiveCoder.Common.Text;
 using LiveCoder.Deployer.Tool.Interfaces;
 
@@ -16,24 +15,9 @@ namespace LiveCoder.Deployer.Tool
             Console.WriteLine(LoadUsage());
 
         private static string LoadUsage() =>
-            Disposable.Using(TryGetUsageStream)
-                .TryMap(ReadText)
+            typeof(Program).Assembly.TryReadEmbeddedResourceText("LiveCoder.Deployer.Tool.res.usage.txt")
                 .Map(text => text.Replace("%toolName%", Assembly.GetExecutingAssembly().GetName().Name))
                 .Reduce(string.Empty);
-
-        private static Option<Stream> TryGetUsageStream() =>
-            TryGetResourceStream(typeof(Program).Assembly, "LiveCoder.Deployer.Tool.res.usage.txt");
-
-        private static Option<Stream> TryGetResourceStream(Assembly assembly, string name) =>
-            assembly.GetManifestResourceNames()
-                .FirstOrNone(resource => resource == name)
-                .Map(assembly.GetManifestResourceStream);
-
-        private static string ReadText(Stream stream) =>
-            Disposable.Using(() => new StreamReader(stream)).Map(ReadText);
-
-        private static string ReadText(TextReader reader) =>
-            reader.ReadToEnd();
 
         private static IEnumerable<IDeployedComponent> GetDeployedComponents(IEnumerable<IDeployer> deployers) =>
             deployers.SelectMany(deployer => deployer.DeployedComponents);
