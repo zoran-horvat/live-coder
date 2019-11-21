@@ -5,7 +5,6 @@ using System.Reflection;
 using LiveCoder.Common.Optional;
 using LiveCoder.Common.Resources;
 using LiveCoder.Common.Text;
-using LiveCoder.Deployer.Tool.Interfaces;
 
 namespace LiveCoder.Deployer.Tool
 {
@@ -18,9 +17,6 @@ namespace LiveCoder.Deployer.Tool
             typeof(Program).Assembly.TryReadEmbeddedResourceText("LiveCoder.Deployer.Tool.res.usage.txt")
                 .Map(text => text.Replace("%toolName%", Assembly.GetExecutingAssembly().GetName().Name))
                 .Reduce(string.Empty);
-
-        private static IEnumerable<IDeployedComponent> GetDeployedComponents(IEnumerable<IDeployer> deployers) =>
-            deployers.SelectMany(deployer => deployer.DeployedComponents);
 
         private static void Main(string[] args) =>
             Deploy(Arguments.Parse(args));

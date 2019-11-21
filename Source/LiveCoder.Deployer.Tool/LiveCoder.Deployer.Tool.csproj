@@ -133,33 +133,8 @@
   <ItemGroup>
     <Compile Include="ArgumentFlagHandler.cs" />
     <Compile Include="Arguments.cs" />
-    <Compile Include="Deployers\CodeSnippetsDeployer.cs" />
-    <Compile Include="Deployers\CSharpSolutionDeployer.cs" />
-    <Compile Include="Deployers\FileTypeDeployer.cs" />
-    <Compile Include="Deployers\ParameterizedDeployer.cs" />
-    <Compile Include="Infrastructure\ConsoleLogger.cs" />
-    <Compile Include="Infrastructure\SnippetsNormalizer.cs" />
-    <Compile Include="Interfaces\IDemo.cs" />
-    <Compile Include="Interfaces\IDemoComponent.cs" />
-    <Compile Include="Interfaces\IDeployedComponent.cs" />
-    <Compile Include="Interfaces\IDeployer.cs" />
-    <Compile Include="Interfaces\IDestination.cs" />
-    <Compile Include="Interfaces\IFutureDestination.cs" />
-    <Compile Include="Interfaces\ILogger.cs" />
-    <Compile Include="Models\Demo.cs" />
-    <Compile Include="Models\FileSystemDestination.cs" />
-    <Compile Include="Models\CSharpSolutionDirectory.cs" />
-    <Compile Include="Models\FileSystemDirectory.cs" />
-    <Compile Include="Models\DestinationFile.cs" />
-    <Compile Include="Models\File.cs" />
-    <Compile Include="Models\IntegralFile.cs" />
-    <Compile Include="Models\SplittableSnippetsFile.cs" />
-    <Compile Include="Models\XmlSnippetsPublisher.cs" />
-    <Compile Include="Models\XmlSnippet.cs" />
-    <Compile Include="Models\XmlSnippetsReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SnippetsLiveTracker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

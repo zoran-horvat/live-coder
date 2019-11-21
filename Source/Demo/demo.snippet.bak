@@ -9,7 +9,7 @@
 		<Snippet>
 			<Code Language="CSharp">
 				<![CDATA[        static IEnumerable<string> ReportNames(IEnumerable<PassCard> cards) =>
-            // snp03 Extract card holder object
+            // snp03 Extract card holder object - test
 ]]>
 			</Code>
 		</Snippet>
