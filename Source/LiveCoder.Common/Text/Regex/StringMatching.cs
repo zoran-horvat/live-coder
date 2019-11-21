@@ -3,7 +3,7 @@ using LiveCoder.Common.Optional;
 
 namespace LiveCoder.Common.Text.Regex
 {
-    public static class StringExtensions
+    public static class StringMatching
     {
         public static Option<string> Extract(this string input, string groupName, string usingPattern) =>
             System.Text.RegularExpressions.Regex.Match(input, usingPattern) is Match match &&

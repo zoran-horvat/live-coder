@@ -65,9 +65,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueueExtensions.cs" />
     <Compile Include="Resources\EmbeddedText.cs" />
+    <Compile Include="Text\Regex\StringSplitting.cs" />
     <Compile Include="Text\TextInput.cs" />
     <Compile Include="Text\IntParsing.cs" />
-    <Compile Include="Text\Regex\StringExtensions.cs" />
+    <Compile Include="Text\Regex\StringMatching.cs" />
     <Compile Include="StringEnumerableExtensions.cs" />
     <Compile Include="Xml\ElementsExtensions.cs" />
     <Compile Include="Xml\XmlFileLoad.cs" />

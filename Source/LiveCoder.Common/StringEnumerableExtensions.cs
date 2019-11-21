@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace LiveCoder.Common
 {
     public static class StringEnumerableExtensions
     {
+        public static string Join(this IEnumerable<string> sequence) =>
+            sequence.Join(string.Empty);
+
         public static string Join(this IEnumerable<string> sequence, string separator) =>
-            String.Join(separator, sequence.ToArray());
+            sequence.Aggregate(new StringBuilder(), (result, segment) => result.Append(segment)).ToString();
 
         public static IEnumerable<string> AppendToLast(this IEnumerable<string> sequence, string suffix) =>
             Disposable.Using(sequence.GetEnumerator).Map(enumerator => AppendToLast(enumerator, suffix));

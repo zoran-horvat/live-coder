@@ -3,7 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using LiveCoder.Common;
 using LiveCoder.Common.IO;
+using LiveCoder.Common.Optional;
+using LiveCoder.Common.Text.Regex;
 
 namespace LiveCoder.Deployer.Implementation.Snippets
 {
@@ -29,17 +32,9 @@ namespace LiveCoder.Deployer.Implementation.Snippets
             lines.Select(line => this.FixShortcuts(line, shortcutToRewrite)).ToArray();
 
         private string FixShortcuts(string line, IDictionary<string, string> shortcutToRewrite) =>
-            this.FixShortcuts(line, shortcutToRewrite, new Regex(@"snp\d+[a-z]?"), 0, string.Empty);
-
-        private string FixShortcuts(string line, IDictionary<string, string> shortcutToRewrite, Regex pattern, int pos, string rewritten) =>
-            pos >= line.Length ? rewritten
-            : pattern.Match(line, pos) is Match match && match.Success ? this.FixShortcuts(line, shortcutToRewrite, pattern, pos, rewritten, match)
-            : rewritten + line.Substring(pos);
-
-        private string FixShortcuts(string line, IDictionary<string, string> shortcutToRewrite, Regex pattern, int pos, string rewritten, Match match) =>
-            match.Index > pos ? this.FixShortcuts(line, shortcutToRewrite, pattern, match.Index, rewritten + line.Substring(pos, match.Index - pos), match)
-            : shortcutToRewrite.TryGetValue(match.Value, out string toReplace) ? this.FixShortcuts(line, shortcutToRewrite, pattern, match.Index + match.Length, rewritten + toReplace)
-            : this.FixShortcuts(line, shortcutToRewrite, pattern, match.Index + match.Length, rewritten + match.Value);
+            line.SplitIncludeSeparators(new Regex(@"snp\d+[a-z]?"))
+                .Select(segment => shortcutToRewrite.TryGetValue(segment).Reduce(segment))
+                .Join();
 
         private bool RewriteFile(string[] originalLines, string[] rewrittenLines)
         {
