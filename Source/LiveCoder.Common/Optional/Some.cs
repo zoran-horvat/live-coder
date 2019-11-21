@@ -43,6 +43,8 @@ namespace LiveCoder.Common.Optional
             return this;
         }
 
+        public override Option<T> AuditNone(Action action) => this;
+
         public override void Dispose() => this.Dispose(true);
 
         private void Dispose(bool disposing)

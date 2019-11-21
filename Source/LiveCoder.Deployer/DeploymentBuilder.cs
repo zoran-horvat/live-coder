@@ -27,7 +27,7 @@ namespace LiveCoder.Deployer
                 .Map(DirectoryBrowser.For)
                 .Map(browser => browser.GetAllFiles())
                 .Map(files => files.Select(this.CreateSourceFile))
-                .Map(files => new DeploymentSpecification(files, this.DirectoriesFactory));
+                .Map(files => new DeploymentSpecification(this.Auditor, files, this.DirectoriesFactory));
 
         private SourceFile CreateSourceFile(FileInfo file) =>
             SourceFile.From(this.Auditor, file);

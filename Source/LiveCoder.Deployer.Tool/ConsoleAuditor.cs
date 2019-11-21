@@ -6,5 +6,8 @@ namespace LiveCoder.Deployer.Tool
     {
         public void ComponentDeployed(Artifact artifact) => 
             Console.WriteLine($"Deployed {artifact}");
+
+        public void FailedToCreateDestination() => 
+            Console.WriteLine("Failed to create deployment directories.");
     }
 }

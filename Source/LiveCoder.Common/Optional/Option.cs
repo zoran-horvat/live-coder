@@ -17,6 +17,7 @@ namespace LiveCoder.Common.Optional
         public abstract void Do(Action<T> action, Action orElse);
 
         public abstract Option<T> Audit(Action<T> action);
+        public abstract Option<T> AuditNone(Action action);
 
         public static implicit operator Option<T>(T value) => (Some<T>)value;
         public static implicit operator Option<T>(None none) => None<T>.Value;
