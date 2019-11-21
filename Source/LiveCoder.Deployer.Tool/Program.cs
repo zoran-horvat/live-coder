@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using LiveCoder.Deployer.Tool.Deployers;
+using LiveCoder.Common;
+using LiveCoder.Common.Optional;
 using LiveCoder.Deployer.Tool.Infrastructure;
 using LiveCoder.Deployer.Tool.Interfaces;
-using LiveCoder.Deployer;
 
 namespace LiveCoder.Deployer.Tool
 {
@@ -61,50 +60,43 @@ namespace LiveCoder.Deployer.Tool
                 ""
             };
 
-            foreach (string line in usage)
-                Console.WriteLine(line);
-
+            Console.WriteLine(usage.Join(Environment.NewLine));
         }
 
         static IEnumerable<IDeployedComponent> GetDeployedComponents(IEnumerable<IDeployer> deployers) =>
             deployers.SelectMany(deployer => deployer.DeployedComponents);
 
-        static void Main(string[] args)
-        {
+        static void Main(string[] args) =>
+            Deploy(Arguments.Parse(args));
 
-            Arguments arguments = Arguments.Parse(args);
-
-            if (arguments.IsValid)
-            {
-                new ParameterizedDeployer(arguments, Logger).Deploy();
-
-                new DeploymentBuilder()
-                    .From(arguments.SourceDirectory)
-                    .TryBuild()
-                    .Do(spec => Deploy(spec, arguments), ShowUsage);
-            }
-            else
-            {
-                ShowUsage();
-            }
-        }
+        static void Deploy(Arguments arguments) =>
+            Option.Of(new DeploymentBuilder())
+                .When(_ => arguments.IsValid)
+                .Map(builder => builder.From(arguments.SourceDirectory))
+                .MapOptional(builder => builder.TryBuild())
+                .Do(spec => Deploy(spec, arguments), ShowUsage);
 
         static void Deploy(DeploymentSpecification specification, Arguments arguments) =>
-            specification.Execute().Do(deployment => Open(deployment, arguments));
+            specification.Execute().Do(deployment => PostDeploy(deployment, arguments));
 
-        static void Open(Deployment deployment, Arguments arguments)
+        static void PostDeploy(Deployment deployment, Arguments arguments)
         {
-            if (arguments.OpenFiles)
-            {
-                deployment.SolutionFile.Do(solution => solution.Open());
-                deployment.SlidesFile.Do(slides => slides.Open());
-            }
+            OpenFiles(deployment, arguments);
+            TrackSnippets(deployment, arguments);
+        }
 
-            if (arguments.LiveTrackSnippets)
-            {
-                deployment.XmlSnippets.Do(snippets => snippets.RedeployOnChange());
-                WaitForExit();
-            }
+        static void OpenFiles(Deployment deployment, Arguments arguments)
+        {
+            if (!arguments.OpenFiles) return;
+            deployment.SolutionFile.Do(solution => solution.Open());
+            deployment.SlidesFile.Do(slides => slides.Open());
+        }
+
+        static void TrackSnippets(Deployment deployment, Arguments arguments)
+        {
+            if (!arguments.LiveTrackSnippets) return;
+            deployment.XmlSnippets.Do(snippets => snippets.RedeployOnChange());
+            WaitForExit();
         }
 
         static void WaitForExit()
