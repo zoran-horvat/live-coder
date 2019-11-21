@@ -4,22 +4,19 @@ using System.Linq;
 using System.Reflection;
 using LiveCoder.Common;
 using LiveCoder.Common.Optional;
-using LiveCoder.Deployer.Tool.Infrastructure;
+using LiveCoder.Common.Text;
 using LiveCoder.Deployer.Tool.Interfaces;
 
 namespace LiveCoder.Deployer.Tool
 {
     class Program
     {
-
-        private static ILogger Logger { get; } = new ConsoleLogger();
-
-        static void ShowUsage()
+        private static void ShowUsage()
         {
 
             string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
-            string[] usage = new[]
+            string[] usage =
             {
                 "Demo deployment tool",
                 "--------------------",
@@ -63,50 +60,51 @@ namespace LiveCoder.Deployer.Tool
             Console.WriteLine(usage.Join(Environment.NewLine));
         }
 
-        static IEnumerable<IDeployedComponent> GetDeployedComponents(IEnumerable<IDeployer> deployers) =>
+        private static IEnumerable<IDeployedComponent> GetDeployedComponents(IEnumerable<IDeployer> deployers) =>
             deployers.SelectMany(deployer => deployer.DeployedComponents);
 
-        static void Main(string[] args) =>
+        private static void Main(string[] args) =>
             Deploy(Arguments.Parse(args));
 
-        static void Deploy(Arguments arguments) =>
+        private static void Deploy(Arguments arguments) =>
             Option.Of(new DeploymentBuilder())
                 .When(_ => arguments.IsValid)
                 .Map(builder => builder.From(arguments.SourceDirectory))
                 .MapOptional(builder => builder.TryBuild())
                 .Do(spec => Deploy(spec, arguments), ShowUsage);
 
-        static void Deploy(DeploymentSpecification specification, Arguments arguments) =>
+        private static void Deploy(DeploymentSpecification specification, Arguments arguments) =>
             specification.Execute().Do(deployment => PostDeploy(deployment, arguments));
 
-        static void PostDeploy(Deployment deployment, Arguments arguments)
+        private static void PostDeploy(Deployment deployment, Arguments arguments)
         {
             OpenFiles(deployment, arguments);
             TrackSnippets(deployment, arguments);
         }
 
-        static void OpenFiles(Deployment deployment, Arguments arguments)
+        private static void OpenFiles(Deployment deployment, Arguments arguments)
         {
             if (!arguments.OpenFiles) return;
             deployment.SolutionFile.Do(solution => solution.Open());
             deployment.SlidesFile.Do(slides => slides.Open());
         }
 
-        static void TrackSnippets(Deployment deployment, Arguments arguments)
+        private static void TrackSnippets(Deployment deployment, Arguments arguments)
         {
             if (!arguments.LiveTrackSnippets) return;
             deployment.XmlSnippets.Do(snippets => snippets.RedeployOnChange());
             WaitForExit();
         }
 
-        static void WaitForExit()
-        {
+        private static IEnumerable<string> WaitForExit() =>
+            Console.In.GetLines(PromptExit)
+                .TakeWhile(NotExitCommand)
+                .ToList();
+
+        private static bool NotExitCommand(string line) =>
+            line?.Equals("exit", StringComparison.OrdinalIgnoreCase) ?? true;
+
+        private static void PromptExit() => 
             Console.WriteLine("Type 'exit' to quit tracking changes");
-            while (true)
-            {
-                string line = Console.ReadLine();
-                if (line == null || line.Equals("exit", StringComparison.OrdinalIgnoreCase)) break;
-            }
-        }
     }
 }
