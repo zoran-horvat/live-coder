@@ -2,8 +2,10 @@
 {
     public class Identifier : Token
     {
-        public Identifier(string value) : base(value)
+        private Identifier(string value) : base(value)
         {
         }
+
+        public static Token Of(string value) => new Identifier(value);
     }
 }

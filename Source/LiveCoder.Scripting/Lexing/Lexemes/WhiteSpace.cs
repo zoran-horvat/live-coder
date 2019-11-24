@@ -2,8 +2,10 @@
 {
     public class WhiteSpace : Token
     {
-        public WhiteSpace(string value) : base(value)
+        private WhiteSpace(string value) : base(value)
         {
         }
+
+        public static Token Of(string value) => new WhiteSpace(value);
     }
 }

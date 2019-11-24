@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Lexing\MultilineTests.cs" />
+    <Compile Include="Lexing\MultiTokenLineTests.cs" />
     <Compile Include="Lexing\SingleLineTests.cs" />
     <Compile Include="Lexing\TokenizationTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
