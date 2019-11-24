@@ -2,12 +2,11 @@
 using System.Linq;
 using LiveCoder.Scripting.Lexing;
 using LiveCoder.Scripting.Lexing.Lexemes;
-using LiveCoder.Scripting.Text;
 using Xunit;
 
 namespace LiveCoder.Scripting.Tests.Lexing
 {
-    public class SingleLineTests
+    public class SingleLineTests : TokenizationTestsBase
     {
         [Fact]
         public void Tokenize_ReceivesLineContainingSingleWord_ReturnsOneToken() => 
@@ -43,15 +42,6 @@ namespace LiveCoder.Scripting.Tests.Lexing
             this.TokenizeContentOnly(lines).Single();
 
         private IEnumerable<Token> TokenizeContentOnly(params string[] lines) =>
-            this.Tokenize(lines).Where(token => !(token is EndOfLine));
-
-        private IEnumerable<Token> Tokenize(params string[] lines) =>
-            this.Tokenize(this.InitializeText(lines));
-
-        private IEnumerable<Token> Tokenize(IText text) =>
-            new Lexer().Tokenize(text);
-
-        private IText InitializeText(params string[] lines) =>
-            new NonEmptyText(lines);
+            base.Tokenize(lines).Where(token => !(token is EndOfLine));
     }
 }
