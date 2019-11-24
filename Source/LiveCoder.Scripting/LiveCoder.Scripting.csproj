@@ -53,6 +53,7 @@
     <Compile Include="DemoScript.cs" />
     <Compile Include="Elements\Snippet.cs" />
     <Compile Include="Lexing\Lexemes\Identifier.cs" />
+    <Compile Include="Lexing\Lexemes\WhiteSpace.cs" />
     <Compile Include="Lexing\Lexer.cs" />
     <Compile Include="Lexing\Token.cs" />
     <Compile Include="Text\EmptyText.cs" />

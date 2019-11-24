@@ -22,6 +22,16 @@ namespace LiveCoder.Scripting.Tests.Lexing
                 this.SingleToken("something"));
 
         [Theory]
+        [InlineData(" ")]
+        [InlineData("\t")]
+        [InlineData("\t\t   \t    ")]
+        [InlineData("   \t   \t   ")]
+        public void Tokenize_ReceivesBlankSpace_ReturnsWhiteSpace(string content) =>
+            Assert
+                .IsType<WhiteSpace>(
+                this.SingleToken(content));
+
+        [Theory]
         [InlineData("something")]
         [InlineData("again")]
         public void Tokenize_ReceivesSingleWord_ReturnsTokenContainingThatWord(string word) => 
