@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using LiveCoder.Scripting.Lexing.Lexemes;
@@ -17,10 +18,13 @@ namespace LiveCoder.Scripting.Lexing
         private IEnumerable<Token> Tokenize(NonEmptyText text)
         {
             yield return this.Tokenize(text.CurrentLine);
+            yield return new EndOfLine();
+
             while (text.ConsumeLine() is NonEmptyText moved)
             {
                 text = moved;
                 yield return this.Tokenize(text.CurrentLine);
+                yield return new EndOfLine();
             }
         }
 

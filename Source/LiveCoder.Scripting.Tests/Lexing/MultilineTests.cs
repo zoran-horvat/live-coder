@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LiveCoder.Scripting.Lexing;
 using LiveCoder.Scripting.Lexing.Lexemes;
@@ -10,9 +11,9 @@ namespace LiveCoder.Scripting.Tests.Lexing
     public class MultilineTests
     {
         [Theory]
-        [InlineData(2, "something", "again")]
-        [InlineData(4, "something", "again", "and", "again")]
-        public void Tokenize_ReceivesMultipleLinesWithSingleWordEach_ReturnsThatManyTokens(int expectedCount, params string[] lines) =>
+        [InlineData(4, "something", "again")]
+        [InlineData(8, "something", "again", "and", "again")]
+        public void Tokenize_ReceivesMultipleLinesWithSingleWordEach_ReturnsTwiceAsManyTokens(int expectedCount, params string[] lines) =>
             Assert.Equal(
                 expectedCount,
                 this.Tokenize(lines).Count());
@@ -22,7 +23,7 @@ namespace LiveCoder.Scripting.Tests.Lexing
         [InlineData("something", "again")]
         [InlineData("something", "again", "and", "again")]
         public void Tokenize_ReceivesMultipleLinesWithSingleWordEach_ReturnsOnlyIdentifiers(params string[] lines) =>
-            Assert.All(this.Tokenize(lines),
+            Assert.All(this.TokensAtEvenPositions(lines),
                 token => Assert.IsType<Identifier>(token));
 
         [Theory]
@@ -30,8 +31,28 @@ namespace LiveCoder.Scripting.Tests.Lexing
         [InlineData("something", "again")]
         [InlineData("something", "again", "and", "again")]
         public void Tokenize_ReceivesMultipleLinesWithSingleWordEach_TokenValuesEqualThoseWords(params string[] lines) =>
-            Assert.All(lines.Zip(this.Tokenize(lines), (word, token) => (word, token)),
+            Assert.All(lines.Zip(this.TokensAtEvenPositions(lines), (word, token) => (word, token)),
                 tuple => Assert.Equal(tuple.word, tuple.token.Value));
+
+        [Theory]
+        [InlineData("something")]
+        [InlineData("something", "again")]
+        [InlineData("something", "again", "and", "again")]
+        public void Tokenize_ReceivesMultipleLinesWithSingleWordEach_EveryTokenFollowedByNewLine(params string[] lines) =>
+            Assert.All(this.Tokenize(lines).Select((token, index) => (token, index)).Where(tuple => tuple.index % 2 == 1).Select(tuple => tuple.token),
+                token => Assert.IsType<EndOfLine>(token));
+
+        private IEnumerable<Token> TokensAtOddIndices(string[] lines) =>
+            this.TokensAtIndices(lines, index => index % 2 == 1);
+
+        private IEnumerable<Token> TokensAtEvenPositions(string[] lines) =>
+            this.TokensAtIndices(lines, index => index % 2 == 0);
+
+        private IEnumerable<Token> TokensAtIndices(string[] lines, Func<int, bool> predicate) =>
+            this.Tokenize(lines)
+                .Select((token, index) => (token, index))
+                .Where(tuple => predicate(tuple.index))
+                .Select(tuple => tuple.token);
 
         private IEnumerable<Token> Tokenize(params string[] lines) =>
             this.Tokenize(new NonEmptyText(lines));

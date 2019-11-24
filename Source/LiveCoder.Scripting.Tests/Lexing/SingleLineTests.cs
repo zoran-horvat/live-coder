@@ -13,7 +13,7 @@ namespace LiveCoder.Scripting.Tests.Lexing
         public void Tokenize_ReceivesLineContainingSingleWord_ReturnsOneToken() => 
             Assert
                 .Single(
-                this.Tokenize("something"));
+                this.TokenizeContentOnly("something"));
 
         [Fact]
         public void Tokenize_ReceivesSingleWord_ReturnsIdentifier() => 
@@ -40,7 +40,10 @@ namespace LiveCoder.Scripting.Tests.Lexing
                 this.SingleToken(word).Value);
 
         private Token SingleToken(params string[] lines) =>
-            this.Tokenize(lines).Single();
+            this.TokenizeContentOnly(lines).Single();
+
+        private IEnumerable<Token> TokenizeContentOnly(params string[] lines) =>
+            this.Tokenize(lines).Where(token => !(token is EndOfLine));
 
         private IEnumerable<Token> Tokenize(params string[] lines) =>
             this.Tokenize(this.InitializeText(lines));
