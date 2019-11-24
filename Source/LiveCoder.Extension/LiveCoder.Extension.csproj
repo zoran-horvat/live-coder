@@ -56,6 +56,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Events\Error.cs" />
+    <Compile Include="Events\ErrorParsingLine.cs" />
     <Compile Include="Events\FirstDemoStepFound.cs" />
     <Compile Include="Events\NoDemoStepsFound.cs" />
     <Compile Include="Events\ScriptFileFound.cs" />
@@ -92,9 +93,9 @@
     <Compile Include="Implementation\VsProjectWrapper.cs" />
     <Compile Include="Implementation\VsSolutionWrapper.cs" />
     <Compile Include="Implementation\VsSolutionExtensions.cs" />
-    <Compile Include="Interfaces\IDemoCommand.cs" />
-    <Compile Include="Interfaces\IDemoStep.cs" />
     <Compile Include="Interfaces\IEngine.cs" />
+    <Compile Include="Interfaces\IEvent.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\IProject.cs" />
     <Compile Include="Interfaces\ISnippet.cs" />
     <Compile Include="Interfaces\ISolution.cs" />

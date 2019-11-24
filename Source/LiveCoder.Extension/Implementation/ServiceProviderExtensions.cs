@@ -2,7 +2,6 @@
 using EnvDTE;
 using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Interfaces;
-using LiveCoder.Scripting;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TextManager.Interop;

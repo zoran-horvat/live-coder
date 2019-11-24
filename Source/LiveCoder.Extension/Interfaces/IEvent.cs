@@ -1,4 +1,4 @@
-﻿namespace LiveCoder.Scripting
+﻿namespace LiveCoder.Extension.Interfaces
 {
     public interface IEvent
     {

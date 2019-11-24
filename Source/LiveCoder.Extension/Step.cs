@@ -2,7 +2,6 @@
 using System.ComponentModel.Design;
 using LiveCoder.Extension.Implementation;
 using LiveCoder.Extension.Interfaces;
-using LiveCoder.Scripting;
 using Microsoft.VisualStudio.Shell;
 
 namespace LiveCoder.Extension

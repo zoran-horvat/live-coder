@@ -1,5 +1,4 @@
 ﻿using LiveCoder.Extension.Interfaces;
-using LiveCoder.Scripting;
 
 namespace LiveCoder.Extension.Events
 {

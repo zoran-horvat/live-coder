@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using LiveCoder.Scripting;
 
-namespace LiveCoder.Extension.Interfaces
+namespace LiveCoder.Scripting
 {
-    interface IDemoStep
+    public interface IDemoStep
     {
         string SnippetShortcut { get; }
         IEnumerable<IDemoCommand> GetCommands(DemoScript script);

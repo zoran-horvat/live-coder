@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using LiveCoder.Common.Optional;
-using LiveCoder.Scripting.Parsing.Events;
 using LiveCoder.Scripting.Parsing.Patterns;
 
 namespace LiveCoder.Scripting.Parsing
 {
     class ScriptTextParser
     {
-        private ILogger Logger { get; }
+        private IScriptingAuditor Auditor { get; }
         private IEnumerable<IPattern> Patterns { get; }
 
-        public ScriptTextParser(ILogger logger)
+        public ScriptTextParser(IScriptingAuditor auditor)
         {
-            this.Logger = logger;
+            this.Auditor = auditor;
             this.Patterns = new IPattern[]
             {
                 new Snippet(), 
@@ -35,7 +34,7 @@ namespace LiveCoder.Scripting.Parsing
                 rest = newState.Map(state => state.newRest).Reduce(rest);
             }
 
-            rest.ObjectOfType<NonEmptyText>().Do(remaining => this.Logger.Write(new ErrorParsingLine(remaining)));
+            rest.ObjectOfType<NonEmptyText>().Do(remaining => this.Auditor.ErrorParsingLine(remaining.LineIndex + 1, remaining.CurrentLine));
 
             return script;
         }

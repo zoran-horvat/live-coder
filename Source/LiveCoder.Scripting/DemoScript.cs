@@ -11,8 +11,8 @@ namespace LiveCoder.Scripting
     {
         private ImmutableList<Snippet> Snippets { get; }
 
-        public static Option<DemoScript> TryParse(FileInfo file, ILogger logger) =>
-            NonEmptyText.Load(file).MapOptional(new ScriptTextParser(logger).TryParse);
+        public static Option<DemoScript> TryParse(FileInfo file, IScriptingAuditor auditor) =>
+            NonEmptyText.Load(file).MapOptional(new ScriptTextParser(auditor).TryParse);
 
         public DemoScript() : this(ImmutableList<Snippet>.Empty) { }
 

@@ -52,9 +52,9 @@ namespace LiveCoder.Extension.Implementation
 
         private Option<IDemoStep> GetNextStep()
         {
-            Option<IDemoStep> step = this.ReadScriptOptional(script => this.Solution.GetDemoStepsOrdered(script).FirstOrNone());
-            this.Logger.Write(FirstDemoStepFound.FromOptionalDemoStep(step));
-            return step;
+            return this.ReadScriptOptional(script => this.Solution.GetDemoStepsOrdered(script).FirstOrNone())
+                .Audit(s => this.Logger.Write(new FirstDemoStepFound(s)))
+                .AuditNone(() => this.Logger.Write(new NoDemoStepsFound()));
         }
 
         private Option<TResult> ReadScript<TResult>(Func<DemoScript, TResult> map)

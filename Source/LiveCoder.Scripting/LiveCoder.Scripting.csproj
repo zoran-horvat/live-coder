@@ -53,11 +53,11 @@
     <Compile Include="DemoScript.cs" />
     <Compile Include="Elements\Snippet.cs" />
     <Compile Include="EmptyText.cs" />
-    <Compile Include="IEvent.cs" />
-    <Compile Include="ILogger.cs" />
+    <Compile Include="IDemoCommand.cs" />
+    <Compile Include="IDemoStep.cs" />
+    <Compile Include="IScriptingAuditor.cs" />
     <Compile Include="IText.cs" />
     <Compile Include="NonEmptyText.cs" />
-    <Compile Include="Parsing\Events\ErrorParsingLine.cs" />
     <Compile Include="Parsing\IPattern.cs" />
     <Compile Include="Parsing\Patterns\BlankLine.cs" />
     <Compile Include="Parsing\Patterns\Snippet.cs" />
