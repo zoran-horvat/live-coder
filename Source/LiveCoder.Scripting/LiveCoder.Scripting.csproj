@@ -54,6 +54,7 @@
     <Compile Include="Elements\Snippet.cs" />
     <Compile Include="Lexing\Lexemes\EndOfLine.cs" />
     <Compile Include="Lexing\Lexemes\Identifier.cs" />
+    <Compile Include="Lexing\Lexemes\Number.cs" />
     <Compile Include="Lexing\Lexemes\Operator.cs" />
     <Compile Include="Lexing\Lexemes\WhiteSpace.cs" />
     <Compile Include="Lexing\Lexer.cs" />

@@ -10,6 +10,7 @@ namespace LiveCoder.Scripting.Lexing
 {
     public class Lexer
     {
+        private Regex NumberPattern { get; }
         private Regex OperatorPattern { get; }
         private Regex WhiteSpacePattern { get; }
         private Regex IdentifierPattern { get; }
@@ -18,12 +19,14 @@ namespace LiveCoder.Scripting.Lexing
 
         public Lexer()
         {
+            this.NumberPattern = new Regex(@"\d+");
             this.OperatorPattern = new Regex(@"[\.\(\),]");
             this.WhiteSpacePattern = new Regex(@"\s+");
             this.IdentifierPattern = new Regex(@"[a-zA-Z_][a-zA-Z0-9_]*");
 
             this.Patterns = new (Regex, Func<string, Token>)[]
             {
+                (this.NumberPattern, Number.Of),
                 (this.OperatorPattern, Operator.Of),
                 (this.WhiteSpacePattern, WhiteSpace.Of),
                 (this.IdentifierPattern, Identifier.Of)
