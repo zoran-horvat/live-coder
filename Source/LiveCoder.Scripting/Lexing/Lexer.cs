@@ -14,6 +14,11 @@ namespace LiveCoder.Scripting.Lexing
         private IEnumerable<Token> Tokenize(NonEmptyText text)
         {
             yield return new Identifier(text.CurrentLine);
+            while (text.ConsumeLine() is NonEmptyText moved)
+            {
+                text = moved;
+                yield return new Identifier(text.CurrentLine);
+            }
         }
     }
 }
