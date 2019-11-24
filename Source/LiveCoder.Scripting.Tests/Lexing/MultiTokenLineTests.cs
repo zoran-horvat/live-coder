@@ -24,5 +24,15 @@ namespace LiveCoder.Scripting.Tests.Lexing
             Assert.All(
                 expectedTokenTypes.Zip(base.Tokenize(line), (expectedType, token) => (expectedType, token)),
                 tuple => Assert.Equal(tuple.expectedType, tuple.token.GetType()));
+
+        [Theory]
+        [InlineData("something ", "something", " ")]
+
+        [InlineData(" something ", " ", "something", " ")]
+        [InlineData("\t something \t again   ", "\t ", "something", " \t ", "again", "   ")]
+        public void Tokenize_ReceivesComplexLine_ReturnsTokensWithSpecificValues(string line, params string[] tokenValues) =>
+            Assert.All(
+                tokenValues.Concat(new[] {new EndOfLine().Value}).Zip(base.Tokenize(line), (expectedValue, token) => (expectedValue, token)),
+                tuple => Assert.Equal(tuple.expectedValue, tuple.token.Value));
     }
 }
