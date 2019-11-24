@@ -15,7 +15,7 @@ namespace LiveCoder.Scripting.Text
         private int RemainingLinesCount => this.Content.Length - this.LineIndex;
         public string CurrentLine => this.Content[this.LineIndex];
 
-        private NonEmptyText(string[] content) : this(content, 0) { }
+        public NonEmptyText(string[] content) : this(content, 0) { }
 
         private NonEmptyText(string[] content, int lineIndex)
         {

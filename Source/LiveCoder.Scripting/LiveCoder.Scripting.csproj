@@ -52,7 +52,9 @@
   <ItemGroup>
     <Compile Include="DemoScript.cs" />
     <Compile Include="Elements\Snippet.cs" />
+    <Compile Include="Lexing\Lexemes\Identifier.cs" />
     <Compile Include="Lexing\Lexer.cs" />
+    <Compile Include="Lexing\Token.cs" />
     <Compile Include="Text\EmptyText.cs" />
     <Compile Include="IDemoCommand.cs" />
     <Compile Include="IDemoStep.cs" />
