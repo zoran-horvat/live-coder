@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Text.RegularExpressions;
 using LiveCoder.Common.Optional;
 using LiveCoder.Scripting.Lexing.Lexemes;
@@ -11,6 +10,7 @@ namespace LiveCoder.Scripting.Lexing
 {
     public class Lexer
     {
+        private Regex OperatorPattern { get; }
         private Regex WhiteSpacePattern { get; }
         private Regex IdentifierPattern { get; }
 
@@ -18,11 +18,13 @@ namespace LiveCoder.Scripting.Lexing
 
         public Lexer()
         {
+            this.OperatorPattern = new Regex(@"[\.\(\),]");
             this.WhiteSpacePattern = new Regex(@"\s+");
             this.IdentifierPattern = new Regex(@"[a-zA-Z_][a-zA-Z0-9_]*");
 
             this.Patterns = new (Regex, Func<string, Token>)[]
             {
+                (this.OperatorPattern, Operator.Of),
                 (this.WhiteSpacePattern, WhiteSpace.Of),
                 (this.IdentifierPattern, Identifier.Of)
             };
