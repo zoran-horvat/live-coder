@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using LiveCoder.Common.Optional;
 
-namespace LiveCoder.Scripting
+namespace LiveCoder.Scripting.Text
 {
-    class NonEmptyText : IText
+    public class NonEmptyText : IText
     {
         private string[] Content { get; }
         public int LineIndex { get; }

@@ -1,6 +1,6 @@
 ﻿namespace LiveCoder.Scripting
 {
-    interface IText
+    public interface IText
     {
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using LiveCoder.Common.Optional;
+using LiveCoder.Scripting.Text;
 
 namespace LiveCoder.Scripting.Parsing
 {

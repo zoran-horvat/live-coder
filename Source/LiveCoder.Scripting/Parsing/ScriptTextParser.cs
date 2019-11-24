@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using LiveCoder.Common.Optional;
 using LiveCoder.Scripting.Parsing.Patterns;
+using LiveCoder.Scripting.Text;
 
 namespace LiveCoder.Scripting.Parsing
 {

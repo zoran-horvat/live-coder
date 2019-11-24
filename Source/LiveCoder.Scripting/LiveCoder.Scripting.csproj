@@ -52,12 +52,13 @@
   <ItemGroup>
     <Compile Include="DemoScript.cs" />
     <Compile Include="Elements\Snippet.cs" />
-    <Compile Include="EmptyText.cs" />
+    <Compile Include="Lexing\Lexer.cs" />
+    <Compile Include="Text\EmptyText.cs" />
     <Compile Include="IDemoCommand.cs" />
     <Compile Include="IDemoStep.cs" />
     <Compile Include="IScriptingAuditor.cs" />
     <Compile Include="IText.cs" />
-    <Compile Include="NonEmptyText.cs" />
+    <Compile Include="Text\NonEmptyText.cs" />
     <Compile Include="Parsing\IPattern.cs" />
     <Compile Include="Parsing\Patterns\BlankLine.cs" />
     <Compile Include="Parsing\Patterns\Snippet.cs" />
@@ -75,5 +76,6 @@
       <Name>LiveCoder.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using LiveCoder.Common.Optional;
 using LiveCoder.Scripting.Elements;
 using LiveCoder.Scripting.Parsing;
+using LiveCoder.Scripting.Text;
 
 namespace LiveCoder.Scripting
 {
