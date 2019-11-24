@@ -1,4 +1,4 @@
-﻿namespace LiveCoder.Extension.Scripting
+﻿namespace LiveCoder.Scripting
 {
     class EmptyText : IText
     {

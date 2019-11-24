@@ -1,6 +1,7 @@
 ﻿using System;
 using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Interfaces;
+using LiveCoder.Scripting;
 
 namespace LiveCoder.Extension.Events
 {

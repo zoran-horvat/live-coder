@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using LiveCoder.Common.Optional;
-using LiveCoder.Extension.Scripting;
+using LiveCoder.Scripting;
 
 namespace LiveCoder.Extension.Interfaces
 {

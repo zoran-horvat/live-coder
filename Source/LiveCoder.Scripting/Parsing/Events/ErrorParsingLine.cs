@@ -1,6 +1,4 @@
-﻿using LiveCoder.Extension.Interfaces;
-
-namespace LiveCoder.Extension.Scripting.Parsing.Events
+﻿namespace LiveCoder.Scripting.Parsing.Events
 {
     class ErrorParsingLine : IEvent
     {

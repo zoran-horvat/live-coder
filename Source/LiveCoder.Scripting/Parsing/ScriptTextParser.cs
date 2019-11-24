@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using LiveCoder.Common.Optional;
-using LiveCoder.Extension.Interfaces;
-using LiveCoder.Extension.Scripting.Parsing.Events;
-using LiveCoder.Extension.Scripting.Parsing.Patterns;
+using LiveCoder.Scripting.Parsing.Events;
+using LiveCoder.Scripting.Parsing.Patterns;
 
-namespace LiveCoder.Extension.Scripting.Parsing
+namespace LiveCoder.Scripting.Parsing
 {
     class ScriptTextParser
     {

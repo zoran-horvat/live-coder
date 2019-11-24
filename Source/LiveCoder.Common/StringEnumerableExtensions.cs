@@ -11,7 +11,10 @@ namespace LiveCoder.Common
             sequence.Join(string.Empty);
 
         public static string Join(this IEnumerable<string> sequence, string separator) =>
-            sequence.Aggregate(new StringBuilder(), (result, segment) => result.Append(segment)).ToString();
+            sequence.Aggregate(
+                    (result: new StringBuilder(), prefix: string.Empty),
+                    (acc, segment) => (acc.result.Append(acc.prefix).Append(segment), separator))
+                .result.ToString();
 
         public static IEnumerable<string> AppendToLast(this IEnumerable<string> sequence, string suffix) =>
             Disposable.Using(sequence.GetEnumerator).Map(enumerator => AppendToLast(enumerator, suffix));

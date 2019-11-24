@@ -1,6 +1,6 @@
-﻿namespace LiveCoder.Extension.Scripting.Elements
+﻿namespace LiveCoder.Scripting.Elements
 {
-    class Snippet
+    public class Snippet
     {
         public int Number { get; }
         public string Content { get; }

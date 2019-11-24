@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using LiveCoder.Common;
 using LiveCoder.Extension.Implementation.Commands;
 using LiveCoder.Extension.Interfaces;
-using LiveCoder.Extension.Scripting;
-using LiveCoder.Extension.Scripting.Elements;
+using LiveCoder.Scripting;
+using LiveCoder.Scripting.Elements;
 
 namespace LiveCoder.Extension.Implementation.Steps
 {

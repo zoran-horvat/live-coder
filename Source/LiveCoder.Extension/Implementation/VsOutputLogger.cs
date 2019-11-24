@@ -1,5 +1,5 @@
 ﻿using System;
-using LiveCoder.Extension.Interfaces;
+using LiveCoder.Scripting;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 

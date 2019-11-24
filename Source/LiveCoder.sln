@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveCoder.Deployer.Tool", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveCoder.Deployer", "LiveCoder.Deployer\LiveCoder.Deployer.csproj", "{C7DBCE84-8C18-4487-8D8E-AC45CE60C546}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveCoder.Scripting", "LiveCoder.Scripting\LiveCoder.Scripting.csproj", "{659AC1AA-8C91-4C31-93C5-17D0CC4E0013}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{C7DBCE84-8C18-4487-8D8E-AC45CE60C546}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7DBCE84-8C18-4487-8D8E-AC45CE60C546}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7DBCE84-8C18-4487-8D8E-AC45CE60C546}.Release|Any CPU.Build.0 = Release|Any CPU
+		{659AC1AA-8C91-4C31-93C5-17D0CC4E0013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{659AC1AA-8C91-4C31-93C5-17D0CC4E0013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{659AC1AA-8C91-4C31-93C5-17D0CC4E0013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{659AC1AA-8C91-4C31-93C5-17D0CC4E0013}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

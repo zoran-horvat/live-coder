@@ -2,13 +2,12 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using LiveCoder.Common.Optional;
-using LiveCoder.Extension.Interfaces;
-using LiveCoder.Extension.Scripting.Elements;
-using LiveCoder.Extension.Scripting.Parsing;
+using LiveCoder.Scripting.Elements;
+using LiveCoder.Scripting.Parsing;
 
-namespace LiveCoder.Extension.Scripting
+namespace LiveCoder.Scripting
 {
-    class DemoScript
+    public class DemoScript
     {
         private ImmutableList<Snippet> Snippets { get; }
 

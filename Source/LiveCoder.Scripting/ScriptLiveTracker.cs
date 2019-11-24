@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 
-namespace LiveCoder.Extension.Scripting
+namespace LiveCoder.Scripting
 {
-    class ScriptLiveTracker
+    public class ScriptLiveTracker
     {
         private FileSystemWatcher FileWatcher { get; }
     

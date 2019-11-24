@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Implementation.Steps;
 using LiveCoder.Extension.Interfaces;
-using LiveCoder.Extension.Scripting;
+using LiveCoder.Scripting;
 
 namespace LiveCoder.Extension.Implementation
 {

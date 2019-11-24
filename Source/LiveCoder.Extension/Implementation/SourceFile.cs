@@ -6,7 +6,7 @@ using EnvDTE;
 using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Implementation.Readers;
 using LiveCoder.Extension.Interfaces;
-using LiveCoder.Extension.Scripting;
+using LiveCoder.Scripting;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using LiveCoder.Common.Optional;
 
-namespace LiveCoder.Extension.Scripting
+namespace LiveCoder.Scripting
 {
     class NonEmptyText : IText
     {

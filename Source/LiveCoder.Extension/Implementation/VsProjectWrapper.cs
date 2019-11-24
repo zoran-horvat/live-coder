@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EnvDTE;
 using LiveCoder.Extension.Interfaces;
-using LiveCoder.Extension.Scripting;
+using LiveCoder.Scripting;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace LiveCoder.Extension.Implementation

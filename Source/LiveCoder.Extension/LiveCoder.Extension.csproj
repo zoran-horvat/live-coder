@@ -73,7 +73,6 @@
     <Compile Include="Implementation\DemoEngine.cs" />
     <Compile Include="Implementation\FileSystemSnippet.cs" />
     <Compile Include="Implementation\VsOutputLogger.cs" />
-    <Compile Include="Interfaces\IEvent.cs" />
     <Compile Include="Implementation\Readers\DocumentExtensions.cs" />
     <Compile Include="Implementation\Readers\FileReader.cs" />
     <Compile Include="Implementation\Readers\OpenDocumentReader.cs" />
@@ -96,23 +95,11 @@
     <Compile Include="Interfaces\IDemoCommand.cs" />
     <Compile Include="Interfaces\IDemoStep.cs" />
     <Compile Include="Interfaces\IEngine.cs" />
-    <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\IProject.cs" />
     <Compile Include="Interfaces\ISnippet.cs" />
     <Compile Include="Interfaces\ISolution.cs" />
     <Compile Include="Interfaces\ISource.cs" />
     <Compile Include="Interfaces\IStateVerifier.cs" />
-    <Compile Include="Scripting\DemoScript.cs" />
-    <Compile Include="Scripting\Elements\Snippet.cs" />
-    <Compile Include="Scripting\EmptyText.cs" />
-    <Compile Include="Scripting\NonEmptyText.cs" />
-    <Compile Include="Scripting\Parsing\Events\ErrorParsingLine.cs" />
-    <Compile Include="Scripting\Parsing\IPattern.cs" />
-    <Compile Include="Scripting\Parsing\Patterns\BlankLine.cs" />
-    <Compile Include="Scripting\Parsing\Patterns\Snippet.cs" />
-    <Compile Include="Scripting\Parsing\ScriptTextParser.cs" />
-    <Compile Include="Scripting\IText.cs" />
-    <Compile Include="Scripting\ScriptLiveTracker.cs" />
     <Compile Include="ServiceProviderExtensions.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="LiveCoderPackage.cs" />
@@ -245,6 +232,10 @@
     <ProjectReference Include="..\LiveCoder.Common\LiveCoder.Common.csproj">
       <Project>{93FDF21A-CCBD-474C-ACFE-C5A7D0D6D974}</Project>
       <Name>LiveCoder.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LiveCoder.Scripting\LiveCoder.Scripting.csproj">
+      <Project>{659AC1AA-8C91-4C31-93C5-17D0CC4E0013}</Project>
+      <Name>LiveCoder.Scripting</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

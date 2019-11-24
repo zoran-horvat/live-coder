@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using LiveCoder.Common.Optional;
 
-namespace LiveCoder.Extension.Scripting.Parsing.Patterns
+namespace LiveCoder.Scripting.Parsing.Patterns
 {
     class BlankLine : IPattern
     {

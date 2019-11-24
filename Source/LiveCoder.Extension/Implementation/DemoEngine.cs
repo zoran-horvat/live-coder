@@ -7,7 +7,7 @@ using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Events;
 using LiveCoder.Extension.Implementation.Commands;
 using LiveCoder.Extension.Interfaces;
-using LiveCoder.Extension.Scripting;
+using LiveCoder.Scripting;
 
 namespace LiveCoder.Extension.Implementation
 {
