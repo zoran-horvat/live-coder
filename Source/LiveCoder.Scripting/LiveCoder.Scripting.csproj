@@ -56,6 +56,7 @@
     <Compile Include="Lexing\Lexemes\Identifier.cs" />
     <Compile Include="Lexing\Lexemes\Number.cs" />
     <Compile Include="Lexing\Lexemes\Operator.cs" />
+    <Compile Include="Lexing\Lexemes\StringLiteral.cs" />
     <Compile Include="Lexing\Lexemes\WhiteSpace.cs" />
     <Compile Include="Lexing\Lexer.cs" />
     <Compile Include="Lexing\Token.cs" />

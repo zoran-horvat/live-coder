@@ -14,6 +14,7 @@ namespace LiveCoder.Scripting.Lexing
         private Regex OperatorPattern { get; }
         private Regex WhiteSpacePattern { get; }
         private Regex IdentifierPattern { get; }
+        private Regex StringPattern { get; }
 
         private IEnumerable<(Regex pattern, Func<string, Token> tokenFactory)> Patterns { get; }
 
@@ -23,13 +24,15 @@ namespace LiveCoder.Scripting.Lexing
             this.OperatorPattern = new Regex(@"[\.\(\),]");
             this.WhiteSpacePattern = new Regex(@"\s+");
             this.IdentifierPattern = new Regex(@"[a-zA-Z_][a-zA-Z0-9_]*");
+            this.StringPattern = new Regex("\"\"");
 
             this.Patterns = new (Regex, Func<string, Token>)[]
             {
                 (this.NumberPattern, Number.Of),
                 (this.OperatorPattern, Operator.Of),
                 (this.WhiteSpacePattern, WhiteSpace.Of),
-                (this.IdentifierPattern, Identifier.Of)
+                (this.IdentifierPattern, Identifier.Of),
+                (this.StringPattern, StringLiteral.Of)
             };
         }
 
