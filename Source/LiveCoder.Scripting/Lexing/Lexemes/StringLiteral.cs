@@ -1,4 +1,6 @@
-﻿namespace LiveCoder.Scripting.Lexing.Lexemes
+﻿using System.Text.RegularExpressions;
+
+namespace LiveCoder.Scripting.Lexing.Lexemes
 {
     public class StringLiteral : Token
     {
@@ -8,6 +10,7 @@
 
         public static Token Of(string value) => new StringLiteral(value);
 
-        public string RawValue => string.Empty;
+        public string RawValue =>
+            new Regex("\"(?<content>[^\"]*)\"").Replace(Value, @"${content}");
     }
 }

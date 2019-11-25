@@ -18,12 +18,24 @@ namespace LiveCoder.Scripting.Tests.Lexing
 
         [Fact]
         public void EmptyQuotedString_ReturnsStringWithEmptyRawContent() =>
-            Assert.Equal(string.Empty, this.SingleStringLiteral(this.EmptyString).RawValue);
+            Assert.Equal(
+                string.Empty, 
+                this.SingleStringRawValue(this.EmptyString));
+
+        [Theory]
+        [InlineData("something")]
+        [InlineData("Something")]
+        [InlineData("Something again, and again")]
+        public void PlainString_ReturnsStringLiteralWithThatRawContent(string expectedContent) =>
+            Assert.Equal(expectedContent, this.SingleStringRawValue(this.String(expectedContent)));
 
         private string EmptyString => this.String(string.Empty);
 
         private string String(string content) =>
             $"\"{content}\"";
+
+        private string SingleStringRawValue(params string[] text) =>
+            this.SingleStringLiteral(text).RawValue;
 
         private StringLiteral SingleStringLiteral(params string[] text) =>
             (StringLiteral)this.SingleToken(text);
@@ -31,7 +43,7 @@ namespace LiveCoder.Scripting.Tests.Lexing
         private Token SingleToken(params string[] text) =>
             this.TokenizeContentOnly(text).Single();
 
-        private IEnumerable<Token> TokenizeContentOnly(params string[] text) =>
+        private IEnumerable<Token> TokenizeContentOnly(params string[] text) => 
             base.Tokenize(text).Where(token => !(token is EndOfLine));
     }
 }
