@@ -5,13 +5,13 @@ using Xunit;
 
 namespace LiveCoder.Scripting.Tests.Lexing
 {
-    public class MultiTokenLineTests : TokenizationTestsBase
+    public class TokenizeMultiTokenLineTests : TokenizeTestsBase
     {
         [Theory]
         [InlineData("something ", 3)]
         [InlineData(" something ", 4)]
         [InlineData("\t something \t again   ", 6)]
-        public void Tokenize_ReceivesComplexLine_ReturnsMultipleTokens(string line, int expectedCount) =>
+        public void ComplexLine_ReturnsMultipleTokens(string line, int expectedCount) =>
             Assert.Equal(
                 expectedCount,
                 base.Tokenize(line).Count());
@@ -23,7 +23,7 @@ namespace LiveCoder.Scripting.Tests.Lexing
         [InlineData("target.method(argument)", typeof(Identifier), typeof(Operator), typeof(Identifier), typeof(Operator), typeof(Identifier), typeof(Operator), typeof(EndOfLine))]
         [InlineData("target.method(argument1, argument2)", typeof(Identifier), typeof(Operator), typeof(Identifier), typeof(Operator), typeof(Identifier), typeof(Operator), typeof(WhiteSpace), typeof(Identifier), typeof(Operator), typeof(EndOfLine))]
         [InlineData("obj.f(15)", typeof(Identifier), typeof(Operator), typeof(Identifier), typeof(Operator), typeof(Number), typeof(Operator), typeof(EndOfLine))]
-        public void Tokenize_ReceivesComplexLine_ReturnsTokensOfSpecificTypes(string line, params Type[] expectedTokenTypes) =>
+        public void ComplexLine_ReturnsTokensOfSpecificTypes(string line, params Type[] expectedTokenTypes) =>
             Assert.All(
                 expectedTokenTypes.Zip(base.Tokenize(line), (expectedType, token) => (expectedType, token)),
                 tuple => Assert.Equal(tuple.expectedType, tuple.token.GetType()));
@@ -35,7 +35,7 @@ namespace LiveCoder.Scripting.Tests.Lexing
         [InlineData("target.method(argument)", "target", ".", "method", "(", "argument", ")")]
         [InlineData("target.method(argument1, argument2)", "target", ".", "method", "(", "argument1", ",", " ", "argument2", ")")]
         [InlineData("obj.f(15)", "obj", ".", "f", "(", "15", ")")]
-        public void Tokenize_ReceivesComplexLine_ReturnsTokensWithSpecificValues(string line, params string[] tokenValues) =>
+        public void ComplexLine_ReturnsTokensWithSpecificValues(string line, params string[] tokenValues) =>
             Assert.All(
                 tokenValues.Concat(new[] {new EndOfLine().Value}).Zip(base.Tokenize(line), (expectedValue, token) => (expectedValue, token)),
                 tuple => Assert.Equal(tuple.expectedValue, tuple.token.Value));

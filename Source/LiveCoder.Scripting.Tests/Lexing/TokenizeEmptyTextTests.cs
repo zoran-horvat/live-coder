@@ -4,10 +4,10 @@ using Xunit;
 
 namespace LiveCoder.Scripting.Tests.Lexing
 {
-    public class EmptyTextTests
+    public class TokenizeEmptyTextTests
     {
         [Fact]
-        public void Tokenize_ReceivesEmptyText_ReturnsEmptySequence()
+        public void ReturnsEmptySequence()
         {
             Assert.Empty(new Lexer().Tokenize(new EmptyText()));
         }

@@ -6,7 +6,7 @@ using LiveCoder.Scripting.Text;
 
 namespace LiveCoder.Scripting.Tests.Lexing
 {
-    public abstract class TokenizationTestsBase
+    public abstract class TokenizeTestsBase
     {
         protected IEnumerable<Token> TokensAtOddIndices(string[] lines) =>
             this.TokensAtIndices(lines, index => index % 2 == 1);
