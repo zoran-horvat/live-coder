@@ -10,29 +10,23 @@ namespace LiveCoder.Scripting.Lexing
 {
     public class Lexer
     {
-        private Regex NumberPattern { get; }
-        private Regex OperatorPattern { get; }
-        private Regex WhiteSpacePattern { get; }
-        private Regex IdentifierPattern { get; }
-        private Regex StringPattern { get; }
-
         private IEnumerable<(Regex pattern, Func<string, Token> tokenFactory)> Patterns { get; }
 
         public Lexer()
         {
-            this.NumberPattern = new Regex(@"\d+");
-            this.OperatorPattern = new Regex(@"[\.\(\),]");
-            this.WhiteSpacePattern = new Regex(@"\s+");
-            this.IdentifierPattern = new Regex(@"[a-zA-Z_][a-zA-Z0-9_]*");
-            this.StringPattern = new Regex("\"\"");
+            Regex numberPattern = new Regex(@"\d+");
+            Regex operatorPattern = new Regex(@"[\.\(\),]");
+            Regex whiteSpacePattern = new Regex(@"\s+");
+            Regex identifierPattern = new Regex(@"[a-zA-Z_][a-zA-Z0-9_]*");
+            Regex stringPattern = new Regex("\"\"");
 
             this.Patterns = new (Regex, Func<string, Token>)[]
             {
-                (this.NumberPattern, Number.Of),
-                (this.OperatorPattern, Operator.Of),
-                (this.WhiteSpacePattern, WhiteSpace.Of),
-                (this.IdentifierPattern, Identifier.Of),
-                (this.StringPattern, StringLiteral.Of)
+                (numberPattern, Number.Of),
+                (operatorPattern, Operator.Of),
+                (whiteSpacePattern, WhiteSpace.Of),
+                (identifierPattern, Identifier.Of),
+                (stringPattern, StringLiteral.Of)
             };
         }
 
