@@ -74,6 +74,7 @@
     <Compile Include="Parsing\ScriptTextParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptLiveTracker.cs" />
+    <Compile Include="Lexing\TokensArray.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

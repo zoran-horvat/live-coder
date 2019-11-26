@@ -30,7 +30,10 @@ namespace LiveCoder.Scripting.Lexing
             };
         }
 
-        public IEnumerable<Token> Tokenize(IText text)
+        public TokensArray Tokenize(IText text) =>
+            new TokensArray(this.GetTokensSequence(text));
+
+        private IEnumerable<Token> GetTokensSequence(IText text)
         {
             while (text is NonEmptyText remaining)
             {
