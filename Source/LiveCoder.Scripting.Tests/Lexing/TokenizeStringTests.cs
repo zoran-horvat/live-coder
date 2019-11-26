@@ -27,7 +27,18 @@ namespace LiveCoder.Scripting.Tests.Lexing
         [InlineData("Something")]
         [InlineData("Something again, and again")]
         public void PlainString_ReturnsStringLiteralWithThatRawContent(string expectedContent) =>
-            Assert.Equal(expectedContent, this.SingleStringRawValue(this.String(expectedContent)));
+            Assert.Equal(
+                expectedContent, 
+                this.SingleStringRawValue(this.String(expectedContent)));
+
+        [Theory]
+        [InlineData(@"Something\\again", @"Something\again")]
+        [InlineData(@"Something\\\nagain", @"Something\\nagain")]
+        [InlineData(@"Something\""\na\""gain", @"Something""\na""gain")]
+        public void EscapedString_ReturnsStringLiteralWithUnescapedRawContent(string escapedContent, string expectedContent) =>
+            Assert.Equal(
+                expectedContent,
+                this.SingleStringRawValue(this.String(escapedContent)));
 
         private string EmptyString => this.String(string.Empty);
 

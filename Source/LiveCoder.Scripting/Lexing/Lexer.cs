@@ -18,7 +18,7 @@ namespace LiveCoder.Scripting.Lexing
             Regex operatorPattern = new Regex(@"[\.\(\),]");
             Regex whiteSpacePattern = new Regex(@"\s+");
             Regex identifierPattern = new Regex(@"[a-zA-Z_][a-zA-Z0-9_]*");
-            Regex stringPattern = new Regex("\"[^\"]*\"");
+            Regex stringPattern = new Regex(@"""(?<content>(\\[""\\n]|[^\\])*)""");
 
             this.Patterns = new (Regex, Func<string, Token>)[]
             {

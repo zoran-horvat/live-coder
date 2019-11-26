@@ -23,6 +23,7 @@ namespace LiveCoder.Scripting.Tests.Lexing
         [InlineData("target.method(argument)", typeof(Identifier), typeof(Operator), typeof(Identifier), typeof(Operator), typeof(Identifier), typeof(Operator), typeof(EndOfLine))]
         [InlineData("target.method(argument1, argument2)", typeof(Identifier), typeof(Operator), typeof(Identifier), typeof(Operator), typeof(Identifier), typeof(Operator), typeof(WhiteSpace), typeof(Identifier), typeof(Operator), typeof(EndOfLine))]
         [InlineData("obj.f(15)", typeof(Identifier), typeof(Operator), typeof(Identifier), typeof(Operator), typeof(Number), typeof(Operator), typeof(EndOfLine))]
+        [InlineData("obj.f(15, \"something\")", typeof(Identifier), typeof(Operator), typeof(Identifier), typeof(Operator), typeof(Number), typeof(Operator), typeof(WhiteSpace), typeof(StringLiteral), typeof(Operator), typeof(EndOfLine))]
         public void ComplexLine_ReturnsTokensOfSpecificTypes(string line, params Type[] expectedTokenTypes) =>
             Assert.All(
                 expectedTokenTypes.Zip(base.Tokenize(line), (expectedType, token) => (expectedType, token)),
@@ -35,6 +36,7 @@ namespace LiveCoder.Scripting.Tests.Lexing
         [InlineData("target.method(argument)", "target", ".", "method", "(", "argument", ")")]
         [InlineData("target.method(argument1, argument2)", "target", ".", "method", "(", "argument1", ",", " ", "argument2", ")")]
         [InlineData("obj.f(15)", "obj", ".", "f", "(", "15", ")")]
+        [InlineData("obj.f(15, \"something\")", "obj", ".", "f", "(", "15", ",", " ", "\"something\"", ")")]
         public void ComplexLine_ReturnsTokensWithSpecificValues(string line, params string[] tokenValues) =>
             Assert.All(
                 tokenValues.Concat(new[] {new EndOfLine().Value}).Zip(base.Tokenize(line), (expectedValue, token) => (expectedValue, token)),
