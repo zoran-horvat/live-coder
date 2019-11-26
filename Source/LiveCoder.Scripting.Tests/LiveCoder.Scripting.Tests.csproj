@@ -57,6 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lexing\TokenizeInvalidInputTests.cs" />
     <Compile Include="Lexing\TokenizeMultilineTests.cs" />
     <Compile Include="Lexing\TokenizeMultiTokenLineTests.cs" />
     <Compile Include="Lexing\TokenizeSingleLineTests.cs" />

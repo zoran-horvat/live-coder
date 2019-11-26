@@ -18,7 +18,7 @@ namespace LiveCoder.Scripting.Lexing
             Regex operatorPattern = new Regex(@"[\.\(\),]");
             Regex whiteSpacePattern = new Regex(@"\s+");
             Regex identifierPattern = new Regex(@"[a-zA-Z_][a-zA-Z0-9_]*");
-            Regex stringPattern = new Regex(@"""(?<content>(\\[""\\n]|[^\\])*)""");
+            Regex stringPattern = new Regex(@"""(\\[""\\n]|[^\\])*""");
 
             this.Patterns = new (Regex, Func<string, Token>)[]
             {
@@ -44,17 +44,19 @@ namespace LiveCoder.Scripting.Lexing
         private IEnumerable<Token> Tokenize(string line)
         {
             int pos = 0;
-            while (pos < line.Length && this.Match(line, pos) is Some<(string value, Func<string, Token> tokenFactory)> match)
+            while (pos < line.Length)
             {
-                yield return match.Content.tokenFactory(match.Content.value);
-                pos += match.Content.value.Length;
+                (string value, Func<string, Token> tokenFactory) = this.Match(line, pos);
+                yield return tokenFactory(value);
+                pos += value.Length;
             }
         }
 
-        private Option<(string value, Func<string, Token> tokenFactory)> Match(string target, int pos) =>
+        private (string value, Func<string, Token> tokenFactory) Match(string target, int pos) =>
             this.Matches(target, pos)
                 .FirstOrNone(tuple => tuple.match.Index == pos)
-                .Map(tuple => (tuple.match.Value, tuple.tokenFactory));
+                .Map(tuple => (tuple.match.Value, tuple.tokenFactory))
+                .Reduce(() => (target.Substring(pos), InvalidToken.Of));
 
         private IEnumerable<(Match match, Func<string, Token> tokenFactory)> Matches(string target, int pos) =>
             this.Patterns
