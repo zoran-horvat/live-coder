@@ -73,6 +73,7 @@
     <Compile Include="Implementation\Commands\VerifyStep.cs" />
     <Compile Include="Implementation\DemoEngine.cs" />
     <Compile Include="Implementation\FileSystemSnippet.cs" />
+    <Compile Include="Implementation\VsExecutionContext.cs" />
     <Compile Include="Implementation\VsOutputLogger.cs" />
     <Compile Include="Implementation\Readers\DocumentExtensions.cs" />
     <Compile Include="Implementation\Readers\FileReader.cs" />

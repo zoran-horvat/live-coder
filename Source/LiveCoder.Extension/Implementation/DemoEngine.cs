@@ -21,7 +21,7 @@ namespace LiveCoder.Extension.Implementation
         private Option<ScriptLiveTracker> ScriptTracker { get; }
 
         private Option<FileInfo> ScriptFile =>
-            this.Solution.SolutionFile
+            this.Solution.File
                 .MapNullable(file => file.Directory)
                 .Map(dir => Path.Combine(dir.FullName, ".livecoder", "script.lcs"))
                 .Map(path => new FileInfo(path))

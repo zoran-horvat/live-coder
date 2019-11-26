@@ -23,7 +23,7 @@ namespace LiveCoder.Extension.Implementation
             this.Logger = logger;
         }
 
-        public Option<FileInfo> SolutionFile =>
+        public Option<FileInfo> File =>
             this.SolutionInterface.GetSolutionInfo(out string solutionDirectory, out string solutionFile, out string userOptionsFile) == 0
                 ? solutionFile.FromNullable().Map(path => new FileInfo(path))
                 : None.Value;

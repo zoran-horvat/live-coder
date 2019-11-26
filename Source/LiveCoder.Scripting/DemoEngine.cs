@@ -1,12 +1,17 @@
-﻿using System.IO;
+﻿using LiveCoder.Scripting.Execution;
 
 namespace LiveCoder.Scripting
 {
     public class DemoEngine
     {
-        private DemoEngine() { }
+        private DemoScript Script { get; }
 
-        public static DemoEngine For(FileInfo file, IScriptingAuditor auditor) => 
-            new DemoEngine();
+        private DemoEngine(DemoScript script)
+        {
+            this.Script = script;
+        }
+
+        public static DemoEngine For(IContext context, IScriptingAuditor auditor) =>
+            new DemoEngine(new ScriptLoader().For(context.Solution, auditor));
     }
 }

@@ -2,7 +2,9 @@
 using System.ComponentModel.Design;
 using LiveCoder.Extension.Implementation;
 using LiveCoder.Extension.Interfaces;
+using LiveCoder.Scripting;
 using Microsoft.VisualStudio.Shell;
+using DemoEngine = LiveCoder.Extension.Implementation.DemoEngine;
 
 namespace LiveCoder.Extension
 {
@@ -50,6 +52,8 @@ namespace LiveCoder.Extension
 
         private static IEngine DemoEngine { get; set; }
 
+        private static Scripting.DemoEngine ScriptingEngine { get; set; }
+
         /// <summary>
         /// Gets the service provider from the owner package.
         /// </summary>
@@ -75,9 +79,17 @@ namespace LiveCoder.Extension
         private void MenuItemCallback(object sender, EventArgs e)
         {
             ILogger logger = this.CreateLogger();
-            DemoEngine = DemoEngine ?? new DemoEngine(this.ServiceProvider.GetSolution(logger), logger);
+            DemoEngine = DemoEngine ?? new DemoEngine(this.GetSolution(logger), logger);
             DemoEngine.Step();
+            
+            ScriptingEngine = ScriptingEngine ?? Scripting.DemoEngine.For(this.CreateContext(logger), logger);
         }
+
+        private IContext CreateContext(ILogger logger) =>
+            new VsExecutionContext(this.GetSolution(logger));
+
+        private ISolution GetSolution(ILogger logger) =>
+            this.ServiceProvider.GetSolution(logger);
 
         private ILogger CreateLogger() =>
             new VsOutputLogger();

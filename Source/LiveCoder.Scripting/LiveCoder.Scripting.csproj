@@ -54,6 +54,9 @@
     <Compile Include="DemoScript.cs" />
     <Compile Include="Elements\Snippet.cs" />
     <Compile Include="Elements\SnippetNumberComparer.cs" />
+    <Compile Include="Execution\ISolution.cs" />
+    <Compile Include="Execution\ScriptLoader.cs" />
+    <Compile Include="IContext.cs" />
     <Compile Include="Lexing\Lexemes\EndOfLine.cs" />
     <Compile Include="Lexing\Lexemes\Identifier.cs" />
     <Compile Include="Lexing\Lexemes\InvalidToken.cs" />
