@@ -32,7 +32,7 @@ namespace LiveCoder.Scripting.Parsing.Patterns
                 script: this.Apply(snippetNumber, this.RemoveTerminator(pair.lines, terminator), script)));
 
         private DemoScript Apply(int snippetNumber, string[] content, DemoScript script) =>
-            script.Append(new Elements.Snippet(snippetNumber, string.Join(Environment.NewLine, content)));
+            script.Add(new Elements.Snippet(snippetNumber, string.Join(Environment.NewLine, content)));
 
         private Regex EndingIn(string terminator) =>
             new Regex($"{Regex.Escape(terminator)}$");

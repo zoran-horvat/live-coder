@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using LiveCoder.Common.Optional;
 using LiveCoder.Scripting.Elements;
@@ -22,8 +23,8 @@ namespace LiveCoder.Scripting
             this.Snippets = snippets;
         }
 
-        public DemoScript Append(Snippet snippet) =>
-            new DemoScript(this.Snippets.Add(snippet));
+        public DemoScript Add(Snippet snippet) =>
+            new DemoScript(this.Snippets.Remove(snippet, new SnippetNumberComparer()).Add(snippet));
 
         public Option<Snippet> TryGetSnippet(string shortcut) =>
             Regex.Match(shortcut, @"^snp(?<number>\d+)$") is Match match &&
