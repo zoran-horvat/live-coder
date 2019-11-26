@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LiveCoder.Common.Optional;
+using LiveCoder.Scripting.Lexing;
 using LiveCoder.Scripting.Parsing.Patterns;
 using LiveCoder.Scripting.Text;
 
@@ -22,7 +23,7 @@ namespace LiveCoder.Scripting.Parsing
 
         public Option<DemoScript> TryParse(NonEmptyText content)
         {
-            Option<DemoScript> script = Option.Of(new DemoScript());
+            Option<DemoScript> script = Option.Of(DemoScript.Empty);
             IText rest = content;
 
             while (script is Some<DemoScript> someScript &&
@@ -35,7 +36,10 @@ namespace LiveCoder.Scripting.Parsing
                 rest = newState.Map(state => state.newRest).Reduce(rest);
             }
 
-            rest.ObjectOfType<NonEmptyText>().Do(remaining => this.Auditor.ErrorParsingLine(remaining.LineIndex + 1, remaining.CurrentLine));
+            TokensArray tokens = rest
+                .ObjectOfType<NonEmptyText>()
+                .Map(new Lexer().Tokenize)
+                .Reduce(TokensArray.Empty);
 
             return script;
         }

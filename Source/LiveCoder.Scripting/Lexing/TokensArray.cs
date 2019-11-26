@@ -8,6 +8,9 @@ namespace LiveCoder.Scripting.Lexing
     {
         private IEnumerable<Token> Tokens { get; }
 
+        public static TokensArray Empty() => 
+            new TokensArray(Enumerable.Empty<Token>());
+
         public TokensArray(IEnumerable<Token> tokens)
         {
             this.Tokens = tokens.ToList();

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Immutable;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using LiveCoder.Common.Optional;
 using LiveCoder.Scripting.Elements;
@@ -13,10 +12,9 @@ namespace LiveCoder.Scripting
     {
         private ImmutableList<Snippet> Snippets { get; }
 
+        public static DemoScript Empty => new DemoScript(ImmutableList<Snippet>.Empty);
         public static Option<DemoScript> TryParse(FileInfo file, IScriptingAuditor auditor) =>
             NonEmptyText.Load(file).MapOptional(new ScriptTextParser(auditor).TryParse);
-
-        public DemoScript() : this(ImmutableList<Snippet>.Empty) { }
 
         private DemoScript(ImmutableList<Snippet> snippets)
         {
