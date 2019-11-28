@@ -36,10 +36,7 @@ namespace LiveCoder.Scripting.Parsing
                 rest = newState.Map(state => state.newRest).Reduce(rest);
             }
 
-            TokensArray tokens = rest
-                .ObjectOfType<NonEmptyText>()
-                .Map(new Lexer().Tokenize)
-                .Reduce(TokensArray.Empty);
+            TokensArray tokens = new Lexer().Tokenize(rest).StripSeparators();
 
             return script;
         }

@@ -8,5 +8,8 @@
         {
             this.Value = value;
         }
+
+        public override string ToString() =>
+            $"{this.GetType().Name}({this.Value})";
     }
 }
