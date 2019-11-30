@@ -4,7 +4,7 @@ using Xunit;
 
 namespace LiveCoder.Scripting.Tests.Parsing
 {
-    public class ParseEmptyTokensArray
+    public class ParseEmptyTokensArrayTests
     {
         [Fact]
         public void ReturnsEmptyInstructionsArray() => 

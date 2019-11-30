@@ -44,7 +44,7 @@ namespace LiveCoder.Scripting.Lexing
             }
         }
 
-        private IEnumerable<Token> Tokenize(string line)
+        public IEnumerable<Token> Tokenize(string line)
         {
             int pos = 0;
             while (pos < line.Length)
