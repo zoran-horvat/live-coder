@@ -63,6 +63,7 @@
     <Compile Include="Lexing\TokenizeSingleLineTests.cs" />
     <Compile Include="Lexing\TokenizeStringTests.cs" />
     <Compile Include="Lexing\TokenizeTestsBase.cs" />
+    <Compile Include="Parsing\ParseEmptyTokensArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Lexing\TokenizeEmptyTextTests.cs" />
   </ItemGroup>
@@ -78,6 +79,7 @@
       <Name>LiveCoder.Scripting</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

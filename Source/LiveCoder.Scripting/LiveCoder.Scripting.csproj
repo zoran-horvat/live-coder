@@ -66,6 +66,7 @@
     <Compile Include="Lexing\Lexemes\WhiteSpace.cs" />
     <Compile Include="Lexing\Lexer.cs" />
     <Compile Include="Lexing\Token.cs" />
+    <Compile Include="Parsing\Interpreter.cs" />
     <Compile Include="Text\EmptyText.cs" />
     <Compile Include="IDemoCommand.cs" />
     <Compile Include="IDemoStep.cs" />
