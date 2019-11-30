@@ -24,7 +24,6 @@ namespace LiveCoder.Scripting.Tests.Lexing
             this.Tokenize(new NonEmptyText(lines));
 
         private IEnumerable<Token> Tokenize(IText text) =>
-            new Lexer().Tokenize(text);
-
+            new Lexer().Tokenize(text).GetAll();
     }
 }

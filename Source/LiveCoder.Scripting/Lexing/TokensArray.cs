@@ -1,22 +1,31 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using LiveCoder.Common;
+using LiveCoder.Common.Optional;
 using LiveCoder.Scripting.Lexing.Lexemes;
 
 namespace LiveCoder.Scripting.Lexing
 {
-    public class TokensArray : IEnumerable<Token>
+    public class TokensArray
     {
-        private IEnumerable<Token> Tokens { get; }
+        private Token[] Tokens { get; }
+        private int Index { get; }
 
         public static TokensArray Empty() => 
             new TokensArray(Enumerable.Empty<Token>());
 
         public TokensArray(IEnumerable<Token> tokens)
         {
-            this.Tokens = tokens.ToList();
+            this.Tokens = tokens.ToArray();
+            this.Index = 0;
+        }
+
+
+        private TokensArray(TokensArray array, int indexOffset)
+        {
+            this.Tokens = array.Tokens;
+            this.Index = Math.Max(Math.Min(array.Index + indexOffset, this.Tokens.Length), 0);
         }
 
         public TokensArray StripSeparators() =>
@@ -25,11 +34,16 @@ namespace LiveCoder.Scripting.Lexing
         private IEnumerable<Token> NotSeparators =>
             this.Tokens.Where(token => !(token is WhiteSpace) && !(token is EndOfLine));
 
-        public IEnumerator<Token> GetEnumerator() => 
-            this.Tokens.GetEnumerator();
+        public Option<Token> FirstOrNone() =>
+            this.Index >= this.Tokens.Length ? Option.None<Token>()
+            : this.Tokens[this.Index];
 
-        IEnumerator IEnumerable.GetEnumerator() => 
-            GetEnumerator();
+        public TokensArray Next() =>
+            new TokensArray(this, 1);
+
+        public IEnumerable<Token> GetAll() =>
+            Enumerable.Range(this.Index, this.Tokens.Length - this.Index)
+                .Select(index => this.Tokens[index]);
 
         public override string ToString() => 
             this.Tokens.Select(token => token.ToString()).Join(Environment.NewLine);

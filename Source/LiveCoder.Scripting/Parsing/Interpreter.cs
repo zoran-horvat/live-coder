@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Xml;
 using LiveCoder.Common.Optional;
 using LiveCoder.Scripting.Lexing;
 using LiveCoder.Scripting.Lexing.Lexemes;
@@ -32,6 +30,12 @@ namespace LiveCoder.Scripting.Parsing
                 firstToken != Operator.Of("."))
             {
                 yield return (new SelectGlobalScope(), tokens);
+            }
+
+            if (tokens.FirstOrNone() is Some<Token> someIdentifier &&
+                someIdentifier.Content is Identifier identifier)
+            {
+                yield return (new ResolveAttribute(), tokens.Next());
             }
         }
     }

@@ -64,6 +64,7 @@
     <Compile Include="Lexing\TokenizeStringTests.cs" />
     <Compile Include="Lexing\TokenizeTestsBase.cs" />
     <Compile Include="Parsing\Instructions\SelectGlobalScopeExecuteTests.cs" />
+    <Compile Include="Parsing\ParseGlobalAttributeTests.cs" />
     <Compile Include="Parsing\ParseDotTests.cs" />
     <Compile Include="Parsing\ParseEmptyTokensArrayTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

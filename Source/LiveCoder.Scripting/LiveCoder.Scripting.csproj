@@ -67,6 +67,7 @@
     <Compile Include="Lexing\Lexer.cs" />
     <Compile Include="Lexing\Token.cs" />
     <Compile Include="Parsing\Instruction.cs" />
+    <Compile Include="Parsing\Instructions\ResolveAttribute.cs" />
     <Compile Include="Parsing\Instructions\SelectGlobalScope.cs" />
     <Compile Include="Parsing\Interpreter.cs" />
     <Compile Include="Text\EmptyText.cs" />
