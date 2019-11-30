@@ -14,14 +14,14 @@ namespace LiveCoder.Scripting.Tests.Parsing
         [Theory]
         [InlineData(".something")]
         [InlineData(".something.again(andAgain)")]
-        public void BeginsWithDot_FirstInstructionIsNotSelectRootContext(string text) =>
-            this.OptionalFirstInstruction(text).Do(Assert.IsNotType<SelectRootContext>);
+        public void BeginsWithDot_FirstInstructionIsNotSelectGlobalScope(string text) =>
+            this.OptionalFirstInstruction(text).Do(Assert.IsNotType<SelectGlobalScope>);
 
         [Theory]
         [InlineData("something")]
         [InlineData("something.again(andAgain)")]
-        public void BeginsWithNonDot_FirstInstructionIsSelectRootContext(string text) =>
-            Assert.IsType<SelectRootContext>(this.FirstInstruction(text));
+        public void BeginsWithNonDot_FirstInstructionIsSelectGlobalScope(string text) =>
+            Assert.IsType<SelectGlobalScope>(this.FirstInstruction(text));
 
         private Option<Instruction> OptionalFirstInstruction(string text) =>
             this.Parse(text).FirstOrNone();

@@ -31,7 +31,7 @@ namespace LiveCoder.Scripting.Parsing
                 some.Content is Token firstToken &&
                 firstToken != Operator.Of("."))
             {
-                yield return (new SelectRootContext(), tokens);
+                yield return (new SelectGlobalScope(), tokens);
             }
         }
     }
