@@ -2,7 +2,7 @@
 
 namespace LiveCoder.Scripting.Parsing.Tree
 {
-    class AttributeReference : Reference
+    public class AttributeReference : Reference
     {
         public Identifier Identifier { get; }
 
