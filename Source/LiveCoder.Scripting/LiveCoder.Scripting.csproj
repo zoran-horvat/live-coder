@@ -57,6 +57,7 @@
     <Compile Include="Execution\ISolution.cs" />
     <Compile Include="Execution\ScriptLoader.cs" />
     <Compile Include="IContext.cs" />
+    <Compile Include="Lexing\Lexemes\EndOfInput.cs" />
     <Compile Include="Lexing\Lexemes\EndOfLine.cs" />
     <Compile Include="Lexing\Lexemes\Identifier.cs" />
     <Compile Include="Lexing\Lexemes\InvalidToken.cs" />
@@ -69,7 +70,14 @@
     <Compile Include="Parsing\Instruction.cs" />
     <Compile Include="Parsing\Instructions\ResolveAttribute.cs" />
     <Compile Include="Parsing\Instructions\SelectGlobalScope.cs" />
-    <Compile Include="Parsing\Interpreter.cs" />
+    <Compile Include="Parsing\Parser.cs" />
+    <Compile Include="Parsing\Tree\AttributeReference.cs" />
+    <Compile Include="Parsing\Tree\GlobalExpression.cs" />
+    <Compile Include="Parsing\Tree\LocalExpression.cs" />
+    <Compile Include="Parsing\Tree\Node.cs" />
+    <Compile Include="Parsing\Tree\Reference.cs" />
+    <Compile Include="Parsing\Tree\ScriptRoot.cs" />
+    <Compile Include="Parsing\Tree\ScriptNode.cs" />
     <Compile Include="Text\EmptyText.cs" />
     <Compile Include="IDemoCommand.cs" />
     <Compile Include="IDemoStep.cs" />

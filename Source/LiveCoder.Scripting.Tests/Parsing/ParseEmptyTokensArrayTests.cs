@@ -8,6 +8,6 @@ namespace LiveCoder.Scripting.Tests.Parsing
     {
         [Fact]
         public void ReturnsEmptyInstructionsArray() => 
-            Assert.Empty(new Interpreter().Parse(TokensArray.Empty()));
+            Assert.Empty(new Parser().Parse(TokensArray.Empty()));
     }
 }

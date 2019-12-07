@@ -38,6 +38,9 @@ namespace LiveCoder.Scripting.Lexing
             this.Index >= this.Tokens.Length ? Option.None<Token>()
             : this.Tokens[this.Index];
 
+        public bool Any() =>
+            this.Index < this.Tokens.Length;
+
         public TokensArray Next() =>
             new TokensArray(this, 1);
 

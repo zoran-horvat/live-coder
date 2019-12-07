@@ -61,7 +61,7 @@ namespace LiveCoder.Scripting.Tests.Parsing
             this.GetInstructions(this.Tokenize(script));
 
         private IEnumerable<Instruction> GetInstructions(TokensArray tokens) =>
-            new Interpreter().Parse(tokens);
+            new Parser().Parse(tokens);
 
         private TokensArray Tokenize(string script) =>
             new TokensArray(this.GetTokens(script));

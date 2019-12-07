@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using LiveCoder.Common.Optional;
 using LiveCoder.Scripting.Lexing;
@@ -30,7 +29,7 @@ namespace LiveCoder.Scripting.Tests.Parsing
             this.Parse(text).First();
 
         private IEnumerable<Instruction> Parse(string text) =>
-            new Interpreter().Parse(this.Tokenize(text));
+            new Parser().Parse(this.Tokenize(text));
 
         private TokensArray Tokenize(string text) =>
             new TokensArray(this.GetTokens(text));
