@@ -8,7 +8,7 @@ using Xunit;
 
 namespace LiveCoder.Scripting.Tests.Parsing
 {
-    public class ParseToTreeAttributeTests
+    public class ParseAttributeTests
     {
         [Theory]
         [InlineData("something")]
@@ -75,7 +75,7 @@ namespace LiveCoder.Scripting.Tests.Parsing
             this.GetSyntaxTree(scriptLines).First();
 
         private ScriptNode GetSyntaxTree(params string[] scriptLines) =>
-            new Parser().ParseTree(this.Tokenize(scriptLines));
+            new Parser().Parse(this.Tokenize(scriptLines));
 
         private TokensArray Tokenize(params string[] scriptLines) =>
             new Lexer().Tokenize(new NonEmptyText(scriptLines)).StripSeparators();

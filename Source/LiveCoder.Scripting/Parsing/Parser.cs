@@ -1,51 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using LiveCoder.Common.Optional;
 using LiveCoder.Scripting.Lexing;
 using LiveCoder.Scripting.Lexing.Lexemes;
-using LiveCoder.Scripting.Parsing.Instructions;
 using LiveCoder.Scripting.Parsing.Tree;
 
 namespace LiveCoder.Scripting.Parsing
 {
     public class Parser
     {
-        public IEnumerable<Instruction> Parse(TokensArray tokens)
-        {
-            ScriptNode script = this.ParseTree(tokens);
-
-            bool produced = false;
-            do
-            {
-                produced = false;
-                foreach ((Instruction instruction, TokensArray rest) tuple in this.ParseNext(tokens))
-                {
-                    yield return tuple.instruction;
-                    tokens = tuple.rest;
-                    produced = true;
-                }
-            } while (produced);
-        }
-            
-        private IEnumerable<(Instruction instruction, TokensArray rest)> ParseNext(TokensArray tokens)
-        {
-            if (tokens.FirstOrNone() is Some<Token> some &&
-                some.Content is Token firstToken &&
-                firstToken != Operator.Of("."))
-            {
-                yield return (new SelectGlobalScope(), tokens);
-            }
-
-            if (tokens.FirstOrNone() is Some<Token> someIdentifier &&
-                someIdentifier.Content is Identifier identifier)
-            {
-                yield return (new ResolveAttribute(), tokens.Next());
-            }
-        }
-
-        public ScriptNode ParseTree(TokensArray tokens) =>
+        public ScriptNode Parse(TokensArray tokens) =>
             tokens.Any() ? this.ParseNonEmptyTree(tokens)
             : Tree.ScriptNode.Empty;
 
