@@ -131,6 +131,7 @@ namespace LiveCoder.Scripting.Parsing
                             break;
 
                         case Identifier _ when stateIndex == 20:
+                        case Operator op when op.Value == "." && stateIndex == 20:
                         case EndOfInput _ when stateIndex == 20:
                             processInput = this.Reduce(Reduce7_LocalExpression_Dot_Reference, parsingStack);
                             break;

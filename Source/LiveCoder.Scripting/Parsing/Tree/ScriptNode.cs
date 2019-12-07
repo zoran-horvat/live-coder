@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using LiveCoder.Common;
 
 namespace LiveCoder.Scripting.Parsing.Tree
 {
-    public class ScriptNode : Node
+    public class ScriptNode : Node, IEnumerable<GlobalExpression>
     {
         private ImmutableList<GlobalExpression> Expressions { get; }
 
@@ -19,6 +21,12 @@ namespace LiveCoder.Scripting.Parsing.Tree
 
         public ScriptNode Append(GlobalExpression expression) =>
             new ScriptNode(this.Expressions.Add(expression));
+
+        public IEnumerator<GlobalExpression> GetEnumerator() =>
+            this.Expressions.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => 
+            GetEnumerator();
 
         public override string ToString() =>
             this.Expressions.Select(expr => expr.ToString()).Join(Environment.NewLine);
