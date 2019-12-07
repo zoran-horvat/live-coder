@@ -10,12 +10,14 @@ namespace LiveCoder.Scripting.Parsing
     {
         private GrammarRules Grammar { get; }
         private (Type nodeType, int currentState, int nextState)[] GotoTable { get; }
+        private (int currentState, Type tokenType, string value, int nextState)[] Shifts { get; }
         private (int currentState, Type tokenType, string value, Func<ParsingStack, Node> reduction)[] Reductions { get; }
 
         public ParsingTable(GrammarRules grammar)
         {
             this.Grammar = grammar;
             this.GotoTable = CreateGotoTable();
+            this.Shifts = CreateShifts();
             this.Reductions = CreateReductions(grammar);
         }
 
@@ -32,6 +34,19 @@ namespace LiveCoder.Scripting.Parsing
                 (typeof(LocalExpression), 3, 12),
                 (typeof(Reference), 4, 13),
                 (typeof(Reference), 16, 20),
+            };
+
+        private static (int currentState, Type tokenType, string value, int nextState)[] CreateShifts() =>
+            new (int currentState, Type tokenType, string value, int nextState)[]
+            {
+                (0, typeof(Identifier), string.Empty, 6),
+                (0, typeof(Operator), ".", 4),
+                (1, typeof(Identifier), string.Empty, 6),
+                (3, typeof(Operator), ".", 4),
+                (4, typeof(Identifier), string.Empty, 6),
+                (5, typeof(Operator), ".", 16),
+                (12, typeof(Operator), ".", 16),
+                (16, typeof(Identifier), string.Empty, 6),
             };
 
         private static (int currentState, Type tokenType, string value, Func<ParsingStack, Node> reduction)[] CreateReductions(GrammarRules grammar) =>
@@ -67,16 +82,27 @@ namespace LiveCoder.Scripting.Parsing
                 .FirstOrNone(record => record.nodeType.IsAssignableFrom(nodeType) && record.currentState == currentState)
                 .Map(record => record.nextState);
 
+        public Option<int> Shift(int currentState, Token input) =>
+            input.ObjectOfType<Token>()
+                .MapOptional(token => this.Shift(currentState, token.GetType(), token.Value));
+
+        private Option<int> Shift(int currentState, Type tokenType, string value) =>
+            this.Shifts
+                .FirstOrNone(shift => this.IsMatch((shift.currentState, shift.tokenType, shift.value), (currentState, tokenType, value)))
+                .Map(tuple => tuple.nextState);
+                    
         public Option<Func<ParsingStack, Node>> Reduction(int currentState, Token input) =>
             input.ObjectOfType<Token>()
                 .MapOptional(token => this.Reduction(currentState, token.GetType(), token.Value));
 
         private Option<Func<ParsingStack, Node>> Reduction(int currentState, Type tokenType, string value) =>
             this.Reductions
-                .FirstOrNone(reduction =>
-                    reduction.currentState == currentState &&
-                    reduction.tokenType.IsAssignableFrom(tokenType) &&
-                    (string.IsNullOrWhiteSpace(reduction.value) || reduction.value == value))
+                .FirstOrNone(reduction => this.IsMatch((reduction.currentState, reduction.tokenType, reduction.value), (currentState, tokenType, value)))
                 .Map(tuple => tuple.reduction);
+
+        private bool IsMatch((int state, Type type, string value) expected, (int state, Type type, string value) actual) =>
+            expected.state == actual.state &&
+            expected.type.IsAssignableFrom(actual.type) &&
+            (string.IsNullOrWhiteSpace(expected.value) || expected.value == actual.value);
     }
 }
