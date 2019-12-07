@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LiveCoder.Common.Optional;
 using LiveCoder.Scripting.Lexing;
 using LiveCoder.Scripting.Lexing.Lexemes;
 using LiveCoder.Scripting.Parsing.Tree;
@@ -15,89 +16,86 @@ namespace LiveCoder.Scripting.Parsing
 
         private ScriptNode ParseNonEmptyTree(TokensArray tokens)
         {
-            Stack<object> parsingStack = new Stack<object>();
-            parsingStack.Push(0);
+            ParsingStack stack = new ParsingStack(this.Goto);
 
-            using (IEnumerator<Token> next = tokens.GetAll().Concat(new[] {new EndOfInput()}).GetEnumerator())
+            using (IEnumerator<Token> input = tokens.GetAll().Concat(new[] {new EndOfInput()}).GetEnumerator())
             {
-                bool processInput = next.MoveNext();
+                bool processInput = input.MoveNext();
                 while (processInput)
                 {
-                    int stateIndex = (int) parsingStack.Peek();
+                    if (stack.AcceptedResult is Some<ScriptNode> script)
+                        return script.Content;
 
-                    if (stateIndex == 0 && parsingStack.Count > 1 && parsingStack.ElementAt(1) is ScriptRoot root)
-                        return root.Script;
-
-                    switch (next.Current)
+                    switch (input.Current)
                     {
-                        case Identifier _ when stateIndex == 0:
-                            processInput = this.Shift(parsingStack, next, 6);
+                        case Identifier _ when stack.StateIndex == 0:
+                            processInput = stack.Shift(input, 6);
                             break;
-                        case Operator op when op.Value == "." && stateIndex == 0:
-                            processInput = this.Shift(parsingStack, next, 4);
-                            break;
-
-                        case Identifier _ when stateIndex == 1:
-                            processInput = this.Shift(parsingStack, next, 6);
-                            break;
-                        case EndOfInput _ when stateIndex == 1:
-                            processInput = this.Reduce(Reduce1_ScriptNode, parsingStack);
+                        case Operator op when op.Value == "." && stack.StateIndex == 0:
+                            processInput = stack.Shift(input, 4);
                             break;
 
-                        case Identifier _ when stateIndex == 2:
-                        case EndOfInput _ when stateIndex == 2:
-                            processInput = this.Reduce(Reduce2_GlobalExpression, parsingStack);
+                        case Identifier _ when stack.StateIndex == 1:
+                            processInput = stack.Shift(input, 6);
+                            break;
+                        case EndOfInput _ when stack.StateIndex == 1:
+                            processInput = stack.Reduce(Reduce1_ScriptNode);
                             break;
 
-                        case Identifier _ when stateIndex == 3:
-                        case EndOfInput _ when stateIndex == 3:
-                            processInput = this.Reduce(Reduce4_Reference, parsingStack);
-                            break;
-                        case Operator op when op.Value == "." && stateIndex == 3:
-                            processInput = this.Shift(parsingStack, next, 4);
+                        case Identifier _ when stack.StateIndex == 2:
+                        case EndOfInput _ when stack.StateIndex == 2:
+                            processInput = stack.Reduce(Reduce2_GlobalExpression);
                             break;
 
-                        case Identifier _ when stateIndex == 4:
-                            processInput = this.Shift(parsingStack, next, 6);
+                        case Identifier _ when stack.StateIndex == 3:
+                        case EndOfInput _ when stack.StateIndex == 3:
+                            processInput = stack.Reduce(Reduce4_Reference);
+                            break;
+                        case Operator op when op.Value == "." && stack.StateIndex == 3:
+                            processInput = stack.Shift(input, 4);
                             break;
 
-                        case Operator op when op.Value == "." && stateIndex == 5:
-                            processInput = this.Shift(parsingStack, next, 16);
+                        case Identifier _ when stack.StateIndex == 4:
+                            processInput = stack.Shift(input, 6);
                             break;
 
-                        case Identifier _ when stateIndex == 6:
-                        case Operator op when op.Value == "." && stateIndex == 6:
-                        case EndOfInput _ when stateIndex == 6:
-                            processInput = this.Reduce(Reduce8_Identifier, parsingStack);
+                        case Operator op when op.Value == "." && stack.StateIndex == 5:
+                            processInput = stack.Shift(input, 16);
                             break;
 
-                        case Identifier _ when stateIndex == 11:
-                        case EndOfInput _ when stateIndex == 11:
-                            processInput = this.Reduce(Reduce3_ScriptNode_GlobalExpression, parsingStack);
+                        case Identifier _ when stack.StateIndex == 6:
+                        case Operator op when op.Value == "." && stack.StateIndex == 6:
+                        case EndOfInput _ when stack.StateIndex == 6:
+                            processInput = stack.Reduce(Reduce8_Identifier);
                             break;
 
-                        case Identifier _ when stateIndex == 12:
-                        case EndOfInput _ when stateIndex == 12:
-                            processInput = this.Reduce(Reduce5_Reference_LocalExpression, parsingStack);
-                            break;
-                        case Operator op when op.Value == "." && stateIndex == 12:
-                            processInput = this.Shift(parsingStack, next, 16);
+                        case Identifier _ when stack.StateIndex == 11:
+                        case EndOfInput _ when stack.StateIndex == 11:
+                            processInput = stack.Reduce(Reduce3_ScriptNode_GlobalExpression);
                             break;
 
-                        case Identifier _ when stateIndex == 13:
-                        case Operator op when op.Value == "." && stateIndex == 13:
-                        case EndOfInput _ when stateIndex == 13:
-                            processInput = this.Reduce(Reduce6_Dot_Reference, parsingStack);
+                        case Identifier _ when stack.StateIndex == 12:
+                        case EndOfInput _ when stack.StateIndex == 12:
+                            processInput = stack.Reduce(Reduce5_Reference_LocalExpression);
+                            break;
+                        case Operator op when op.Value == "." && stack.StateIndex == 12:
+                            processInput = stack.Shift(input, 16);
                             break;
 
-                        case Identifier _ when stateIndex == 16:
-                            processInput = this.Shift(parsingStack, next, 6);
+                        case Identifier _ when stack.StateIndex == 13:
+                        case Operator op when op.Value == "." && stack.StateIndex == 13:
+                        case EndOfInput _ when stack.StateIndex == 13:
+                            processInput = stack.Reduce(Reduce6_Dot_Reference);
                             break;
 
-                        case Identifier _ when stateIndex == 20:
-                        case Operator op when op.Value == "." && stateIndex == 20:
-                        case EndOfInput _ when stateIndex == 20:
-                            processInput = this.Reduce(Reduce7_LocalExpression_Dot_Reference, parsingStack);
+                        case Identifier _ when stack.StateIndex == 16:
+                            processInput = stack.Shift(input, 6);
+                            break;
+
+                        case Identifier _ when stack.StateIndex == 20:
+                        case Operator op when op.Value == "." && stack.StateIndex == 20:
+                        case EndOfInput _ when stack.StateIndex == 20:
+                            processInput = stack.Reduce(Reduce7_LocalExpression_Dot_Reference);
                             break;
                         default:
                             processInput = false;
@@ -142,73 +140,40 @@ namespace LiveCoder.Scripting.Parsing
             return -1;
         }
 
-        private ScriptRoot Reduce1_ScriptNode(Stack<object> parsingStack) =>
-            new ScriptRoot(this.Pop<ScriptNode>(parsingStack));
+        private ScriptRoot Reduce1_ScriptNode(ParsingStack stack) =>
+            new ScriptRoot(stack.Pop<ScriptNode>());
 
-        private ScriptNode Reduce2_GlobalExpression(Stack<object> parsingStack) =>
-            ScriptNode.Empty.Append(this.Pop<GlobalExpression>(parsingStack));
+        private ScriptNode Reduce2_GlobalExpression(ParsingStack stack) =>
+            ScriptNode.Empty.Append(stack.Pop<GlobalExpression>());
 
-        private ScriptNode Reduce3_ScriptNode_GlobalExpression(Stack<object> parsingStack) =>
-            this.Reduce3_ScriptNode_GlobalExpression(this.Pop<ScriptNode, GlobalExpression>(parsingStack));
+        private ScriptNode Reduce3_ScriptNode_GlobalExpression(ParsingStack stack) =>
+            this.Reduce3_ScriptNode_GlobalExpression(stack.Pop<ScriptNode, GlobalExpression>());
 
         private ScriptNode Reduce3_ScriptNode_GlobalExpression((ScriptNode script, GlobalExpression globalExpression) tuple) =>
             tuple.script.Append(tuple.globalExpression);
 
-        private GlobalExpression Reduce4_Reference(Stack<object> parsingStack) => 
-            GlobalExpression.Empty.Append(this.Pop<Reference>(parsingStack));
+        private GlobalExpression Reduce4_Reference(ParsingStack stack) => 
+            GlobalExpression.Empty.Append(stack.Pop<Reference>());
 
-        private GlobalExpression Reduce5_Reference_LocalExpression(Stack<object> parsingStack) =>
-            this.Reduce5_Reference_LocalExpression(this.Pop<Reference, LocalExpression>(parsingStack));
+        private GlobalExpression Reduce5_Reference_LocalExpression(ParsingStack stack) =>
+            this.Reduce5_Reference_LocalExpression(stack.Pop<Reference, LocalExpression>());
 
         private GlobalExpression Reduce5_Reference_LocalExpression((Reference reference, LocalExpression localExpression) tuple) =>
             GlobalExpression.Empty.Append(tuple.reference).Append(tuple.localExpression);
 
-        private LocalExpression Reduce6_Dot_Reference(Stack<object> parsingStack) =>
-            this.Reduce6_Dot_Reference(this.Pop<Operator, Reference>(parsingStack));
+        private LocalExpression Reduce6_Dot_Reference(ParsingStack stack) =>
+            this.Reduce6_Dot_Reference(stack.Pop<Operator, Reference>());
 
         private LocalExpression Reduce6_Dot_Reference((Operator dot, Reference reference) tuple) =>
             LocalExpression.Empty.Append(tuple.reference);
 
-        private LocalExpression Reduce7_LocalExpression_Dot_Reference(Stack<object> parsingStack) =>
-            this.Reduce7_LocalExpression_Dot_Reference(this.Pop<LocalExpression, Operator, Reference>(parsingStack));
+        private LocalExpression Reduce7_LocalExpression_Dot_Reference(ParsingStack stack) =>
+            this.Reduce7_LocalExpression_Dot_Reference(stack.Pop<LocalExpression, Operator, Reference>());
 
         private LocalExpression Reduce7_LocalExpression_Dot_Reference((LocalExpression localExpression, Operator dot, Reference reference) tuple) =>
             tuple.localExpression.Append(tuple.reference);
 
-        private Reference Reduce8_Identifier(Stack<object> parsingStack) => 
-            new AttributeReference(this.Pop<Identifier>(parsingStack));
-
-        private TNode Pop<TNode>(Stack<object> parsingStack) where TNode : class
-        {
-            parsingStack.Pop();
-            return parsingStack.Pop() as TNode;
-        }
-
-        private (TNode1, TNode2) Pop<TNode1, TNode2>(Stack<object> parsingStack) 
-            where TNode1 : class 
-            where TNode2 : class
-        {
-            TNode2 node2 = this.Pop<TNode2>(parsingStack);
-            TNode1 node1 = this.Pop<TNode1>(parsingStack);
-            return (node1, node2);
-        }
-
-        private (TNode1, TNode2, TNode3) Pop<TNode1, TNode2, TNode3>(Stack<object> parsingStack)
-            where TNode1 : class
-            where TNode2 : class
-            where TNode3 : class
-        {
-            TNode3 node3 = this.Pop<TNode3>(parsingStack);
-            TNode2 node2 = this.Pop<TNode2>(parsingStack);
-            TNode1 node1 = this.Pop<TNode1>(parsingStack);
-            return (node1, node2, node3);
-        }
-
-        private bool Shift(Stack<object> parsingStack, IEnumerator<Token> symbol, int nextState)
-        {
-            parsingStack.Push(symbol.Current);
-            parsingStack.Push(nextState);
-            return symbol.MoveNext();
-        }
+        private Reference Reduce8_Identifier(ParsingStack stack) => 
+            new AttributeReference(stack.Pop<Identifier>());
     }
 }
