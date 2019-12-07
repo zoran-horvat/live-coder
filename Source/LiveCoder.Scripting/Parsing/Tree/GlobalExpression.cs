@@ -6,7 +6,7 @@ using LiveCoder.Common;
 
 namespace LiveCoder.Scripting.Parsing.Tree
 {
-    class GlobalExpression : Node, IEnumerable<Reference>
+    public class GlobalExpression : Node, IEnumerable<Reference>
     {
         private ImmutableList<Reference> References { get; }
 

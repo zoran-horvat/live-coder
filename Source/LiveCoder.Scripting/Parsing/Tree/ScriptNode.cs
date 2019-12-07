@@ -5,7 +5,7 @@ using LiveCoder.Common;
 
 namespace LiveCoder.Scripting.Parsing.Tree
 {
-    class ScriptNode : Node
+    public class ScriptNode : Node
     {
         private ImmutableList<GlobalExpression> Expressions { get; }
 

@@ -2,7 +2,7 @@
 
 namespace LiveCoder.Scripting.Parsing.Tree
 {
-    abstract class Reference : Node
+    public abstract class Reference : Node
     {
     }
 }

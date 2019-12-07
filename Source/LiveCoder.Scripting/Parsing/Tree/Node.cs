@@ -1,6 +1,6 @@
 ﻿namespace LiveCoder.Scripting.Parsing.Tree
 {
-    abstract class Node
+    public abstract class Node
     {
     }
 }

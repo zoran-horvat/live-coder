@@ -14,7 +14,7 @@ namespace LiveCoder.Scripting.Parsing
     {
         public IEnumerable<Instruction> Parse(TokensArray tokens)
         {
-            ScriptRoot script = this.ParseTree(tokens);
+            ScriptNode script = this.ParseTree(tokens);
 
             bool produced = false;
             do
@@ -45,11 +45,11 @@ namespace LiveCoder.Scripting.Parsing
             }
         }
 
-        private Tree.ScriptRoot ParseTree(TokensArray tokens) =>
+        public ScriptNode ParseTree(TokensArray tokens) =>
             tokens.Any() ? this.ParseNonEmptyTree(tokens)
-            : Tree.ScriptRoot.Empty;
+            : Tree.ScriptNode.Empty;
 
-        private ScriptRoot ParseNonEmptyTree(TokensArray tokens)
+        private ScriptNode ParseNonEmptyTree(TokensArray tokens)
         {
             Stack<object> parsingStack = new Stack<object>();
             parsingStack.Push(0);
@@ -62,7 +62,7 @@ namespace LiveCoder.Scripting.Parsing
                     int stateIndex = (int) parsingStack.Peek();
 
                     if (stateIndex == 0 && parsingStack.Count > 1 && parsingStack.ElementAt(1) is ScriptRoot root)
-                        return root;
+                        return root.Script;
 
                     switch (next.Current)
                     {
@@ -141,7 +141,7 @@ namespace LiveCoder.Scripting.Parsing
                 }
             }
 
-            return Tree.ScriptRoot.Empty;
+            return ScriptNode.Empty;
         }
 
         private bool Reduce(Func<Stack<object>, Node> reduction, Stack<object> parsingStack)
