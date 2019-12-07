@@ -10,9 +10,9 @@ namespace LiveCoder.Scripting.Parsing
     class ParsingStack
     {
         private Stack<object> Content { get; }
-        private Func<int, Node, int> GotoTable { get; }
+        private Func<Node, int, Option<int>> GotoTable { get; }
 
-        public ParsingStack(Func<int, Node, int> gotoTable)
+        public ParsingStack(Func<Node, int, Option<int>> gotoTable)
         {
             this.Content = new Stack<object>();
             this.Content.Push(0);
@@ -33,18 +33,19 @@ namespace LiveCoder.Scripting.Parsing
             return input.MoveNext();
         }
 
-        public bool Reduce(Func<Node> reduction)
+        public bool Reduce(Func<ParsingStack, Node> reduction)
         {
-            Node nonTerminal = reduction();
+            Node nonTerminal = reduction(this);
             int stateIndex = this.StateIndex;
             this.Content.Push(nonTerminal);
 
-            int nextStateIndex = this.GotoTable(stateIndex, nonTerminal);
-            if (nextStateIndex < 0)
-                return false;
+            if (this.GotoTable(nonTerminal, stateIndex) is Some<int> nextStateIndex)
+            {
+                this.Content.Push(nextStateIndex.Content);
+                return true;
+            }
 
-            this.Content.Push(nextStateIndex);
-            return true;
+            return false;
         }
 
         public TNode Pop<TNode>() where TNode : class

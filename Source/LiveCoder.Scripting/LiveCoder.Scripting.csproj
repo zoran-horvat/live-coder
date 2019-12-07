@@ -70,6 +70,7 @@
     <Compile Include="Parsing\GrammarRules.cs" />
     <Compile Include="Parsing\Parser.cs" />
     <Compile Include="Parsing\ParsingStack.cs" />
+    <Compile Include="Parsing\ParsingTable.cs" />
     <Compile Include="Parsing\Tree\AttributeReference.cs" />
     <Compile Include="Parsing\Tree\GlobalExpression.cs" />
     <Compile Include="Parsing\Tree\LocalExpression.cs" />
