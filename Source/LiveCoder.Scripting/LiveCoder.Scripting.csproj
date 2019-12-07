@@ -67,6 +67,7 @@
     <Compile Include="Lexing\Lexemes\WhiteSpace.cs" />
     <Compile Include="Lexing\Lexer.cs" />
     <Compile Include="Lexing\Token.cs" />
+    <Compile Include="Parsing\GrammarRules.cs" />
     <Compile Include="Parsing\Parser.cs" />
     <Compile Include="Parsing\ParsingStack.cs" />
     <Compile Include="Parsing\Tree\AttributeReference.cs" />

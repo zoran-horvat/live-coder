@@ -33,9 +33,9 @@ namespace LiveCoder.Scripting.Parsing
             return input.MoveNext();
         }
 
-        public bool Reduce(Func<ParsingStack, Node> reduction)
+        public bool Reduce(Func<Node> reduction)
         {
-            Node nonTerminal = reduction(this);
+            Node nonTerminal = reduction();
             int stateIndex = this.StateIndex;
             this.Content.Push(nonTerminal);
 
