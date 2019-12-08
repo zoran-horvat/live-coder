@@ -20,7 +20,7 @@ namespace LiveCoder.Scripting.Parsing
         }
 
         public ScriptNode Parse(TokensArray tokens) =>
-            tokens.Any() ? this.Parse(tokens.GetAll().Concat(new[] {new EndOfInput()}))
+            tokens.Any() ? this.Parse(tokens.StripSeparators().GetAll().Concat(new[] {new EndOfInput()}))
             : Tree.ScriptNode.Empty;
 
         private ScriptNode Parse(IEnumerable<Token> tokens) =>

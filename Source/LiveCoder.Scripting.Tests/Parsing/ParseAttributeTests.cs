@@ -78,6 +78,6 @@ namespace LiveCoder.Scripting.Tests.Parsing
             new Parser().Parse(this.Tokenize(scriptLines));
 
         private TokensArray Tokenize(params string[] scriptLines) =>
-            new Lexer().Tokenize(new NonEmptyText(scriptLines)).StripSeparators();
+            new Lexer().Tokenize(new NonEmptyText(scriptLines));
     }
 }

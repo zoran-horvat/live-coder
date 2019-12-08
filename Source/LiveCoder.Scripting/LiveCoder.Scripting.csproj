@@ -74,6 +74,7 @@
     <Compile Include="Parsing\Tree\AttributeReference.cs" />
     <Compile Include="Parsing\Tree\GlobalExpression.cs" />
     <Compile Include="Parsing\Tree\LocalExpression.cs" />
+    <Compile Include="Parsing\Tree\MethodReference.cs" />
     <Compile Include="Parsing\Tree\Node.cs" />
     <Compile Include="Parsing\Tree\Reference.cs" />
     <Compile Include="Parsing\Tree\ScriptRoot.cs" />

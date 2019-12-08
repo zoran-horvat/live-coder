@@ -36,8 +36,6 @@ namespace LiveCoder.Scripting.Parsing
                 rest = newState.Map(state => state.newRest).Reduce(rest);
             }
 
-            TokensArray tokens = new Lexer().Tokenize(rest).StripSeparators();
-
             return script;
         }
 

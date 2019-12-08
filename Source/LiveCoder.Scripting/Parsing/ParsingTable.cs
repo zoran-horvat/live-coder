@@ -45,7 +45,9 @@ namespace LiveCoder.Scripting.Parsing
                 (3, typeof(Operator), ".", 4),
                 (4, typeof(Identifier), string.Empty, 6),
                 (5, typeof(Operator), ".", 16),
+                (6, typeof(Operator), "(", 14),
                 (12, typeof(Operator), ".", 16),
+                (14, typeof(Operator), ")", 17),
                 (16, typeof(Identifier), string.Empty, 6),
             };
 
@@ -67,6 +69,9 @@ namespace LiveCoder.Scripting.Parsing
                 (13, typeof(Identifier), string.Empty, grammar.Reduce6_Dot_Reference),
                 (13, typeof(Operator), ".", grammar.Reduce6_Dot_Reference),
                 (13, typeof(EndOfInput), string.Empty, grammar.Reduce6_Dot_Reference),
+                (17, typeof(Identifier), string.Empty, grammar.Reduce9_Identifier_Parentheses),
+                (17, typeof(Operator), ".", grammar.Reduce9_Identifier_Parentheses),
+                (17, typeof(EndOfInput), string.Empty, grammar.Reduce9_Identifier_Parentheses),
                 (20, typeof(Identifier), string.Empty, grammar.Reduce7_LocalExpression_Dot_Reference),
                 (20, typeof(Operator), ".", grammar.Reduce7_LocalExpression_Dot_Reference),
                 (20, typeof(EndOfInput), string.Empty, grammar.Reduce7_LocalExpression_Dot_Reference),

@@ -40,5 +40,11 @@ namespace LiveCoder.Scripting.Parsing
 
         public Reference Reduce8_Identifier(ParsingStack stack) => 
             new AttributeReference(stack.Pop<Identifier>());
+
+        public Reference Reduce9_Identifier_Parentheses(ParsingStack stack) =>
+            this.Reduce9_Identifier_Parentheses(stack.Pop<Identifier, Operator, Operator>());
+            
+        private Reference Reduce9_Identifier_Parentheses((Identifier method, Operator openingParenthese, Operator closingParenthese) tuple) =>
+            new MethodReference(tuple.method);
     }
 }
