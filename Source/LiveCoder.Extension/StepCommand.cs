@@ -81,8 +81,6 @@ namespace LiveCoder.Extension
             ILogger logger = this.CreateLogger();
             DemoEngine = DemoEngine ?? new DemoEngine(this.GetSolution(logger), logger);
             DemoEngine.Step();
-            
-            ScriptingEngine = ScriptingEngine ?? Scripting.DemoEngine.For(this.CreateContext(logger), logger);
         }
 
         private IContext CreateContext(ILogger logger) =>
