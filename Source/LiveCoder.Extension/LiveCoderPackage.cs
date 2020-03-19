@@ -34,7 +34,7 @@ namespace LiveCoder.Extension
         public const string PackageGuidString = "3bd07697-f944-49c0-ae95-1dc9a9e61842";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Step"/> class.
+        /// Initializes a new instance of the <see cref="StepCommand"/> class.
         /// </summary>
         public LiveCoderPackage()
         {
@@ -52,7 +52,7 @@ namespace LiveCoder.Extension
         /// </summary>
         protected override void Initialize()
         {
-            Step.Initialize(this);
+            StepCommand.Initialize(this);
             base.Initialize();
         }
 
