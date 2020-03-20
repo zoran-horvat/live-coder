@@ -18,26 +18,32 @@ namespace LiveCoder.Extension.Implementation
         private ILogger Logger { get; }
 
         private Option<DemoScript> Script { get; set; }
-        private Option<ScriptLiveTracker> ScriptTracker { get; }
+        private ScriptLiveTracker ScriptTracker { get; }
 
-        private Option<FileInfo> ScriptFile =>
-            this.Solution.File
+        private FileInfo ScriptFile { get; }
+
+        private Option<DemoScript> ParseScript() =>
+            DemoScript.TryParse(this.ScriptFile, this.Logger);
+
+        public static Option<IEngine> TryCreate(ISolution solution, ILogger logger) =>
+            TryFindScriptFile(solution).Map<IEngine>(file => new DemoEngine(solution, logger, file));
+
+        private DemoEngine(ISolution solution, ILogger logger, FileInfo scriptFile)
+        {
+            this.Solution = solution ?? throw new ArgumentNullException(nameof(solution));
+            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.ScriptFile = scriptFile;
+            this.LogScriptFile();
+            this.Script = this.ParseScript();
+            this.ScriptTracker = new ScriptLiveTracker(this.ScriptFile, this.OnScriptFileModified);
+        }
+
+        private static Option<FileInfo> TryFindScriptFile(ISolution solution) =>
+            solution.File
                 .MapNullable(file => file.Directory)
                 .Map(dir => Path.Combine(dir.FullName, ".livecoder", "script.lcs"))
                 .Map(path => new FileInfo(path))
                 .When(file => File.Exists(file.FullName));
-
-        private Option<DemoScript> ParseScript() =>
-            this.ScriptFile.MapOptional(file => DemoScript.TryParse(file, this.Logger));
-
-        public DemoEngine(ISolution solution, ILogger logger)
-        {
-            this.Solution = solution ?? throw new ArgumentNullException(nameof(solution));
-            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.LogScriptFile();
-            this.Script = this.ParseScript();
-            this.ScriptTracker = this.ScriptFile.Map(file => new ScriptLiveTracker(file, this.OnScriptFileModified));
-        }
 
         private void OnScriptFileModified(FileInfo scriptFile)
         {
@@ -48,14 +54,12 @@ namespace LiveCoder.Extension.Implementation
         }
 
         private void LogScriptFile() =>
-            this.ScriptFile.Do(file => this.Logger.Write(new ScriptFileFound(file)));
+            this.Logger.Write(new ScriptFileFound(this.ScriptFile));
 
-        private Option<IDemoStep> GetNextStep()
-        {
-            return this.ReadScriptOptional(script => this.Solution.GetDemoStepsOrdered(script).FirstOrNone())
+        private Option<IDemoStep> GetNextStep() =>
+            this.ReadScriptOptional(script => this.Solution.GetDemoStepsOrdered(script).FirstOrNone())
                 .Audit(s => this.Logger.Write(new FirstDemoStepFound(s)))
                 .AuditNone(() => this.Logger.Write(new NoDemoStepsFound()));
-        }
 
         private Option<TResult> ReadScript<TResult>(Func<DemoScript, TResult> map)
         {

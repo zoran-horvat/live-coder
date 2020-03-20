@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Implementation;
 using LiveCoder.Extension.Interfaces;
 using LiveCoder.Scripting;
@@ -50,7 +51,7 @@ namespace LiveCoder.Extension
         /// </summary>
         public static StepCommand Instance { get; private set; }
 
-        private static IEngine DemoEngine { get; set; }
+        private static Option<IEngine> DemoEngine { get; set; }
 
         private static Scripting.DemoEngine ScriptingEngine { get; set; }
 
@@ -79,8 +80,8 @@ namespace LiveCoder.Extension
         private void MenuItemCallback(object sender, EventArgs e)
         {
             ILogger logger = this.CreateLogger();
-            DemoEngine = DemoEngine ?? new DemoEngine(this.GetSolution(logger), logger);
-            DemoEngine.Step();
+            DemoEngine = DemoEngine ?? LiveCoder.Extension.Implementation.DemoEngine.TryCreate(this.GetSolution(logger), logger);
+            DemoEngine.Do(engine => engine.Step());
         }
 
         private IContext CreateContext(ILogger logger) =>
