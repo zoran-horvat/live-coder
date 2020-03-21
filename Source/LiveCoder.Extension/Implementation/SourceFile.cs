@@ -5,8 +5,9 @@ using System.Linq;
 using EnvDTE;
 using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Implementation.Readers;
-using LiveCoder.Extension.Interfaces;
 using LiveCoder.Scripting;
+using LiveCoder.Scripting.Interfaces;
+using LiveCoder.Scripting.Snippets;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 

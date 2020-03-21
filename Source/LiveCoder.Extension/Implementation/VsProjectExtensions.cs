@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using EnvDTE;
 using LiveCoder.Common.Optional;
-using LiveCoder.Extension.Interfaces;
+using LiveCoder.Scripting.Interfaces;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 

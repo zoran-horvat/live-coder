@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using EnvDTE;
-using LiveCoder.Extension.Interfaces;
 using LiveCoder.Scripting;
+using LiveCoder.Scripting.Interfaces;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace LiveCoder.Extension.Implementation

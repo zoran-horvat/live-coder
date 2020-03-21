@@ -1,6 +1,6 @@
 ﻿using System;
-using LiveCoder.Extension.Events;
-using LiveCoder.Extension.Interfaces;
+using LiveCoder.Scripting.Events;
+using LiveCoder.Scripting.Interfaces;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 

@@ -1,5 +1,5 @@
-﻿using LiveCoder.Extension.Events;
-using LiveCoder.Extension.Interfaces;
+﻿using LiveCoder.Scripting.Events;
+using LiveCoder.Scripting.Interfaces;
 
 namespace LiveCoder.Extension.Implementation
 {

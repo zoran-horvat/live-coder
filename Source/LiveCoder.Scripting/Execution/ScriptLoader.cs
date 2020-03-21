@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using LiveCoder.Common.Optional;
+using LiveCoder.Scripting.Interfaces;
 
 namespace LiveCoder.Scripting.Execution
 {

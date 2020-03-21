@@ -1,11 +1,11 @@
-﻿
-using LiveCoder.Extension.Interfaces;
+﻿using LiveCoder.Scripting;
+using LiveCoder.Scripting.Interfaces;
 
 namespace LiveCoder.Extension.Implementation
 {
-    class VsExecutionContext : Scripting.IContext
+    class VsExecutionContext : IContext
     {
-        public Scripting.Execution.ISolution Solution { get; }
+        public ISolution Solution { get; }
 
         public VsExecutionContext(ISolution solution)
         {
