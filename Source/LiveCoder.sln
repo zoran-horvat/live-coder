@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "Demo\Demo\Demo.csproj", "{E7426B58-7A96-40DD-90A4-89EED14F4A99}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveCoder.Common", "LiveCoder.Common\LiveCoder.Common.csproj", "{93FDF21A-CCBD-474C-ACFE-C5A7D0D6D974}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveCoder.Extension", "LiveCoder.Extension\LiveCoder.Extension.csproj", "{37AA0ECC-3E24-4EA3-89B7-A9DDE2C01940}"
@@ -23,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E7426B58-7A96-40DD-90A4-89EED14F4A99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7426B58-7A96-40DD-90A4-89EED14F4A99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E7426B58-7A96-40DD-90A4-89EED14F4A99}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E7426B58-7A96-40DD-90A4-89EED14F4A99}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93FDF21A-CCBD-474C-ACFE-C5A7D0D6D974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93FDF21A-CCBD-474C-ACFE-C5A7D0D6D974}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93FDF21A-CCBD-474C-ACFE-C5A7D0D6D974}.Release|Any CPU.ActiveCfg = Release|Any CPU
