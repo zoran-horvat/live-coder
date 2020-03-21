@@ -60,7 +60,6 @@
     <Compile Include="Events\NoDemoStepsFound.cs" />
     <Compile Include="Events\ScriptFIleFound.cs" />
     <Compile Include="Events\StepVerificationFailed.cs" />
-    <Compile Include="Execution\ISolution.cs" />
     <Compile Include="Execution\ScriptLoader.cs" />
     <Compile Include="IContext.cs" />
     <Compile Include="Interfaces\IEngine.cs" />

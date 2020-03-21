@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LiveCoder.Common;
+using LiveCoder.Common.IO;
 using LiveCoder.Common.Optional;
 using LiveCoder.Scripting.Events;
 using LiveCoder.Scripting.Interfaces;
@@ -41,12 +42,11 @@ namespace LiveCoder.Scripting.Snippets
             this.ScriptTracker = new ScriptLiveTracker(this.ScriptFile, this.OnScriptFileModified);
         }
 
-        private static Option<FileInfo> TryFindScriptFile(ISolution solution) =>
-            solution.File
-                .MapNullable(file => file.Directory)
-                .Map(dir => Path.Combine(dir.FullName, ".livecoder", "script.lcs"))
-                .Map(path => new FileInfo(path))
-                .When(file => File.Exists(file.FullName));
+        private static Option<FileInfo> TryFindScriptFile(ISolution solution) => 
+            new FileInfo(SnippetsFilePath(solution)).WhenExists();
+
+        private static string SnippetsFilePath(ISolution solution) => 
+            Path.Combine(solution.File.Directory.FullName, ".livecoder", "script.lcs");
 
         private void OnScriptFileModified(FileInfo scriptFile)
         {

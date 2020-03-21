@@ -50,6 +50,7 @@
     <Compile Include="Disposable.cs" />
     <Compile Include="DisposableFactory.cs" />
     <Compile Include="IO\ConcurrentFIleAccess.cs" />
+    <Compile Include="IO\FileInfoExtensions.cs" />
     <Compile Include="IO\RelativeDirectories.cs" />
     <Compile Include="IO\TextContentComparison.cs" />
     <Compile Include="OptionalDisposableFactory.cs" />

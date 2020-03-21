@@ -7,9 +7,7 @@ namespace LiveCoder.Scripting.Execution
     class ScriptLoader
     {
         public DemoScript For(ISolution solution, IScriptingAuditor auditor) =>
-            solution.File
-                .MapOptional(solutionFile => this.InSolutionDirectory(solutionFile.Directory, auditor))
-                .Reduce(DemoScript.Empty);
+            this.InSolutionDirectory(solution.File.Directory, auditor).Reduce(DemoScript.Empty);
 
         private Option<DemoScript> InSolutionDirectory(DirectoryInfo directory, IScriptingAuditor auditor) =>
             directory.GetDirectories(".livecoder")
