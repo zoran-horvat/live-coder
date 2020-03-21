@@ -1,7 +1,6 @@
 ﻿using System;
 using EnvDTE;
 using LiveCoder.Common.Optional;
-using LiveCoder.Scripting.Execution;
 using LiveCoder.Scripting.Interfaces;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -11,10 +10,17 @@ namespace LiveCoder.Extension.Implementation
 {
     static class ServiceProviderExtensions
     {
-        public static ISolution GetSolution(this IServiceProvider serviceProvider, ILogger logger) =>
-            new VsSolutionWrapper(serviceProvider.GetSolutionInterface(), serviceProvider.GetDte(), logger);
+        public static Option<ISolution> TryGetSolution(this IServiceProvider serviceProvider, ILogger logger) =>
+            serviceProvider.TryGetSolutionInterface()
+                .Map<ISolution>(solution => new VsSolutionWrapper(solution, serviceProvider.GetDte(), logger));
 
-        private static IVsSolution GetSolutionInterface(this IServiceProvider serviceProvider) =>
+        private static Option<IVsSolution> TryGetSolutionInterface(this IServiceProvider serviceProvider) =>
+            serviceProvider.GetRawSolutionInterface() is IVsSolution solution &&
+            solution.GetSolutionInfo(out string _, out string _, out string _) != 0
+                ? (Option<IVsSolution>)new Some<IVsSolution>(solution)
+                : None.Value;
+
+        private static IVsSolution GetRawSolutionInterface(this IServiceProvider serviceProvider) =>
             (IVsSolution)serviceProvider.GetService(typeof(IVsSolution));
 
         private static DTE GetDte(this IServiceProvider serviceProvider) =>

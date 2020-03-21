@@ -56,6 +56,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Implementation\NoScriptEngine.cs" />
+    <Compile Include="Implementation\NoSolution.cs" />
     <Compile Include="Implementation\VsExecutionContext.cs" />
     <Compile Include="Implementation\VsOutputLogger.cs" />
     <Compile Include="Implementation\Readers\DocumentExtensions.cs" />

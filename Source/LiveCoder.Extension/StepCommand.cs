@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Implementation;
 using LiveCoder.Scripting;
 using LiveCoder.Scripting.Execution;
@@ -82,14 +83,16 @@ namespace LiveCoder.Extension
         }
 
         private IEngine CreateEngine(ILogger logger) =>
-            CodeSnippetsEngine.TryCreate(this.GetSolution(logger), logger)
+            this.TryGetSolution(logger)
+                .Map(solution => this.CreateEngine(solution, logger))
+                .Reduce(() => new NoSolution(logger));
+
+        private IEngine CreateEngine(ISolution solution, ILogger logger) =>
+            CodeSnippetsEngine.TryCreate(solution, logger)
                 .Reduce(() => new NoScriptEngine(logger));
 
-        private IContext CreateContext(ILogger logger) =>
-            new VsExecutionContext(this.GetSolution(logger));
-
-        private ISolution GetSolution(ILogger logger) =>
-            this.ServiceProvider.GetSolution(logger);
+        private Option<ISolution> TryGetSolution(ILogger logger) => 
+            this.ServiceProvider.TryGetSolution(logger);
 
         private ILogger CreateLogger() =>
             new VsOutputLogger();

@@ -22,6 +22,7 @@ namespace LiveCoder.Extension.Implementation
             this.SolutionInterface = solutionInterface ?? throw new ArgumentNullException(nameof(SolutionInterface));
             this.Dte = dte ?? throw new ArgumentNullException(nameof(dte));
             this.Logger = logger;
+            Option<FileInfo> solutionFile = this.File;
         }
 
         public Option<FileInfo> File =>
