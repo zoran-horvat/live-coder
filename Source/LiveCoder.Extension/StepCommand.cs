@@ -1,11 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Design;
-using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Implementation;
 using LiveCoder.Extension.Interfaces;
 using LiveCoder.Scripting;
 using Microsoft.VisualStudio.Shell;
-using DemoEngine = LiveCoder.Extension.Implementation.DemoEngine;
 
 namespace LiveCoder.Extension
 {
@@ -53,8 +51,6 @@ namespace LiveCoder.Extension
 
         private static IEngine DemoEngine { get; set; }
 
-        private static Scripting.DemoEngine ScriptingEngine { get; set; }
-
         /// <summary>
         /// Gets the service provider from the owner package.
         /// </summary>
@@ -79,13 +75,12 @@ namespace LiveCoder.Extension
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            ILogger logger = this.CreateLogger();
-            DemoEngine = DemoEngine ?? this.CreateEngine(logger);
+            DemoEngine = DemoEngine ?? this.CreateEngine(this.CreateLogger());
             DemoEngine.Step();
         }
 
         private IEngine CreateEngine(ILogger logger) =>
-            LiveCoder.Extension.Implementation.DemoEngine.TryCreate(this.GetSolution(logger), logger)
+            CodeSnippetsEngine.TryCreate(this.GetSolution(logger), logger)
                 .Reduce(() => new NoScriptEngine(logger));
 
         private IContext CreateContext(ILogger logger) =>

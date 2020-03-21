@@ -71,7 +71,7 @@
     <Compile Include="Implementation\Commands\SelectLine.cs" />
     <Compile Include="Implementation\Commands\SelectMultipleLines.cs" />
     <Compile Include="Implementation\Commands\VerifyStep.cs" />
-    <Compile Include="Implementation\DemoEngine.cs" />
+    <Compile Include="Implementation\CodeSnippetsEngine.cs" />
     <Compile Include="Implementation\FileSystemSnippet.cs" />
     <Compile Include="Implementation\NoScriptEngine.cs" />
     <Compile Include="Implementation\VsExecutionContext.cs" />

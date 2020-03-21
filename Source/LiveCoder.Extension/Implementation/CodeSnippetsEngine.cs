@@ -11,7 +11,7 @@ using LiveCoder.Scripting;
 
 namespace LiveCoder.Extension.Implementation
 {
-    class DemoEngine : IEngine
+    class CodeSnippetsEngine : IEngine
     {
         private Queue<IDemoCommand> Commands { get; } = new Queue<IDemoCommand>();
         private ISolution Solution { get; }
@@ -30,9 +30,9 @@ namespace LiveCoder.Extension.Implementation
                 .Reduce((DemoScript.Empty, this.ParseFailedStep));
 
         public static Option<IEngine> TryCreate(ISolution solution, ILogger logger) =>
-            TryFindScriptFile(solution).Map<IEngine>(file => new DemoEngine(solution, logger, file));
+            TryFindScriptFile(solution).Map<IEngine>(file => new CodeSnippetsEngine(solution, logger, file));
 
-        private DemoEngine(ISolution solution, ILogger logger, FileInfo scriptFile)
+        private CodeSnippetsEngine(ISolution solution, ILogger logger, FileInfo scriptFile)
         {
             this.Solution = solution ?? throw new ArgumentNullException(nameof(solution));
             this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
