@@ -51,7 +51,7 @@ namespace LiveCoder.Extension
         /// </summary>
         public static StepCommand Instance { get; private set; }
 
-        private static Option<IEngine> DemoEngine { get; set; }
+        private static IEngine DemoEngine { get; set; }
 
         private static Scripting.DemoEngine ScriptingEngine { get; set; }
 
@@ -80,9 +80,13 @@ namespace LiveCoder.Extension
         private void MenuItemCallback(object sender, EventArgs e)
         {
             ILogger logger = this.CreateLogger();
-            DemoEngine = DemoEngine ?? LiveCoder.Extension.Implementation.DemoEngine.TryCreate(this.GetSolution(logger), logger);
-            DemoEngine.Do(engine => engine.Step());
+            DemoEngine = DemoEngine ?? this.CreateEngine(logger);
+            DemoEngine.Step();
         }
+
+        private IEngine CreateEngine(ILogger logger) =>
+            LiveCoder.Extension.Implementation.DemoEngine.TryCreate(this.GetSolution(logger), logger)
+                .Reduce(() => new NoScriptEngine(logger));
 
         private IContext CreateContext(ILogger logger) =>
             new VsExecutionContext(this.GetSolution(logger));
