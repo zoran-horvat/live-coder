@@ -17,13 +17,17 @@ namespace LiveCoder.Extension.Implementation
         private ISolution Solution { get; }
         private ILogger Logger { get; }
 
-        private Option<DemoScript> Script { get; set; }
+        private Action ActualStep { get; set; }
+
+        private DemoScript Script { get; set; }
         private ScriptLiveTracker ScriptTracker { get; }
 
         private FileInfo ScriptFile { get; }
 
-        private Option<DemoScript> ParseScript() =>
-            DemoScript.TryParse(this.ScriptFile, this.Logger);
+        private (DemoScript, Action) ParseScript() =>
+            DemoScript.TryParse(this.ScriptFile, this.Logger)
+                .Map<(DemoScript, Action)>(script => (script, this.PositiveStep))
+                .Reduce((DemoScript.Empty, this.ParseFailedStep));
 
         public static Option<IEngine> TryCreate(ISolution solution, ILogger logger) =>
             TryFindScriptFile(solution).Map<IEngine>(file => new DemoEngine(solution, logger, file));
@@ -34,7 +38,7 @@ namespace LiveCoder.Extension.Implementation
             this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.ScriptFile = scriptFile;
             this.LogScriptFile();
-            this.Script = this.ParseScript();
+            (this.Script, this.ActualStep) = this.ParseScript();
             this.ScriptTracker = new ScriptLiveTracker(this.ScriptFile, this.OnScriptFileModified);
         }
 
@@ -49,7 +53,7 @@ namespace LiveCoder.Extension.Implementation
         {
             lock (this.Script)
             {
-                this.Script = this.ParseScript();
+                (this.Script, this.ActualStep) = this.ParseScript();
             }
         }
 
@@ -61,11 +65,11 @@ namespace LiveCoder.Extension.Implementation
                 .Audit(s => this.Logger.Write(new FirstDemoStepFound(s)))
                 .AuditNone(() => this.Logger.Write(new NoDemoStepsFound()));
 
-        private Option<TResult> ReadScript<TResult>(Func<DemoScript, TResult> map)
+        private TResult ReadScript<TResult>(Func<DemoScript, TResult> map)
         {
             lock (this.Script)
             {
-                return this.Script.Map(map);
+                return map(this.Script);
             }
         }
 
@@ -73,13 +77,13 @@ namespace LiveCoder.Extension.Implementation
         {
             lock (this.Script)
             {
-                return this.Script.MapOptional(map);
+                return map(this.Script);
             }
         }
 
         private IEnumerable<IDemoCommand> NextCommands =>
             this.GetNextStep()
-                .MapOptional(step => this.ReadScript(step.GetCommands))
+                .Map(step => this.ReadScript(step.GetCommands))
                 .Reduce(Enumerable.Empty<IDemoCommand>());
 
         private void PullNewCommands() => 
@@ -129,7 +133,13 @@ namespace LiveCoder.Extension.Implementation
             }
         }
 
-        public void Step()
+        public void Step() =>
+            this.ActualStep();
+
+        private void ParseFailedStep() =>
+            this.Logger.Write(new Error($"Failed parsing snippets file {this.ScriptFile}"));
+
+        private void PositiveStep()
         {
             this.PurgeIfVerificationFails();
             this.PullCommandsIfEmpty();
