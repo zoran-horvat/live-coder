@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using System.Runtime.CompilerServices;
 using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Implementation;
 using LiveCoder.Scripting;
+using LiveCoder.Scripting.Events;
 using LiveCoder.Scripting.Execution;
 using LiveCoder.Scripting.Interfaces;
 using LiveCoder.Scripting.Snippets;
@@ -32,9 +34,11 @@ namespace LiveCoder.Extension
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        private StepCommand(Package package)
+        /// <param name="logger">Logger to be used by this instance.</param>
+        private StepCommand(Package package, ILogger logger)
         {
             this.Package = package ?? throw new ArgumentNullException(nameof(package));
+            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.ServiceProvider.TryGetService<OleMenuCommandService>().Do(this.AddMenuItem);
         }
 
@@ -52,7 +56,8 @@ namespace LiveCoder.Extension
         /// </summary>
         public static StepCommand Instance { get; private set; }
 
-        private static IEngine DemoEngine { get; set; }
+        private IEngine DemoEngine { get; set; }
+        private ILogger Logger { get; set; }
 
         /// <summary>
         /// Gets the service provider from the owner package.
@@ -65,8 +70,7 @@ namespace LiveCoder.Extension
         /// <param name="package">Owner package, not null.</param>
         public static void Initialize(Package package)
         {
-            Instance = new StepCommand(package);
-            DemoEngine = null;
+            Instance = new StepCommand(package, new VsOutputLogger());
         }
 
         /// <summary>
@@ -78,8 +82,15 @@ namespace LiveCoder.Extension
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            DemoEngine = DemoEngine ?? this.CreateEngine(this.CreateLogger());
-            DemoEngine.Step();
+            try
+            {
+                DemoEngine = DemoEngine ?? this.CreateEngine(this.Logger);
+                DemoEngine.Step();
+            }
+            catch (Exception ex)
+            {
+                this.Logger.Write(new Error(ex.ToString()));
+            }
         }
 
         private IEngine CreateEngine(ILogger logger) =>
@@ -93,8 +104,5 @@ namespace LiveCoder.Extension
 
         private Option<ISolution> TryGetSolution(ILogger logger) => 
             this.ServiceProvider.TryGetSolution(logger);
-
-        private ILogger CreateLogger() =>
-            new VsOutputLogger();
     }
 }

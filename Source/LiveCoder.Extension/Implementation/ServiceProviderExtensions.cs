@@ -15,10 +15,12 @@ namespace LiveCoder.Extension.Implementation
                 .Map<ISolution>(solution => new VsSolutionWrapper(solution, serviceProvider.GetDte(), logger));
 
         private static Option<IVsSolution> TryGetSolutionInterface(this IServiceProvider serviceProvider) =>
-            serviceProvider.GetRawSolutionInterface() is IVsSolution solution &&
-            solution.GetSolutionInfo(out string _, out string _, out string _) != 0
-                ? (Option<IVsSolution>)new Some<IVsSolution>(solution)
+            serviceProvider.GetRawSolutionInterface() is IVsSolution solution && IsSolutionOpen(solution)
+                ? (Option<IVsSolution>) new Some<IVsSolution>(solution)
                 : None.Value;
+
+        private static bool IsSolutionOpen(IVsSolution solution) =>
+            solution.GetProperty((int) __VSPROPID.VSPROPID_IsSolutionOpen, out object value) == 0 && (bool)value;
 
         private static IVsSolution GetRawSolutionInterface(this IServiceProvider serviceProvider) =>
             (IVsSolution)serviceProvider.GetService(typeof(IVsSolution));
