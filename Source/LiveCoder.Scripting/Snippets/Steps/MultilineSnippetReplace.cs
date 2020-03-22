@@ -24,7 +24,7 @@ namespace LiveCoder.Scripting.Snippets.Steps
             this.LinesCount = linesCount > 0 ? linesCount : throw new ArgumentException("Number of lines must be positive.");
         }
 
-        public IEnumerable<IDemoCommand> GetCommands(DemoScript script) =>
+        public IEnumerable<IDemoCommand> GetCommands(CodeSnippets script) =>
             new IDemoCommand[]
             {
                 new OpenDocument(this.File),

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using LiveCoder.Scripting.Snippets;
 
 namespace LiveCoder.Scripting.Interfaces
 {
@@ -7,6 +8,6 @@ namespace LiveCoder.Scripting.Interfaces
     {
         FileInfo File { get; }
         IEnumerable<IProject> Projects { get; }
-        IEnumerable<IDemoStep> GetDemoStepsOrdered(DemoScript script);
+        IEnumerable<IDemoStep> GetDemoStepsOrdered(CodeSnippets script);
     }
 }

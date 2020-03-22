@@ -7,6 +7,7 @@ using LiveCoder.Common.Optional;
 using LiveCoder.Scripting;
 using LiveCoder.Scripting.Execution;
 using LiveCoder.Scripting.Interfaces;
+using LiveCoder.Scripting.Snippets;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace LiveCoder.Extension.Implementation
@@ -32,7 +33,7 @@ namespace LiveCoder.Extension.Implementation
         public IEnumerable<IProject> Projects =>
             this.SolutionInterface.GetProjects().Select(project => new VsProjectWrapper(project, this.Dte, this.Logger));
 
-        public IEnumerable<IDemoStep> GetDemoStepsOrdered(DemoScript script) =>
+        public IEnumerable<IDemoStep> GetDemoStepsOrdered(CodeSnippets script) =>
             this.Projects.SelectMany(project => project.GetDemoSteps(script)).OrderBy(step => step.SnippetShortcut);
     }
 }

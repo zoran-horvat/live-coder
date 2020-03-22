@@ -19,15 +19,15 @@ namespace LiveCoder.Scripting.Snippets
 
         private Action ActualStep { get; set; }
 
-        private DemoScript Script { get; set; }
+        private CodeSnippets Script { get; set; }
         private ScriptLiveTracker ScriptTracker { get; }
 
         private FileInfo ScriptFile { get; }
 
-        private (DemoScript, Action) ParseScript() =>
-            DemoScript.TryParse(this.ScriptFile, this.Logger)
-                .Map<(DemoScript, Action)>(script => (script, this.PositiveStep))
-                .Reduce((DemoScript.Empty, this.ParseFailedStep));
+        private (CodeSnippets, Action) ParseScript() =>
+            CodeSnippets.TryParse(this.ScriptFile, this.Logger)
+                .Map<(CodeSnippets, Action)>(script => (script, this.PositiveStep))
+                .Reduce((CodeSnippets.Empty, this.ParseFailedStep));
 
         public static Option<IEngine> TryCreate(ISolution solution, ILogger logger) =>
             TryFindScriptFile(solution).Map<IEngine>(file => new CodeSnippetsEngine(solution, logger, file));
@@ -64,7 +64,7 @@ namespace LiveCoder.Scripting.Snippets
                 .Audit(s => this.Logger.Write(new FirstDemoStepFound(s)))
                 .AuditNone(() => this.Logger.Write(new NoDemoStepsFound()));
 
-        private TResult ReadScript<TResult>(Func<DemoScript, TResult> map)
+        private TResult ReadScript<TResult>(Func<CodeSnippets, TResult> map)
         {
             lock (this.Script)
             {
@@ -72,7 +72,7 @@ namespace LiveCoder.Scripting.Snippets
             }
         }
 
-        private Option<TResult> ReadScriptOptional<TResult>(Func<DemoScript, Option<TResult>> map)
+        private Option<TResult> ReadScriptOptional<TResult>(Func<CodeSnippets, Option<TResult>> map)
         {
             lock (this.Script)
             {

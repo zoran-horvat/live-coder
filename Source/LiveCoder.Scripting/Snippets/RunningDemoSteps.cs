@@ -12,11 +12,11 @@ namespace LiveCoder.Scripting.Snippets
     {
         private ISource ForFile { get; }
         private IDictionary<string, IDemoStep> SnippetShortcutToStep { get; }
-        private DemoScript Script { get; }
+        private CodeSnippets Script { get; }
 
         private IEnumerable<(Regex pattern, Func<string, int, Option<RunningDemoSteps>> factory)> StepPatterns { get; }
 
-        public RunningDemoSteps(ISource forFile, DemoScript script)
+        public RunningDemoSteps(ISource forFile, CodeSnippets script)
         {
             this.ForFile = forFile ?? throw new ArgumentNullException(nameof(forFile));
             this.Script = script ?? throw new ArgumentNullException(nameof(script));

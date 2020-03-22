@@ -24,7 +24,7 @@ namespace LiveCoder.Scripting.Snippets.Steps
         public MultilineSnippetReplace EndsOnLine(int index) =>
             new MultilineSnippetReplace(this.Snippet, this.File, this.LineIndex, index - this.LineIndex + 1);
 
-        public IEnumerable<IDemoCommand> GetCommands(DemoScript script) =>
+        public IEnumerable<IDemoCommand> GetCommands(CodeSnippets script) =>
             new IDemoCommand[]
             {
                 new OpenDocument(this.File),

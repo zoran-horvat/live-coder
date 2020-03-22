@@ -21,7 +21,7 @@ namespace LiveCoder.Extension.Implementation
         private IVsProject Project { get; }
         public DTE Dte { get; }
         
-        public IEnumerable<IDemoStep> GetDemoSteps(DemoScript script) =>
+        public IEnumerable<IDemoStep> GetDemoSteps(CodeSnippets script) =>
             this.Lines.Aggregate(new RunningDemoSteps(this, script), (steps, tuple) => steps.Add(tuple.line, tuple.lineIndex)).All;
 
         private FileInfo File { get; }

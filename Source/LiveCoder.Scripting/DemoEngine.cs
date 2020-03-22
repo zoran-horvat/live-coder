@@ -1,12 +1,13 @@
 ﻿using LiveCoder.Scripting.Execution;
+using LiveCoder.Scripting.Snippets;
 
 namespace LiveCoder.Scripting
 {
     public class DemoEngine
     {
-        private DemoScript Script { get; }
+        private CodeSnippets Script { get; }
 
-        private DemoEngine(DemoScript script)
+        private DemoEngine(CodeSnippets script)
         {
             this.Script = script;
         }

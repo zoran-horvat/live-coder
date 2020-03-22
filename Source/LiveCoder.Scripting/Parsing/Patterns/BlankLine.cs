@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using LiveCoder.Common.Optional;
+using LiveCoder.Scripting.Snippets;
 using LiveCoder.Scripting.Text;
 
 namespace LiveCoder.Scripting.Parsing.Patterns
@@ -8,7 +9,7 @@ namespace LiveCoder.Scripting.Parsing.Patterns
     {
         public Regex StartsWith => new Regex(@"^\s*$");
 
-        public Option<(IText remaining, DemoScript script)> Apply(NonEmptyText current, DemoScript script) =>
+        public Option<(IText remaining, CodeSnippets script)> Apply(NonEmptyText current, CodeSnippets script) =>
             Option.Of((current.ConsumeLine(), script));
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace LiveCoder.Scripting
+namespace LiveCoder.Scripting.Snippets
 {
     public interface IDemoStep
     {
         string SnippetShortcut { get; }
-        IEnumerable<IDemoCommand> GetCommands(DemoScript script);
+        IEnumerable<IDemoCommand> GetCommands(CodeSnippets script);
         string Label { get; }
     }
 }

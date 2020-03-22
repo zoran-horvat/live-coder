@@ -6,23 +6,23 @@ using LiveCoder.Scripting.Elements;
 using LiveCoder.Scripting.Parsing;
 using LiveCoder.Scripting.Text;
 
-namespace LiveCoder.Scripting
+namespace LiveCoder.Scripting.Snippets
 {
-    public class DemoScript
+    public class CodeSnippets
     {
         private ImmutableList<Snippet> Snippets { get; }
 
-        public static DemoScript Empty => new DemoScript(ImmutableList<Snippet>.Empty);
-        public static Option<DemoScript> TryParse(FileInfo file, IScriptingAuditor auditor) =>
+        public static CodeSnippets Empty => new CodeSnippets(ImmutableList<Snippet>.Empty);
+        public static Option<CodeSnippets> TryParse(FileInfo file, IScriptingAuditor auditor) =>
             NonEmptyText.Load(file).MapOptional(new ScriptTextParser(auditor).TryParse);
 
-        private DemoScript(ImmutableList<Snippet> snippets)
+        private CodeSnippets(ImmutableList<Snippet> snippets)
         {
             this.Snippets = snippets;
         }
 
-        public DemoScript Add(Snippet snippet) =>
-            new DemoScript(this.Snippets.Remove(snippet, new SnippetNumberComparer()).Add(snippet));
+        public CodeSnippets Add(Snippet snippet) =>
+            new CodeSnippets(this.Snippets.Remove(snippet, new SnippetNumberComparer()).Add(snippet));
 
         public Option<Snippet> TryGetSnippet(string shortcut) =>
             Regex.Match(shortcut, @"^snp(?<number>\d+)$") is Match match &&

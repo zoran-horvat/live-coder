@@ -24,7 +24,7 @@ namespace LiveCoder.Scripting.Snippets.Steps
             this.LineIndex = lineIndex >= 0 ? lineIndex : throw new ArgumentException("Line index must be non-negative.");
         }
 
-        public IEnumerable<IDemoCommand> GetCommands(DemoScript script) =>
+        public IEnumerable<IDemoCommand> GetCommands(CodeSnippets script) =>
             new IDemoCommand[]
             {
                 new OpenDocument(this.File),

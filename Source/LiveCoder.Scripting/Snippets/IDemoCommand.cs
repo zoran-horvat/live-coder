@@ -1,4 +1,4 @@
-﻿namespace LiveCoder.Scripting
+﻿namespace LiveCoder.Scripting.Snippets
 {
     public interface IDemoCommand
     {

@@ -2,6 +2,7 @@
 using LiveCoder.Common.Optional;
 using LiveCoder.Scripting.Lexing;
 using LiveCoder.Scripting.Parsing.Patterns;
+using LiveCoder.Scripting.Snippets;
 using LiveCoder.Scripting.Text;
 
 namespace LiveCoder.Scripting.Parsing
@@ -21,17 +22,17 @@ namespace LiveCoder.Scripting.Parsing
             };
         }
 
-        public Option<DemoScript> TryParse(NonEmptyText content)
+        public Option<CodeSnippets> TryParse(NonEmptyText content)
         {
-            Option<DemoScript> script = Option.Of(DemoScript.Empty);
+            Option<CodeSnippets> script = Option.Of(CodeSnippets.Empty);
             IText rest = content;
 
-            while (script is Some<DemoScript> someScript &&
+            while (script is Some<CodeSnippets> someScript &&
                    rest is NonEmptyText remaining && 
                    this.TryMatch(remaining) is Some<IPattern> somePattern &&
                    somePattern.Content is IPattern pattern)
             {
-                Option<(IText newRest, DemoScript newScript)> newState = pattern.Apply(remaining, someScript);
+                Option<(IText newRest, CodeSnippets newScript)> newState = pattern.Apply(remaining, someScript);
                 script = newState.Map(state => state.newScript);
                 rest = newState.Map(state => state.newRest).Reduce(rest);
             }

@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DemoEngine.cs" />
-    <Compile Include="DemoScript.cs" />
+    <Compile Include="Snippets\CodeSnippets.cs" />
     <Compile Include="Elements\Snippet.cs" />
     <Compile Include="Elements\SnippetNumberComparer.cs" />
     <Compile Include="Events\Error.cs" />
@@ -112,8 +112,8 @@
     <Compile Include="Snippets\Steps\Reminder.cs" />
     <Compile Include="Snippets\Steps\SnippetReplace.cs" />
     <Compile Include="Text\EmptyText.cs" />
-    <Compile Include="IDemoCommand.cs" />
-    <Compile Include="IDemoStep.cs" />
+    <Compile Include="Snippets\IDemoCommand.cs" />
+    <Compile Include="Snippets\IDemoStep.cs" />
     <Compile Include="IScriptingAuditor.cs" />
     <Compile Include="IText.cs" />
     <Compile Include="Text\NonEmptyText.cs" />
