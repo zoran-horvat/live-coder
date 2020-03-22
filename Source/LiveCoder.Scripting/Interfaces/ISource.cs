@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using LiveCoder.Common.Optional;
-using LiveCoder.Scripting.Snippets;
 
 namespace LiveCoder.Scripting.Interfaces
 {
     public interface ISource
     {
         string Name { get; }
-        IEnumerable<IDemoStep> GetDemoSteps(CodeSnippets script);
         IEnumerable<(string line, int lineIndex)> Lines { get; }
         IEnumerable<string> GetTextBetween(int startLineIndex, int endLineIndex);
         Option<string> GetLineContent(int lineIndex);

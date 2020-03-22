@@ -6,7 +6,6 @@ using EnvDTE;
 using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Implementation.Readers;
 using LiveCoder.Scripting.Interfaces;
-using LiveCoder.Scripting.Snippets;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 
@@ -19,9 +18,6 @@ namespace LiveCoder.Extension.Implementation
         public VSConstants.VSITEMID ItemId { get; }
         private IVsProject Project { get; }
         public DTE Dte { get; }
-        
-        public IEnumerable<IDemoStep> GetDemoSteps(CodeSnippets script) =>
-            this.Lines.Aggregate(new RunningDemoSteps(this, script), (steps, tuple) => steps.Add(tuple.line, tuple.lineIndex)).All;
 
         private FileInfo File { get; }
 
