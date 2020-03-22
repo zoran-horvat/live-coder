@@ -8,7 +8,7 @@ using LiveCoder.Scripting.Text;
 
 namespace LiveCoder.Scripting.Snippets
 {
-    public class CodeSnippets
+    class CodeSnippets
     {
         private ImmutableList<Snippet> Snippets { get; }
 

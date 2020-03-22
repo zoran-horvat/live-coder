@@ -5,7 +5,7 @@ using LiveCoder.Scripting.Interfaces;
 
 namespace LiveCoder.Scripting.Snippets.Commands
 {
-    internal class VerifyLineContent : VerifyStep
+    class VerifyLineContent : VerifyStep
     {
         private ISource File { get; }
         private int LineIndex { get; }

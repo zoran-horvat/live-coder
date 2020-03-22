@@ -105,7 +105,6 @@
     <Compile Include="Snippets\Commands\VerifyLineContent.cs" />
     <Compile Include="Snippets\Commands\VerifySelectionText.cs" />
     <Compile Include="Snippets\Commands\VerifyStep.cs" />
-    <Compile Include="Snippets\FileSystemSnippet.cs" />
     <Compile Include="Snippets\RunningDemoSteps.cs" />
     <Compile Include="Snippets\Steps\MultilineSnippetReplace.cs" />
     <Compile Include="Snippets\Steps\Reminder.cs" />

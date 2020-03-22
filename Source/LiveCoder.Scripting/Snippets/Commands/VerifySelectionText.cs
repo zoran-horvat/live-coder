@@ -4,7 +4,7 @@ using LiveCoder.Scripting.Interfaces;
 
 namespace LiveCoder.Scripting.Snippets.Commands
 {
-    internal class VerifySelectionText : VerifyStep
+    class VerifySelectionText : VerifyStep
     {
         private ISource File { get; }
         private string ExpectedSelectionText { get; }

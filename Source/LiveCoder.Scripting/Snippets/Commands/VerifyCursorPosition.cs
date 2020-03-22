@@ -3,7 +3,7 @@ using LiveCoder.Scripting.Interfaces;
 
 namespace LiveCoder.Scripting.Snippets.Commands
 {
-    internal class VerifyCursorPosition : VerifyStep
+    class VerifyCursorPosition : VerifyStep
     {
         private ISource File { get; }
         private int ExpectedLineIndex { get; }

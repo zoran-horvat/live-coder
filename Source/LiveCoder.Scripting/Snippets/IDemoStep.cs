@@ -2,7 +2,7 @@
 
 namespace LiveCoder.Scripting.Snippets
 {
-    public interface IDemoStep
+    interface IDemoStep
     {
         string SnippetShortcut { get; }
         IEnumerable<IDemoCommand> GetCommands(CodeSnippets script);

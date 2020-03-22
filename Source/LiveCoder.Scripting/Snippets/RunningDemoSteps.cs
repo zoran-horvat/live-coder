@@ -8,7 +8,7 @@ using LiveCoder.Scripting.Snippets.Steps;
 
 namespace LiveCoder.Scripting.Snippets
 {
-    public class RunningDemoSteps
+    class RunningDemoSteps
     {
         private ISource ForFile { get; }
         private IDictionary<string, IDemoStep> SnippetShortcutToStep { get; }
