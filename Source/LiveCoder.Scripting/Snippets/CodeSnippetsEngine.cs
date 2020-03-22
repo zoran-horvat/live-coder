@@ -11,7 +11,7 @@ using LiveCoder.Scripting.Snippets.Commands;
 
 namespace LiveCoder.Scripting.Snippets
 {
-    public class CodeSnippetsEngine : IEngine
+    class CodeSnippetsEngine : IEngine
     {
         private Queue<IDemoCommand> Commands { get; } = new Queue<IDemoCommand>();
         private ISolution Solution { get; }

@@ -1,7 +1,7 @@
 ﻿using LiveCoder.Scripting.Events;
 using LiveCoder.Scripting.Interfaces;
 
-namespace LiveCoder.Extension.Implementation
+namespace LiveCoder.Scripting
 {
     class NoScriptEngine : IEngine
     {

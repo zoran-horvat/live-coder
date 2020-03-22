@@ -50,7 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DemoEngine.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="NoScriptEngine.cs" />
+    <Compile Include="ScriptingEngine.cs" />
     <Compile Include="Snippets\CodeSnippets.cs" />
     <Compile Include="Elements\Snippet.cs" />
     <Compile Include="Elements\SnippetNumberComparer.cs" />

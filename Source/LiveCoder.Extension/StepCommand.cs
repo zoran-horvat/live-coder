@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using System.IO;
 using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Implementation;
+using LiveCoder.Scripting;
 using LiveCoder.Scripting.Events;
 using LiveCoder.Scripting.Interfaces;
 using LiveCoder.Scripting.Snippets;
@@ -91,15 +93,9 @@ namespace LiveCoder.Extension
         }
 
         private IEngine CreateEngine(ILogger logger) =>
-            this.TryGetSolution(logger)
-                .Map(solution => this.CreateEngine(solution, logger))
+            this.ServiceProvider
+                .TryGetSolution(logger)
+                .Map(solution => Engine.Create(solution, solution.LiveCoderDirectory, logger))
                 .Reduce(() => new NoSolution(logger));
-
-        private IEngine CreateEngine(VsSolutionWrapper solution, ILogger logger) =>
-            CodeSnippetsEngine.TryCreate(solution, solution.LiveCoderDirectory, logger)
-                .Reduce(() => new NoScriptEngine(logger));
-
-        private Option<VsSolutionWrapper> TryGetSolution(ILogger logger) => 
-            this.ServiceProvider.TryGetSolution(logger);
     }
 }
