@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using EnvDTE;
+using LiveCoder.Api;
 using LiveCoder.Common.Optional;
 using LiveCoder.Extension.Implementation.Readers;
-using LiveCoder.Scripting.Interfaces;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 

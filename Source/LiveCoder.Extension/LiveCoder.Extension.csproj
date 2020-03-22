@@ -55,6 +55,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Implementation\Events\NoSolutionOpen.cs" />
     <Compile Include="Implementation\NoSolution.cs" />
     <Compile Include="Implementation\VsOutputLogger.cs" />
     <Compile Include="Implementation\Readers\DocumentExtensions.cs" />
@@ -197,6 +198,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LiveCoder.Api\LiveCoder.Api.csproj">
+      <Project>{7477F457-D44D-43A7-A737-865E6A03183C}</Project>
+      <Name>LiveCoder.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LiveCoder.Common\LiveCoder.Common.csproj">
       <Project>{93FDF21A-CCBD-474C-ACFE-C5A7D0D6D974}</Project>
       <Name>LiveCoder.Common</Name>
@@ -204,6 +209,10 @@
     <ProjectReference Include="..\LiveCoder.Scripting\LiveCoder.Scripting.csproj">
       <Project>{659AC1AA-8C91-4C31-93C5-17D0CC4E0013}</Project>
       <Name>LiveCoder.Scripting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LiveCoder.Snippets\LiveCoder.Snippets.csproj">
+      <Project>{57c5d265-3c53-4a25-99fc-17ab9c71464a}</Project>
+      <Name>LiveCoder.Snippets</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

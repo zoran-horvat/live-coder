@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EnvDTE;
-using LiveCoder.Scripting.Interfaces;
+using LiveCoder.Api;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace LiveCoder.Extension.Implementation

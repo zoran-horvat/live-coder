@@ -52,25 +52,8 @@
   <ItemGroup>
     <Compile Include="Engine.cs" />
     <Compile Include="NoScriptEngine.cs" />
-    <Compile Include="ScriptingEngine.cs" />
-    <Compile Include="Snippets\CodeSnippets.cs" />
-    <Compile Include="Elements\Snippet.cs" />
-    <Compile Include="Elements\SnippetNumberComparer.cs" />
     <Compile Include="Events\Error.cs" />
     <Compile Include="Events\ErrorParsingLine.cs" />
-    <Compile Include="Events\FirstDemoStepFound.cs" />
-    <Compile Include="Events\NoDemoStepsFound.cs" />
-    <Compile Include="Events\ScriptFIleFound.cs" />
-    <Compile Include="Events\StepVerificationFailed.cs" />
-    <Compile Include="Execution\ScriptLoader.cs" />
-    <Compile Include="Interfaces\IEngine.cs" />
-    <Compile Include="Interfaces\IEvent.cs" />
-    <Compile Include="Interfaces\ILogger.cs" />
-    <Compile Include="Interfaces\IProject.cs" />
-    <Compile Include="Interfaces\ISnippet.cs" />
-    <Compile Include="Interfaces\ISolution.cs" />
-    <Compile Include="Interfaces\ISource.cs" />
-    <Compile Include="Interfaces\IStateVerifier.cs" />
     <Compile Include="Lexing\Lexemes\EndOfInput.cs" />
     <Compile Include="Lexing\Lexemes\EndOfLine.cs" />
     <Compile Include="Lexing\Lexemes\Identifier.cs" />
@@ -93,36 +76,10 @@
     <Compile Include="Parsing\Tree\Reference.cs" />
     <Compile Include="Parsing\Tree\ScriptRoot.cs" />
     <Compile Include="Parsing\Tree\ScriptNode.cs" />
-    <Compile Include="Snippets\CodeSnippetsEngine.cs" />
-    <Compile Include="Snippets\Commands\ActivateDocument.cs" />
-    <Compile Include="Snippets\Commands\DeleteLine.cs" />
-    <Compile Include="Snippets\Commands\ExpandSelection.cs" />
-    <Compile Include="Snippets\Commands\MoveToLine.cs" />
-    <Compile Include="Snippets\Commands\OpenDocument.cs" />
-    <Compile Include="Snippets\Commands\Pause.cs" />
-    <Compile Include="Snippets\Commands\SelectLine.cs" />
-    <Compile Include="Snippets\Commands\SelectMultipleLines.cs" />
-    <Compile Include="Snippets\Commands\VerifyActiveDocument.cs" />
-    <Compile Include="Snippets\Commands\VerifyCursorPosition.cs" />
-    <Compile Include="Snippets\Commands\VerifyLineContent.cs" />
-    <Compile Include="Snippets\Commands\VerifySelectionText.cs" />
-    <Compile Include="Snippets\Commands\VerifyStep.cs" />
-    <Compile Include="Snippets\RunningDemoSteps.cs" />
-    <Compile Include="Snippets\Steps\MultilineSnippetReplace.cs" />
-    <Compile Include="Snippets\Steps\Reminder.cs" />
-    <Compile Include="Snippets\Steps\SnippetReplace.cs" />
     <Compile Include="Text\EmptyText.cs" />
-    <Compile Include="Snippets\IDemoCommand.cs" />
-    <Compile Include="Snippets\IDemoStep.cs" />
-    <Compile Include="IScriptingAuditor.cs" />
     <Compile Include="IText.cs" />
     <Compile Include="Text\NonEmptyText.cs" />
-    <Compile Include="Parsing\IPattern.cs" />
-    <Compile Include="Parsing\Patterns\BlankLine.cs" />
-    <Compile Include="Parsing\Patterns\Snippet.cs" />
-    <Compile Include="Parsing\ScriptTextParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScriptLiveTracker.cs" />
     <Compile Include="Lexing\TokensArray.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -130,9 +87,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LiveCoder.Api\LiveCoder.Api.csproj">
+      <Project>{7477F457-D44D-43A7-A737-865E6A03183C}</Project>
+      <Name>LiveCoder.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LiveCoder.Common\LiveCoder.Common.csproj">
       <Project>{93FDF21A-CCBD-474C-ACFE-C5A7D0D6D974}</Project>
       <Name>LiveCoder.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LiveCoder.Snippets\LiveCoder.Snippets.csproj">
+      <Project>{57c5d265-3c53-4a25-99fc-17ab9c71464a}</Project>
+      <Name>LiveCoder.Snippets</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

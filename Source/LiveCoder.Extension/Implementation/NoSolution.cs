@@ -1,5 +1,5 @@
-﻿using LiveCoder.Scripting.Events;
-using LiveCoder.Scripting.Interfaces;
+﻿using LiveCoder.Api;
+using LiveCoder.Extension.Implementation.Events;
 
 namespace LiveCoder.Extension.Implementation
 {
@@ -13,6 +13,6 @@ namespace LiveCoder.Extension.Implementation
         }
 
         public void Step() => 
-            this.Logger.Write(new Error("No solution is open."));
+            this.Logger.Write(new NoSolutionOpen());
     }
 }

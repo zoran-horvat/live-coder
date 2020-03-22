@@ -1,6 +1,6 @@
 ﻿using System.IO;
-using LiveCoder.Scripting.Interfaces;
-using LiveCoder.Scripting.Snippets;
+using LiveCoder.Api;
+using LiveCoder.Snippets;
 
 namespace LiveCoder.Scripting
 {

@@ -1,6 +1,6 @@
 ﻿using System;
+using LiveCoder.Api;
 using LiveCoder.Scripting.Events;
-using LiveCoder.Scripting.Interfaces;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
@@ -27,8 +27,5 @@ namespace LiveCoder.Extension.Implementation
 
         private void Write(string text) => 
             this.GetOutputWindowPane().OutputString(text);
-
-        public void ErrorParsingLine(int lineNumber, string content) =>
-            this.Write(new ErrorParsingLine(lineNumber, content));
     }
 }
