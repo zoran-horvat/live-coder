@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using LiveCoder.Scripting.Lexing.Lexemes;
 using Xunit;
 

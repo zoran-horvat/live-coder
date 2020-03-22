@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using LiveCoder.Common.Optional;
-using LiveCoder.Scripting.Lexing;
 using LiveCoder.Scripting.Parsing.Patterns;
 using LiveCoder.Scripting.Snippets;
 using LiveCoder.Scripting.Text;

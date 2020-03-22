@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using EnvDTE;
-using LiveCoder.Scripting;
 using LiveCoder.Scripting.Interfaces;
-using LiveCoder.Scripting.Snippets;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace LiveCoder.Extension.Implementation
@@ -24,8 +21,5 @@ namespace LiveCoder.Extension.Implementation
 
         public IEnumerable<ISource> SourceFiles =>
             this.Project.GetSourceFiles(this.Dte);
-
-        public IEnumerable<IDemoStep> GetDemoSteps(CodeSnippets script) =>
-            this.SourceFiles.SelectMany(file => file.GetDemoSteps(script));
     }
 }

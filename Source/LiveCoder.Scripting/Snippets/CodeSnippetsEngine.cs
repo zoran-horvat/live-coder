@@ -60,7 +60,9 @@ namespace LiveCoder.Scripting.Snippets
             this.Logger.Write(new ScriptFileFound(this.ScriptFile));
 
         private IEnumerable<IDemoStep> GetDemoStepsOrdered() =>
-            this.Solution.Projects.SelectMany(project => project.GetDemoSteps(this.Script)).OrderBy(step => step.SnippetShortcut);
+            this.Solution.Projects
+                .SelectMany(project => project.SourceFiles)
+                .SelectMany(project => project.GetDemoSteps(this.Script)).OrderBy(step => step.SnippetShortcut);
 
         private Option<IDemoStep> GetNextStep() =>
             this.ReadScriptOptional(script => this.GetDemoStepsOrdered().FirstOrNone())
