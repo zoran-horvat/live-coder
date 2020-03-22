@@ -1,5 +1,5 @@
-﻿using LiveCoder.Scripting.Execution;
-using LiveCoder.Scripting.Interfaces;
+﻿using System.IO;
+using LiveCoder.Scripting.Execution;
 using LiveCoder.Scripting.Snippets;
 
 namespace LiveCoder.Scripting
@@ -13,7 +13,7 @@ namespace LiveCoder.Scripting
             this.Script = script;
         }
 
-        public static DemoEngine For(ISolution solution, IScriptingAuditor auditor) =>
-            new DemoEngine(new ScriptLoader().For(solution, auditor));
+        public static DemoEngine For(DirectoryInfo liveCoderDirectory, IScriptingAuditor auditor) =>
+            new DemoEngine(new ScriptLoader().For(liveCoderDirectory, auditor));
     }
 }

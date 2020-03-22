@@ -95,11 +95,11 @@ namespace LiveCoder.Extension
                 .Map(solution => this.CreateEngine(solution, logger))
                 .Reduce(() => new NoSolution(logger));
 
-        private IEngine CreateEngine(ISolution solution, ILogger logger) =>
-            CodeSnippetsEngine.TryCreate(solution, logger)
+        private IEngine CreateEngine(VsSolutionWrapper solution, ILogger logger) =>
+            CodeSnippetsEngine.TryCreate(solution, solution.LiveCoderDirectory, logger)
                 .Reduce(() => new NoScriptEngine(logger));
 
-        private Option<ISolution> TryGetSolution(ILogger logger) => 
+        private Option<VsSolutionWrapper> TryGetSolution(ILogger logger) => 
             this.ServiceProvider.TryGetSolution(logger);
     }
 }

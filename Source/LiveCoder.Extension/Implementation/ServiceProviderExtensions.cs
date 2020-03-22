@@ -10,9 +10,9 @@ namespace LiveCoder.Extension.Implementation
 {
     static class ServiceProviderExtensions
     {
-        public static Option<ISolution> TryGetSolution(this IServiceProvider serviceProvider, ILogger logger) =>
+        public static Option<VsSolutionWrapper> TryGetSolution(this IServiceProvider serviceProvider, ILogger logger) =>
             serviceProvider.TryGetSolutionInterface()
-                .Map<ISolution>(solution => new VsSolutionWrapper(solution, serviceProvider.GetDte(), logger));
+                .Map(solution => new VsSolutionWrapper(solution, serviceProvider.GetDte(), logger));
 
         private static Option<IVsSolution> TryGetSolutionInterface(this IServiceProvider serviceProvider) =>
             serviceProvider.GetRawSolutionInterface() is IVsSolution solution && IsSolutionOpen(solution)

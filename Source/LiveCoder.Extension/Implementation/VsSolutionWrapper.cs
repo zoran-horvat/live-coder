@@ -13,8 +13,11 @@ namespace LiveCoder.Extension.Implementation
         private IVsSolution SolutionInterface { get; }
         private DTE Dte { get; }
         private ILogger Logger { get; }
-        public FileInfo File { get; }
+        private FileInfo SolutionFile { get; }
 
+        public DirectoryInfo LiveCoderDirectory =>
+            new DirectoryInfo(Path.Combine(this.SolutionFile.DirectoryName ?? string.Empty, ".livecoder"));
+        
         public VsSolutionWrapper(IVsSolution solutionInterface, DTE dte, ILogger logger)
         {
             this.SolutionInterface = solutionInterface ?? throw new ArgumentNullException(nameof(SolutionInterface));
@@ -22,7 +25,7 @@ namespace LiveCoder.Extension.Implementation
             this.Logger = logger;
             
             this.SolutionInterface.GetSolutionInfo(out string _, out string solutionFile, out string _);
-            this.File = new FileInfo(solutionFile);
+            this.SolutionFile = new FileInfo(solutionFile);
         }
 
         public IEnumerable<IProject> Projects =>

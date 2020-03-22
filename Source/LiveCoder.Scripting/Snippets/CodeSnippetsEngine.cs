@@ -29,8 +29,8 @@ namespace LiveCoder.Scripting.Snippets
                 .Map<(CodeSnippets, Action)>(script => (script, this.PositiveStep))
                 .Reduce((CodeSnippets.Empty, this.ParseFailedStep));
 
-        public static Option<IEngine> TryCreate(ISolution solution, ILogger logger) =>
-            TryFindScriptFile(solution).Map<IEngine>(file => new CodeSnippetsEngine(solution, logger, file));
+        public static Option<IEngine> TryCreate(ISolution solution, DirectoryInfo liveCoderDirectory, ILogger logger) =>
+            TryFindScriptFile(liveCoderDirectory).Map<IEngine>(file => new CodeSnippetsEngine(solution, logger, file));
 
         private CodeSnippetsEngine(ISolution solution, ILogger logger, FileInfo scriptFile)
         {
@@ -42,11 +42,11 @@ namespace LiveCoder.Scripting.Snippets
             this.ScriptTracker = new ScriptLiveTracker(this.ScriptFile, this.OnScriptFileModified);
         }
 
-        private static Option<FileInfo> TryFindScriptFile(ISolution solution) => 
-            new FileInfo(SnippetsFilePath(solution)).WhenExists();
+        private static Option<FileInfo> TryFindScriptFile(DirectoryInfo liveCoderDirectory) => 
+            new FileInfo(SnippetsFilePath(liveCoderDirectory)).WhenExists();
 
-        private static string SnippetsFilePath(ISolution solution) => 
-            Path.Combine(solution.File.Directory.FullName, ".livecoder", "script.lsn");
+        private static string SnippetsFilePath(DirectoryInfo liveCoderDirectory) => 
+            Path.Combine(liveCoderDirectory.FullName, "script.lsn");
 
         private void OnScriptFileModified(FileInfo scriptFile)
         {
