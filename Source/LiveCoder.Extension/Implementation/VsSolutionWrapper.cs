@@ -29,11 +29,7 @@ namespace LiveCoder.Extension.Implementation
             this.File = new FileInfo(solutionFile);
         }
 
-
         public IEnumerable<IProject> Projects =>
             this.SolutionInterface.GetProjects().Select(project => new VsProjectWrapper(project, this.Dte, this.Logger));
-
-        public IEnumerable<IDemoStep> GetDemoStepsOrdered(CodeSnippets script) =>
-            this.Projects.SelectMany(project => project.GetDemoSteps(script)).OrderBy(step => step.SnippetShortcut);
     }
 }

@@ -59,8 +59,11 @@ namespace LiveCoder.Scripting.Snippets
         private void LogScriptFile() =>
             this.Logger.Write(new ScriptFileFound(this.ScriptFile));
 
+        private IEnumerable<IDemoStep> GetDemoStepsOrdered() =>
+            this.Solution.Projects.SelectMany(project => project.GetDemoSteps(this.Script)).OrderBy(step => step.SnippetShortcut);
+
         private Option<IDemoStep> GetNextStep() =>
-            this.ReadScriptOptional(script => this.Solution.GetDemoStepsOrdered(script).FirstOrNone())
+            this.ReadScriptOptional(script => this.GetDemoStepsOrdered().FirstOrNone())
                 .Audit(s => this.Logger.Write(new FirstDemoStepFound(s)))
                 .AuditNone(() => this.Logger.Write(new NoDemoStepsFound()));
 

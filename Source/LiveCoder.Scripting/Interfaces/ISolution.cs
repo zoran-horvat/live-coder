@@ -8,6 +8,5 @@ namespace LiveCoder.Scripting.Interfaces
     {
         FileInfo File { get; }
         IEnumerable<IProject> Projects { get; }
-        IEnumerable<IDemoStep> GetDemoStepsOrdered(CodeSnippets script);
     }
 }
