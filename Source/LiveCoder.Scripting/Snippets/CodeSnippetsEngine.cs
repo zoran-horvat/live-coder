@@ -46,7 +46,7 @@ namespace LiveCoder.Scripting.Snippets
             new FileInfo(SnippetsFilePath(solution)).WhenExists();
 
         private static string SnippetsFilePath(ISolution solution) => 
-            Path.Combine(solution.File.Directory.FullName, ".livecoder", "script.lcs");
+            Path.Combine(solution.File.Directory.FullName, ".livecoder", "script.lsn");
 
         private void OnScriptFileModified(FileInfo scriptFile)
         {

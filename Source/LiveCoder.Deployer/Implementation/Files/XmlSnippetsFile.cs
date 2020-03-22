@@ -39,6 +39,6 @@ namespace LiveCoder.Deployer.Implementation.Files
         }
 
         private FileInfo Destination(Directories to) =>
-            new FileInfo(Path.Combine(to.InternalDestination.FullName, "script.lcs"));
+            new FileInfo(Path.Combine(to.InternalDestination.FullName, "script.lsn"));
     }
 }
