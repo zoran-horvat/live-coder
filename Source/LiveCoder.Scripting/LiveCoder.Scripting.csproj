@@ -61,7 +61,6 @@
     <Compile Include="Events\ScriptFIleFound.cs" />
     <Compile Include="Events\StepVerificationFailed.cs" />
     <Compile Include="Execution\ScriptLoader.cs" />
-    <Compile Include="IContext.cs" />
     <Compile Include="Interfaces\IEngine.cs" />
     <Compile Include="Interfaces\IEvent.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
