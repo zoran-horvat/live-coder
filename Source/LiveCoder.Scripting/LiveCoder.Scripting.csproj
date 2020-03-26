@@ -54,33 +54,10 @@
     <Compile Include="NoScriptEngine.cs" />
     <Compile Include="Events\Error.cs" />
     <Compile Include="Events\ErrorParsingLine.cs" />
-    <Compile Include="Lexing\Lexemes\EndOfInput.cs" />
-    <Compile Include="Lexing\Lexemes\EndOfLine.cs" />
-    <Compile Include="Lexing\Lexemes\Identifier.cs" />
-    <Compile Include="Lexing\Lexemes\InvalidToken.cs" />
-    <Compile Include="Lexing\Lexemes\Number.cs" />
-    <Compile Include="Lexing\Lexemes\Operator.cs" />
-    <Compile Include="Lexing\Lexemes\StringLiteral.cs" />
-    <Compile Include="Lexing\Lexemes\WhiteSpace.cs" />
-    <Compile Include="Lexing\Lexer.cs" />
-    <Compile Include="Lexing\Token.cs" />
-    <Compile Include="Parsing\GrammarRules.cs" />
-    <Compile Include="Parsing\Parser.cs" />
-    <Compile Include="Parsing\ParsingStack.cs" />
-    <Compile Include="Parsing\ParsingTable.cs" />
-    <Compile Include="Parsing\Tree\AttributeReference.cs" />
-    <Compile Include="Parsing\Tree\GlobalExpression.cs" />
-    <Compile Include="Parsing\Tree\LocalExpression.cs" />
-    <Compile Include="Parsing\Tree\MethodReference.cs" />
-    <Compile Include="Parsing\Tree\Node.cs" />
-    <Compile Include="Parsing\Tree\Reference.cs" />
-    <Compile Include="Parsing\Tree\ScriptRoot.cs" />
-    <Compile Include="Parsing\Tree\ScriptNode.cs" />
     <Compile Include="Text\EmptyText.cs" />
     <Compile Include="IText.cs" />
     <Compile Include="Text\NonEmptyText.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Lexing\TokensArray.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

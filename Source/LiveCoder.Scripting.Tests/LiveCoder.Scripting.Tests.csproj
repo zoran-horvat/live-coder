@@ -57,16 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Lexing\TokenizeInvalidInputTests.cs" />
-    <Compile Include="Lexing\TokenizeMultilineTests.cs" />
-    <Compile Include="Lexing\TokenizeMultiTokenLineTests.cs" />
-    <Compile Include="Lexing\TokenizeSingleLineTests.cs" />
-    <Compile Include="Lexing\TokenizeStringTests.cs" />
-    <Compile Include="Lexing\TokenizeTestsBase.cs" />
-    <Compile Include="Parsing\ParseAttributeTests.cs" />
-    <Compile Include="Parsing\ParseCallTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Lexing\TokenizeEmptyTextTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
