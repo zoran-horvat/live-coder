@@ -1,10 +1,12 @@
 ﻿using System.Collections.Immutable;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using LiveCoder.Api;
 using LiveCoder.Common.Optional;
+using LiveCoder.Common.Text.Documents;
 using LiveCoder.Snippets.Elements;
-using LiveCoder.Snippets.Text;
 
 namespace LiveCoder.Snippets
 {
@@ -14,7 +16,31 @@ namespace LiveCoder.Snippets
 
         public static CodeSnippets Empty => new CodeSnippets(ImmutableList<Snippet>.Empty);
         public static Option<CodeSnippets> TryParse(FileInfo file, ILogger logger) =>
-            NonEmptyText.Load(file).MapOptional(new ScriptTextParser(logger).TryParse);
+            Load(file).MapOptional(new ScriptTextParser(logger).TryParse);
+
+        private static Option<NonEmptyText> Load(FileInfo source) =>
+            LoadConcurrently(source) is string[] array && array.Length > 0
+                ? Option.Of(new NonEmptyText(array))
+                : None.Value;
+
+        private static string[] LoadConcurrently(FileInfo source)
+        {
+            int repeats = 10;
+            int waitMsec = 100;
+            for (int repeat = 0; repeat < repeats; repeat++)
+            {
+                try
+                {
+                    return File.ReadAllLines(source.FullName, Encoding.UTF8);
+                }
+                catch 
+                {
+                    Thread.Sleep(waitMsec);
+                }
+            }
+
+            return new string[0];
+        }
 
         private CodeSnippets(ImmutableList<Snippet> snippets)
         {

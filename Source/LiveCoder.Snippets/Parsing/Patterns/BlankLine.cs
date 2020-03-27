@@ -1,7 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using LiveCoder.Common.Optional;
-using LiveCoder.Snippets.Interfaces;
-using LiveCoder.Snippets.Text;
+using LiveCoder.Common.Text.Documents;
 
 namespace LiveCoder.Snippets.Parsing.Patterns
 {

@@ -54,9 +54,6 @@
     <Compile Include="NoScriptEngine.cs" />
     <Compile Include="Events\Error.cs" />
     <Compile Include="Events\ErrorParsingLine.cs" />
-    <Compile Include="Text\EmptyText.cs" />
-    <Compile Include="IText.cs" />
-    <Compile Include="Text\NonEmptyText.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

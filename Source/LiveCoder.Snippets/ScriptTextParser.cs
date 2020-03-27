@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using LiveCoder.Api;
 using LiveCoder.Common.Optional;
-using LiveCoder.Snippets.Interfaces;
+using LiveCoder.Common.Text.Documents;
 using LiveCoder.Snippets.Parsing;
 using LiveCoder.Snippets.Parsing.Patterns;
-using LiveCoder.Snippets.Text;
 
 namespace LiveCoder.Snippets
 {

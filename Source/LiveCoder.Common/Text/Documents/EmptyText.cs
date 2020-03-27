@@ -1,4 +1,4 @@
-﻿namespace LiveCoder.Scripting.Text
+﻿namespace LiveCoder.Common.Text.Documents
 {
     public class EmptyText : IText
     {

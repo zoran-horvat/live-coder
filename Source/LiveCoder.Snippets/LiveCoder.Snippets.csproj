@@ -81,7 +81,6 @@
     <Compile Include="Interfaces\IDemoStep.cs" />
     <Compile Include="Interfaces\ISnippet.cs" />
     <Compile Include="Interfaces\IStateVerifier.cs" />
-    <Compile Include="Interfaces\IText.cs" />
     <Compile Include="Parsing\IPattern.cs" />
     <Compile Include="Parsing\Patterns\BlankLine.cs" />
     <Compile Include="Parsing\Patterns\Snippet.cs" />
@@ -92,8 +91,6 @@
     <Compile Include="Steps\MultilineSnippetReplace.cs" />
     <Compile Include="Steps\Reminder.cs" />
     <Compile Include="Steps\SnippetReplace.cs" />
-    <Compile Include="Text\EmptyText.cs" />
-    <Compile Include="Text\NonEmptyText.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

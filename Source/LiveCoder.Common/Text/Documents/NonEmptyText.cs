@@ -2,11 +2,10 @@
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using LiveCoder.Common.Optional;
 
-namespace LiveCoder.Scripting.Text
+namespace LiveCoder.Common.Text.Documents
 {
     public class NonEmptyText : IText
     {
@@ -23,30 +22,6 @@ namespace LiveCoder.Scripting.Text
             this.LineIndex = lineIndex;
         }
 
-        public static Option<NonEmptyText> Load(FileInfo source) =>
-            LoadConcurrently(source) is string[] array && array.Length > 0
-                ? Option.Of(new NonEmptyText(array))
-                : None.Value;
-
-        private static string[] LoadConcurrently(FileInfo source)
-        {
-            int repeats = 10;
-            int waitMsec = 100;
-            for (int repeat = 0; repeat < repeats; repeat++)
-            {
-                try
-                {
-                    return File.ReadAllLines(source.FullName, Encoding.UTF8);
-                }
-                catch 
-                {
-                    Thread.Sleep(waitMsec);
-                }
-            }
-
-            return new string[0];
-        }
-
         public IText ConsumeLine() =>
             this.LineIndex < this.Content.Length - 1
                 ? (IText)new NonEmptyText(this.Content, this.LineIndex + 1)
@@ -57,11 +32,11 @@ namespace LiveCoder.Scripting.Text
                 ? (IText)new NonEmptyText(this.Content, lastConsumedIndex + 1)
                 : new EmptyText();
 
-        public Option<(IEnumerable<string> lines, IText remaining)> ConsumeUntilMatch(Regex pattern) =>
+        public Option<(IEnumerable<string> lines, IText remaining)> ConsumeUntilMatch(System.Text.RegularExpressions.Regex pattern) =>
             this.IndexMatching(pattern)
                 .Map(index => (this.CopyUntil(index), this.ConsumeUntil(index)));
 
-        private Option<int> IndexMatching(Regex pattern) =>
+        private Option<int> IndexMatching(System.Text.RegularExpressions.Regex pattern) =>
             Enumerable
                 .Range(this.LineIndex, this.RemainingLinesCount)
                 .FirstOrNone(index => pattern.IsMatch(this.Content[index]));
