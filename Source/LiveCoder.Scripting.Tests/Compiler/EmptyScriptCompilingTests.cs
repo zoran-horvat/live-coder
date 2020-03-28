@@ -5,8 +5,7 @@ using Xunit;
 
 namespace LiveCoder.Scripting.Tests.Compiler
 {
-    // ReSharper disable once InconsistentNaming
-    public class Compile_EmptyScriptTests
+    public class EmptyScriptCompilingTests
     {
         [Fact]
         public void ReturnsNonNull() => 
