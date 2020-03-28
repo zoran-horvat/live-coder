@@ -1,6 +1,6 @@
 ﻿namespace LiveCoder.Scripting
 {
-    public interface ICommand
+    public interface IStatement
     {
     }
 }

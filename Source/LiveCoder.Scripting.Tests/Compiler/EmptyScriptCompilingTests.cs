@@ -13,7 +13,7 @@ namespace LiveCoder.Scripting.Tests.Compiler
 
         [Fact]
         public void ReturnsScriptWithNoCommands() =>
-            Assert.Empty(this.CompiledEmptyText().Commands);
+            Assert.Empty(this.CompiledEmptyText().Statements);
 
         private Script CompiledEmptyText() =>
             new ScriptCompiler().Compile(new EmptyText());

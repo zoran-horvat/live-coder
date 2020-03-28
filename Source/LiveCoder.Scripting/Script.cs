@@ -5,13 +5,13 @@ namespace LiveCoder.Scripting
 {
     public class Script
     {
-        public IEnumerable<ICommand> Commands { get; }
+        public IEnumerable<IStatement> Statements { get; }
 
-        private Script(IEnumerable<ICommand> commands)
+        private Script(IEnumerable<IStatement> commands)
         {
-            this.Commands = commands.ToList();
+            this.Statements = commands.ToList();
         }
 
-        public static Script Empty => new Script(Enumerable.Empty<ICommand>());
+        public static Script Empty => new Script(Enumerable.Empty<IStatement>());
     }
 }

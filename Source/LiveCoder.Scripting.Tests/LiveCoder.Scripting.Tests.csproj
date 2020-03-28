@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compiler\EmptyScriptCompilingTests.cs" />
-    <Compile Include="Compiler\SingleCommandCompilingTests.cs" />
+    <Compile Include="Compiler\SingleStatementCompilingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

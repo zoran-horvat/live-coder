@@ -60,7 +60,7 @@
     <Compile Include="Commands\Say.cs" />
     <Compile Include="Compiler\ScriptCompiler.cs" />
     <Compile Include="Engine.cs" />
-    <Compile Include="ICommand.cs" />
+    <Compile Include="IStatement.cs" />
     <Compile Include="NoScriptEngine.cs" />
     <Compile Include="Events\Error.cs" />
     <Compile Include="Events\ErrorParsingLine.cs" />
@@ -89,12 +89,12 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Commands\Parser\Grammar.txt" />
-    <Content Include="Commands\Parser\ParserDefinition.tt">
+    <Content Include="Compiler\Parser\Grammar.txt" />
+    <Content Include="Compiler\Parser\ParserDefinition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ParserDefinition.xml</LastGenOutput>
     </Content>
-    <Content Include="Commands\Parser\ParserDefinition.xml">
+    <Content Include="Compiler\Parser\ParserDefinition.xml">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ParserDefinition.tt</DependentUpon>

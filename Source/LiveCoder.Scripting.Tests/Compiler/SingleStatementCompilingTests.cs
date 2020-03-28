@@ -7,15 +7,20 @@ using Xunit;
 
 namespace LiveCoder.Scripting.Tests.Compiler
 {
-    public class SingleCommandCompilingTests
+    public class SingleStatementCompilingTests
     {
+        [Theory(Skip = "Not implemented yet")]
+        [InlineData(@"say();")]
+        public void ReturnsOneStatement(string line) =>
+            Assert.Single(this.CompiledLine(line).Statements);
+
         [Theory(Skip="Not implemented yet")]
         [InlineData(@"say();", typeof(Say))]
-        public void ReturnsCommandOfSpecificType(string line, Type commandType) =>
-            Assert.IsType(commandType, this.SingleCommand(line));
+        public void ReturnsStatementOfSpecificType(string line, Type commandType) =>
+            Assert.IsType(commandType, this.SingleStatement(line));
 
-        private ICommand SingleCommand(string line) =>
-            this.CompiledLine(line).Commands.Single();
+        private IStatement SingleStatement(string line) =>
+            this.CompiledLine(line).Statements.Single();
 
         private Script CompiledLine(string line) =>
             new ScriptCompiler().Compile(this.Script(line));

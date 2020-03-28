@@ -1,0 +1,12 @@
+﻿lexemes:
+ignore @'[\s\n]+';
+
+start: Script;
+
+rules:
+Script -> StatementList;
+
+StatementList -> Statement ';';
+StatementList -> StatementList Statement ';';
+
+Statement -> 'say' '(' ')';
