@@ -10,7 +10,7 @@ namespace LiveCoder.Scripting.Tests.Compiler
     public class SingleCommandCompilingTests
     {
         [Theory(Skip="Not implemented yet")]
-        [InlineData(@"say(""Hello"");", typeof(Say))]
+        [InlineData(@"say();", typeof(Say))]
         public void ReturnsCommandOfSpecificType(string line, Type commandType) =>
             Assert.IsType(commandType, this.SingleCommand(line));
 
@@ -18,7 +18,7 @@ namespace LiveCoder.Scripting.Tests.Compiler
             this.CompiledLine(line).Commands.Single();
 
         private Script CompiledLine(string line) =>
-            new LiveCoderScriptCompiler().Compile(this.Script(line));
+            new ScriptCompiler().Compile(this.Script(line));
 
         private IText Script(string line) =>
             new NonEmptyText(new[] {line});

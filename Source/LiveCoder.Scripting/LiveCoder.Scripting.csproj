@@ -37,9 +37,16 @@
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EasyParse, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CodingHelmet.EasyParse.1.0.0.1\lib\net472\EasyParse.dll</HintPath>
+    </Reference>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\stdole.7.0.3302\lib\net10\stdole.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.1.3.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+      <HintPath>..\packages\CodingHelmet.EasyParse.1.0.0.1\lib\net472\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Say.cs" />
-    <Compile Include="Compiler\LiveCoderScriptCompiler.cs" />
+    <Compile Include="Compiler\ScriptCompiler.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="NoScriptEngine.cs" />
@@ -78,6 +85,20 @@
       <Name>LiveCoder.Snippets</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Commands\Parser\Grammar.txt" />
+    <Content Include="Commands\Parser\ParserDefinition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ParserDefinition.xml</LastGenOutput>
+    </Content>
+    <Content Include="Commands\Parser\ParserDefinition.xml">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParserDefinition.tt</DependentUpon>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

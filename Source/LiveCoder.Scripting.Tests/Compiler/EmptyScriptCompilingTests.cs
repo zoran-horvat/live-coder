@@ -16,6 +16,6 @@ namespace LiveCoder.Scripting.Tests.Compiler
             Assert.Empty(this.CompiledEmptyText().Commands);
 
         private Script CompiledEmptyText() =>
-            new LiveCoderScriptCompiler().Compile(new EmptyText());
+            new ScriptCompiler().Compile(new EmptyText());
     }
 }
