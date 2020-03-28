@@ -9,4 +9,6 @@ Script -> StatementList;
 StatementList -> Statement ';';
 StatementList -> StatementList Statement ';';
 
-Statement -> 'say' '(' ')';
+Statement -> SayStatement;
+
+SayStatement -> 'say' '(' ')';

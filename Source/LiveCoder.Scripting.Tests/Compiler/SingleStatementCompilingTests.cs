@@ -9,12 +9,12 @@ namespace LiveCoder.Scripting.Tests.Compiler
 {
     public class SingleStatementCompilingTests
     {
-        [Theory(Skip = "Not implemented yet")]
+        [Theory]
         [InlineData(@"say();")]
         public void ReturnsOneStatement(string line) =>
             Assert.Single(this.CompiledLine(line).Statements);
 
-        [Theory(Skip="Not implemented yet")]
+        [Theory]
         [InlineData(@"say();", typeof(Say))]
         public void ReturnsStatementOfSpecificType(string line, Type commandType) =>
             Assert.IsType(commandType, this.SingleStatement(line));

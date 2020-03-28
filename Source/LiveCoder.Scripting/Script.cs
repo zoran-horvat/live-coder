@@ -7,9 +7,9 @@ namespace LiveCoder.Scripting
     {
         public IEnumerable<IStatement> Statements { get; }
 
-        private Script(IEnumerable<IStatement> commands)
+        public Script(IEnumerable<IStatement> statements)
         {
-            this.Statements = commands.ToList();
+            this.Statements = statements.ToList();
         }
 
         public static Script Empty => new Script(Enumerable.Empty<IStatement>());
