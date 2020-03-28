@@ -1,9 +1,17 @@
-﻿namespace LiveCoder.Scripting
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace LiveCoder.Scripting
 {
     public class Script
     {
-        private Script() { }
+        public IEnumerable<ICommand> Commands { get; }
 
-        public static Script Empty => new Script();
+        private Script(IEnumerable<ICommand> commands)
+        {
+            this.Commands = commands.ToList();
+        }
+
+        public static Script Empty => new Script(Enumerable.Empty<ICommand>());
     }
 }

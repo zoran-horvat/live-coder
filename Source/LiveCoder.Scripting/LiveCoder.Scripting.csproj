@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Compiler\LiveCoderScriptCompiler.cs" />
     <Compile Include="Engine.cs" />
+    <Compile Include="ICommand.cs" />
     <Compile Include="NoScriptEngine.cs" />
     <Compile Include="Events\Error.cs" />
     <Compile Include="Events\ErrorParsingLine.cs" />

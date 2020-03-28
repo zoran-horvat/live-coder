@@ -1,6 +1,7 @@
 ﻿using LiveCoder.Common.Text.Documents;
 using LiveCoder.Scripting.Compiler;
 using Xunit;
+using System.Linq;
 
 namespace LiveCoder.Scripting.Tests
 {
@@ -9,6 +10,13 @@ namespace LiveCoder.Scripting.Tests
     {
         [Fact]
         public void ReturnsNonNull() => 
-            Assert.NotNull(new LiveCoderScriptCompiler().Compile(new EmptyText()));
+            Assert.NotNull(this.CompiledEmptyText());
+
+        [Fact]
+        public void ReturnsScriptWithNoCommands() =>
+            Assert.Equal(0, this.CompiledEmptyText().Commands.Count());
+
+        private Script CompiledEmptyText() =>
+            new LiveCoderScriptCompiler().Compile(new EmptyText());
     }
 }
