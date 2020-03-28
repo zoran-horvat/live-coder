@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using LiveCoder.Common.Text.Documents;
+﻿using LiveCoder.Common.Text.Documents;
 using LiveCoder.Scripting.Compiler;
 using Xunit;
 
@@ -16,6 +15,6 @@ namespace LiveCoder.Scripting.Tests.Compiler
             Assert.Empty(this.CompiledEmptyText().Statements);
 
         private Script CompiledEmptyText() =>
-            new ScriptCompiler().Compile(new EmptyText());
+            ScriptCompiler.Compile(new EmptyText());
     }
 }

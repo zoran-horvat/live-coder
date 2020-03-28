@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using LiveCoder.Common.Optional;
 
 namespace LiveCoder.Common.Text.Documents
@@ -13,6 +10,7 @@ namespace LiveCoder.Common.Text.Documents
         public int LineIndex { get; }
         private int RemainingLinesCount => this.Content.Length - this.LineIndex;
         public string CurrentLine => this.Content[this.LineIndex];
+        public IEnumerable<string> Lines => this.Content.Skip(this.LineIndex);
 
         public NonEmptyText(string[] content) : this(content, 0) { }
 

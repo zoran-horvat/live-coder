@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Say.cs" />
+    <Compile Include="Compiler\CompilerImplementation.cs" />
     <Compile Include="Compiler\ScriptCompiler.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="IStatement.cs" />
@@ -94,11 +95,12 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ParserDefinition.xml</LastGenOutput>
     </Content>
-    <Content Include="Compiler\Parser\ParserDefinition.xml">
+    <EmbeddedResource Include="Compiler\Parser\ParserDefinition.xml">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ParserDefinition.tt</DependentUpon>
-    </Content>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

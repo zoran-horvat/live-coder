@@ -23,7 +23,7 @@ namespace LiveCoder.Scripting.Tests.Compiler
             this.CompiledLine(line).Statements.Single();
 
         private Script CompiledLine(string line) =>
-            new ScriptCompiler().Compile(this.Script(line));
+            ScriptCompiler.Compile(this.Script(line));
 
         private IText Script(string line) =>
             new NonEmptyText(new[] {line});
