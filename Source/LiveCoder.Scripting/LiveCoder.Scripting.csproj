@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Say.cs" />
     <Compile Include="Compiler\LiveCoderScriptCompiler.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="ICommand.cs" />
