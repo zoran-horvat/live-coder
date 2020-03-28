@@ -1,9 +1,9 @@
-﻿using LiveCoder.Common.Text.Documents;
+﻿using System.Linq;
+using LiveCoder.Common.Text.Documents;
 using LiveCoder.Scripting.Compiler;
 using Xunit;
-using System.Linq;
 
-namespace LiveCoder.Scripting.Tests
+namespace LiveCoder.Scripting.Tests.Compiler
 {
     // ReSharper disable once InconsistentNaming
     public class Compile_EmptyScriptTests
@@ -14,7 +14,7 @@ namespace LiveCoder.Scripting.Tests
 
         [Fact]
         public void ReturnsScriptWithNoCommands() =>
-            Assert.Equal(0, this.CompiledEmptyText().Commands.Count());
+            Assert.Empty(this.CompiledEmptyText().Commands);
 
         private Script CompiledEmptyText() =>
             new LiveCoderScriptCompiler().Compile(new EmptyText());
