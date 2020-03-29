@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Compiler\EmptyScriptCompilingTests.cs" />
     <Compile Include="Compiler\SingleStatementCompilingTests.cs" />
+    <Compile Include="Compiler\SpecificStatementTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

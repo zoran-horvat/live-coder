@@ -19,6 +19,12 @@ namespace LiveCoder.Scripting.Compiler
             statement;
 
         public IStatement SayStatement(string say, string openParen, string closeParen) =>
-            new Say();
+            new Say(string.Empty);
+
+        public IStatement SayStatement(string say, string openParen, string message, string closeParen) =>
+            new Say(this.DequoteString(message));
+
+        private string DequoteString(string value) =>
+            value.Substring(1, value.Length - 2);
     }
 }

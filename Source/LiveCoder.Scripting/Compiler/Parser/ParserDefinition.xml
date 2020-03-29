@@ -5,6 +5,7 @@
     <Constant Value="say" />
     <Constant Value="(" />
     <Constant Value=")" />
+    <Lexeme Pattern="&quot;[^&quot;]*&quot;" Name="string" />
   </LexicalRules>
   <Grammar>
     <Rule Ordinal="0">
@@ -60,6 +61,17 @@
         <Constant Value=")" />
       </Body>
     </Rule>
+    <Rule Ordinal="6">
+      <Head>
+        <NonTerminal Name="SayStatement" />
+      </Head>
+      <Body>
+        <Constant Value="say" />
+        <Constant Value="(" />
+        <Terminal Name="string" />
+        <Constant Value=")" />
+      </Body>
+    </Rule>
   </Grammar>
   <ParsingTable>
     <Shift State="0" Terminal="say" TransitionTo="2" />
@@ -67,15 +79,18 @@
     <Shift State="4" Terminal="say" TransitionTo="2" />
     <Shift State="5" Terminal=";" TransitionTo="8" />
     <Shift State="6" Terminal=")" TransitionTo="9" />
-    <Shift State="7" Terminal=";" TransitionTo="10" />
+    <Shift State="6" Terminal="string" TransitionTo="10" />
+    <Shift State="7" Terminal=";" TransitionTo="11" />
+    <Shift State="10" Terminal=")" TransitionTo="12" />
     <Reduce State="1" EndOfInput="$" RuleOrdinal="0" />
     <Reduce State="3" Terminal=";" RuleOrdinal="4" />
     <Reduce State="4" EndOfInput="$" RuleOrdinal="1" />
     <Reduce State="8" EndOfInput="$" RuleOrdinal="2" />
     <Reduce State="8" Terminal="say" RuleOrdinal="2" />
     <Reduce State="9" Terminal=";" RuleOrdinal="5" />
-    <Reduce State="10" EndOfInput="$" RuleOrdinal="3" />
-    <Reduce State="10" Terminal="say" RuleOrdinal="3" />
+    <Reduce State="11" EndOfInput="$" RuleOrdinal="3" />
+    <Reduce State="11" Terminal="say" RuleOrdinal="3" />
+    <Reduce State="12" Terminal=";" RuleOrdinal="6" />
     <Goto State="0" NonTerminal="SayStatement" TransitionTo="3" />
     <Goto State="0" NonTerminal="Script" TransitionTo="1" />
     <Goto State="0" NonTerminal="Statement" TransitionTo="5" />
