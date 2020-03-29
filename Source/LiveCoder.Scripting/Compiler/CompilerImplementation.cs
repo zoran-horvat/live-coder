@@ -18,9 +18,6 @@ namespace LiveCoder.Scripting.Compiler
         public IStatement Statement(IStatement statement) => 
             statement;
 
-        public IStatement SayStatement(string say, string openParen, string closeParen) =>
-            new Say(string.Empty);
-
         public IStatement SayStatement(string say, string openParen, string message, string closeParen) =>
             new Say(this.DequoteString(message));
 

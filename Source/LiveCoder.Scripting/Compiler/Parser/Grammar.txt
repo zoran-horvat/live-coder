@@ -12,5 +12,4 @@ StatementList -> StatementList Statement ';';
 
 Statement -> SayStatement;
 
-SayStatement -> 'say' '(' ')';
 SayStatement -> 'say' '(' string ')';

@@ -10,12 +10,12 @@ namespace LiveCoder.Scripting.Tests.Compiler
     public class SingleStatementCompilingTests
     {
         [Theory]
-        [InlineData(@"say();")]
+        [InlineData(@"say(""Hello"");")]
         public void ReturnsOneStatement(string line) =>
             Assert.Single(this.CompiledLine(line).Statements);
 
         [Theory]
-        [InlineData(@"say();", typeof(Say))]
+        [InlineData(@"say(""Hello"");", typeof(Say))]
         public void ReturnsStatementOfSpecificType(string line, Type commandType) =>
             Assert.IsType(commandType, this.SingleStatement(line));
 
