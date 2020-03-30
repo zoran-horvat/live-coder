@@ -2,6 +2,6 @@
 {
     public class EmptyText : IText
     {
-
+        public override string ToString() => "<empty text>";
     }
 }

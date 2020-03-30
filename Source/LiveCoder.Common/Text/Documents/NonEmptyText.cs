@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using LiveCoder.Common.Optional;
 
 namespace LiveCoder.Common.Text.Documents
@@ -43,5 +45,8 @@ namespace LiveCoder.Common.Text.Documents
             Enumerable
                 .Range(this.LineIndex, lastIndex - this.LineIndex + 1)
                 .Select(index => this.Content[index]);
+
+        public override string ToString() =>
+            string.Join(Environment.NewLine, this.Content, this.LineIndex, this.Content.Length - this.LineIndex);
     }
 }
