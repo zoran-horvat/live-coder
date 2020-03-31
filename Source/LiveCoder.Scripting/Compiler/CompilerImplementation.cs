@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Immutable;
+using System.Text;
+using System.Text.RegularExpressions;
 using EasyParse.Parsing;
 using LiveCoder.Scripting.Commands;
 
@@ -24,6 +27,21 @@ namespace LiveCoder.Scripting.Compiler
 
         public string PlainString(string quoted) =>
             quoted.Substring(1, quoted.Length - 2);
+
+        public string EscapedString(string raw) =>
+            Regex.Matches(raw, @"[^""\\]+|\\[\\nrt""]")
+                .OfType<Match>()
+                .Select(match => this.Unescape(match.Value))
+                .Aggregate(new StringBuilder(), (result, element) => result.Append(element))
+                .ToString();
+
+        private string Unescape(string value) =>
+            value == "\\n" ? "\n"
+            : value == "\\r" ? "\r"
+            : value == "\\t" ? "\t"
+            : value == "\\\"" ? "\""
+            : value == "\\\\" ? "\\"
+            : value;
 
         public IStatement SayStatement(string say, string openParen, string message, string closeParen) =>
             new Say(message);

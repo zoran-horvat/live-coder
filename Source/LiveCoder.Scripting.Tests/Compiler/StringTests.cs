@@ -17,6 +17,16 @@ namespace LiveCoder.Scripting.Tests.Compiler
         public void PlainString_ReturnsExpectedString(string expected, string rawMessage) =>
             Assert.Equal(expected, this.CompiledMessage(string.Empty, rawMessage));
 
+        [Theory]
+        [InlineData("Something\\else", "Something\\\\else")]
+        [InlineData("Something\nelse", "Something\\nelse")]
+        [InlineData("Something\relse", "Something\\relse")]
+        [InlineData("Something\telse", "Something\\telse")]
+        [InlineData("Something\"else", "Something\\\"else")]
+        [InlineData("\nLa\trge\" num\r\r\nber\tof\\esca\npes\t\n", "\\nLa\\trge\\\" num\\r\\r\\nber\\tof\\\\esca\\npes\\t\\n")]
+        public void EscapedString_ReturnsExpectedString(string expected, string rawMessage) =>
+            Assert.Equal(expected, this.CompiledMessage(string.Empty, rawMessage));
+
         private string CompiledMessage(string prefix, params string[] rawMessageLines) =>
             this.CompileSay(prefix, rawMessageLines).Message;
 

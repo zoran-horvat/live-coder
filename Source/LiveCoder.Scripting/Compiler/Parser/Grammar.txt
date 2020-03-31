@@ -1,6 +1,7 @@
 ﻿lexemes:
 ignore @'[\s\n]+';
-plainString matches @'"[^"]*"';
+plainString matches @'"[^"\\]*"';
+escapedString matches @'"([^\\"]|(\\([\\nrt"])))*"';
 
 start: Script;
 
@@ -13,6 +14,8 @@ StatementList -> StatementList Statement ';';
 Statement -> SayStatement;
 
 String -> PlainString;
+String -> EscapedString;
 PlainString -> plainString;
+EscapedString -> escapedString;
 
 SayStatement -> 'say' '(' String ')';
