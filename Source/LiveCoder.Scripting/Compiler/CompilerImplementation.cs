@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Immutable;
 using EasyParse.Parsing;
 using LiveCoder.Scripting.Commands;
 
@@ -18,10 +19,13 @@ namespace LiveCoder.Scripting.Compiler
         public IStatement Statement(IStatement statement) => 
             statement;
 
-        public IStatement SayStatement(string say, string openParen, string message, string closeParen) =>
-            new Say(this.DequoteString(message));
+        public string String(string value) => 
+            value;
 
-        private string DequoteString(string value) =>
-            value.Substring(1, value.Length - 2);
+        public string PlainString(string quoted) =>
+            quoted.Substring(1, quoted.Length - 2);
+
+        public IStatement SayStatement(string say, string openParen, string message, string closeParen) =>
+            new Say(message);
     }
 }

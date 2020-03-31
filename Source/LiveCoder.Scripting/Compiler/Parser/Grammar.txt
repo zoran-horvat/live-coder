@@ -1,6 +1,6 @@
 ﻿lexemes:
 ignore @'[\s\n]+';
-string matches @'"[^"]*"';
+plainString matches @'"[^"]*"';
 
 start: Script;
 
@@ -12,4 +12,7 @@ StatementList -> StatementList Statement ';';
 
 Statement -> SayStatement;
 
-SayStatement -> 'say' '(' string ')';
+String -> PlainString;
+PlainString -> plainString;
+
+SayStatement -> 'say' '(' String ')';
