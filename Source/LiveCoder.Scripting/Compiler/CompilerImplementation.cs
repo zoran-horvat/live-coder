@@ -29,7 +29,7 @@ namespace LiveCoder.Scripting.Compiler
             quoted.Substring(1, quoted.Length - 2);
 
         public string EscapedString(string raw) =>
-            Regex.Matches(raw, @"[^""\\]+|\\[\\nrt""]")
+            Regex.Matches(raw.Substring(1, raw.Length - 2), @"[^""\\]+|\\[\\nrt""]")
                 .OfType<Match>()
                 .Select(match => this.Unescape(match.Value))
                 .Aggregate(new StringBuilder(), (result, element) => result.Append(element))
