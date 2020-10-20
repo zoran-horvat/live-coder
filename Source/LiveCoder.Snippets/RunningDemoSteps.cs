@@ -26,9 +26,9 @@ namespace LiveCoder.Snippets
 
             this.StepPatterns =  new (Regex, Func<string, int, Option<RunningDemoSteps>>)[]
             {
-                (new Regex(@"\/\/ (Snippet )?(?<snippetShortcut>snp\d+\.\d+)"), AddReminder),
-                (new Regex(@"\/\/ (?<snippetShortcut>snp\d+) end"), EndSnippet),
-                (new Regex(@"\/\/ (Snippet )?(?<snippetShortcut>snp\d+)"), BeginSnippet)
+                (new Regex(@"(\/\/|<!--)\s+(Snippet )?(?<snippetShortcut>snp\d+\.\d+)"), AddReminder),
+                (new Regex(@"(\/\/|<!--)\s+(?<snippetShortcut>snp\d+) end"), EndSnippet),
+                (new Regex(@"(\/\/|<!--)\s+(Snippet )?(?<snippetShortcut>snp\d+)"), BeginSnippet)
             };
         }
 
