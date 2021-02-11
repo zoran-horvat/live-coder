@@ -6,12 +6,15 @@ to isolated locations from which demonstration can be performed.
 
 Usage:
 
-%toolName% -src <directory> [-copy-vs] [-copy-snippets] [-copy-pp] 
+%toolName% -src <directory> [-dst <directory>] [-copy-vs] [-copy-snippets] [-copy-pp] 
         [-copy-all] [-track-snippets] [-normalize-snippets] [-open]
 
 Meaning of attributes:
 
 -src                - Indicates source directory from which files are copied
+
+-dst                - Indicates destination directory to which files are copied
+                      All existing content will be deleted prior to copying
 
 -copy-vs            - Instructs to copy Visual Studio solution files
 

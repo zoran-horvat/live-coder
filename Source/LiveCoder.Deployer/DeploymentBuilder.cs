@@ -9,16 +9,25 @@ namespace LiveCoder.Deployer
     {
         private IAuditor Auditor { get; }
         private Option<DirectoryInfo> Source { get; set; }
+        private DirectoryInfo Destination { get; set; }
 
         public DeploymentBuilder(IAuditor auditor)
         {
             this.Auditor = auditor;
+            this.Source = None.Value;
+            this.Destination = Directories.GetDestinationDirectoryIn(new DirectoryInfo(@"C:\Demo"));
         }
 
         public DeploymentBuilder From(DirectoryInfo source)
         {
             if (Directory.Exists(source?.FullName))
                 this.Source = Option.Of(source);
+            return this;
+        }
+
+        public DeploymentBuilder To(DirectoryInfo destination)
+        {
+            this.Destination = destination;
             return this;
         }
 
@@ -36,6 +45,6 @@ namespace LiveCoder.Deployer
             this.Source.MapOptional(this.DirectoriesFactory);
 
         private Option<Directories> DirectoriesFactory(DirectoryInfo source) =>
-            Directories.TryCreateDestinationIn(this.Auditor, new DirectoryInfo(@"C:\Demo"), source);
+            Directories.TryCreateDestinationIn(this.Auditor, this.Destination, source);
     }
 }

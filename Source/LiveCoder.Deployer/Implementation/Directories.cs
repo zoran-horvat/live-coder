@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using LiveCoder.Common.IO;
 using LiveCoder.Common.Optional;
@@ -17,7 +18,7 @@ namespace LiveCoder.Deployer.Implementation
             this.DestinationRoot = destinationRoot;
         }
 
-        public static Option<Directories> TryCreateDestinationIn(IAuditor auditor, DirectoryInfo destinationParent, DirectoryInfo source)
+        public static Option<Directories> TryCreateDestinationIn(IAuditor auditor, DirectoryInfo destination, DirectoryInfo source)
         {
             int repeats = 10;
             int pauseMsec = 100;
@@ -26,8 +27,11 @@ namespace LiveCoder.Deployer.Implementation
             {
                 try
                 {
-                    if (TryCreate(GetDestinationCandidate(destinationParent)) is Some<DirectoryInfo> created)
-                        return new Directories(source, created.Content);
+                    if (TryCreate(destination) is Some<DirectoryInfo> created)
+                    {
+                        Empty(created);
+                        return new Directories(source, created);
+                    }
                     repeats -= 1;
                     Thread.Sleep(pauseMsec);
                 }
@@ -39,6 +43,12 @@ namespace LiveCoder.Deployer.Implementation
             }
 
             return None.Value;
+        }
+
+        private static void Empty(DirectoryInfo directory)
+        {
+            directory.GetDirectories().ToList().ForEach(dir => dir.Delete(true));
+            directory.GetFiles().ToList().ForEach(file => file.Delete());
         }
 
         private static Option<DirectoryInfo> TryCreate(DirectoryInfo directory)
@@ -54,7 +64,7 @@ namespace LiveCoder.Deployer.Implementation
             }
         }
 
-        private static DirectoryInfo GetDestinationCandidate(DirectoryInfo parent) =>
+        public static DirectoryInfo GetDestinationDirectoryIn(DirectoryInfo parent) =>
             new DirectoryInfo(Path.Combine(parent.FullName, Timestamp));
 
         public DirectoryInfo DestinationFor(DirectoryInfo source) =>

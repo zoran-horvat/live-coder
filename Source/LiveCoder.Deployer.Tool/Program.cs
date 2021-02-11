@@ -25,6 +25,7 @@ namespace LiveCoder.Deployer.Tool
             Option.Of(new DeploymentBuilder(new ConsoleAuditor()))
                 .When(_ => arguments.IsValid)
                 .Map(builder => builder.From(arguments.SourceDirectory))
+                .Map(builder => arguments.DestinationDirectory.Map(builder.To).Reduce(builder))
                 .MapOptional(builder => builder.TryBuild())
                 .Do(spec => Deploy(spec, arguments), ShowUsage);
 

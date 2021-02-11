@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using LiveCoder.Common.Optional;
+using System.IO;
 using System.Linq;
 
 namespace LiveCoder.Deployer.Tool
@@ -8,6 +9,7 @@ namespace LiveCoder.Deployer.Tool
 
         public bool IsValid { get; private set; }
         public DirectoryInfo SourceDirectory { get; private set; }
+        public Option<DirectoryInfo> DestinationDirectory { get; private set; } = None.Value;
         public bool CopyVisualStudioFiles { get; private set; }
         public bool LiveTrackSnippets { get; private set; }
         public bool StartApplications { get; private set; }
@@ -56,9 +58,19 @@ namespace LiveCoder.Deployer.Tool
             this.Handlers.First(handler => handler.CanHandle(argument)).Handle(argument);
 
         private bool CanHandleSourceDirectory(string[] args, int pos) =>
-            args[pos] == "-src" && args.Length > pos + 1 && Directory.Exists(args[pos + 1]);
+            this.CanHandleDirectory(args, pos, "src");
 
-        private void HandleSourceDirectory(string[] args, int pos) => this.SourceDirectory = new DirectoryInfo(args[pos + 1]);
+        private bool CanHandleDestinationDirectory(string[] args, int pos) =>
+            this.CanHandleDirectory(args, pos, "dst");
+
+        private bool CanHandleDirectory(string[] args, int pos, string flag) =>
+            args[pos] == $"-{flag}" && args.Length > pos + 1 && Directory.Exists(args[pos + 1]);
+
+        private void HandleSourceDirectory(string[] args, int pos) => 
+            this.SourceDirectory = new DirectoryInfo(args[pos + 1]);
+
+        private void HandleDestinationDirectory(string[] args, int pos) =>
+            this.DestinationDirectory = new DirectoryInfo(args[pos + 1]);
 
         public static Arguments Parse(string[] args)
         {
@@ -77,6 +89,11 @@ namespace LiveCoder.Deployer.Tool
                 if (arguments.CanHandleSourceDirectory(args, pos))
                 {
                     arguments.HandleSourceDirectory(args, pos);
+                    pos += 2;
+                }
+                else if (arguments.CanHandleDestinationDirectory(args, pos))
+                {
+                    arguments.HandleDestinationDirectory(args, pos);
                     pos += 2;
                 }
                 else if (arguments.CanHandleFlag(args[pos]))
