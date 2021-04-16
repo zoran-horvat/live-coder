@@ -10,7 +10,7 @@ namespace LiveCoder.Snippets.Steps
     class SnippetReplace : IDemoStep
     {
         private Snippet Snippet { get; }
-        public string SnippetShortcut => $"snp{this.Snippet.Number:00}";
+        public string SnippetShortcut => $"snp{this.Snippet.Number:0000}";
         private string SnippetContent => this.Snippet.Content;
         private ISource File { get; }
         private int LineIndex { get; }
