@@ -12,7 +12,7 @@ namespace LiveCoder.Snippets
     class RunningDemoSteps
     {
         private ISource ForFile { get; }
-        private IDictionary<string, IDemoStep> SnippetShortcutToStep { get; }
+        private IDictionary<int, IDemoStep> SnippetShortcutToStep { get; }
         private CodeSnippets Script { get; }
 
         private IEnumerable<(Regex pattern, Func<string, int, Option<RunningDemoSteps>> factory)> StepPatterns { get; }
@@ -22,7 +22,7 @@ namespace LiveCoder.Snippets
             this.ForFile = forFile ?? throw new ArgumentNullException(nameof(forFile));
             this.Script = script ?? throw new ArgumentNullException(nameof(script));
 
-            this.SnippetShortcutToStep = new Dictionary<string, IDemoStep>();
+            this.SnippetShortcutToStep = new Dictionary<int, IDemoStep>();
 
             this.StepPatterns =  new (Regex, Func<string, int, Option<RunningDemoSteps>>)[]
             {
@@ -32,7 +32,7 @@ namespace LiveCoder.Snippets
             };
         }
 
-        private RunningDemoSteps(RunningDemoSteps copy, IDictionary<string, IDemoStep> steps)
+        private RunningDemoSteps(RunningDemoSteps copy, IDictionary<int, IDemoStep> steps)
         {
             this.ForFile = copy.ForFile;
             this.StepPatterns = copy.StepPatterns;
@@ -62,7 +62,7 @@ namespace LiveCoder.Snippets
 
         private Option<RunningDemoSteps> EndSnippet(string snippetShortcut, int index) =>
             this.SnippetShortcutToStep
-                .TryGetValue(snippetShortcut)
+                .TryGetValue(this.SnippetShortcutToNumber(snippetShortcut))
                 .OfType<SnippetReplace>()
                 .Map(snippet => snippet.EndsOnLine(index))
                 .Map(this.Add)
@@ -70,8 +70,11 @@ namespace LiveCoder.Snippets
 
         private RunningDemoSteps Add(IDemoStep step)
         {
-            this.SnippetShortcutToStep[step.SnippetShortcut] = step;
+            this.SnippetShortcutToStep[this.SnippetShortcutToNumber(step.SnippetShortcut)] = step;
             return new RunningDemoSteps(this, this.SnippetShortcutToStep);
         }
+
+        private int SnippetShortcutToNumber(string shortcut) => 
+            int.Parse(Regex.Match(shortcut, @"(snp)?(?<number>\d+)").Groups["number"].Value);
     }
 }
