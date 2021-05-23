@@ -69,6 +69,7 @@
     <Compile Include="Implementation\VsProjectWrapper.cs" />
     <Compile Include="Implementation\VsSolutionWrapper.cs" />
     <Compile Include="Implementation\VsSolutionExtensions.cs" />
+    <Compile Include="Implementation\VsStatusBarLogger.cs" />
     <Compile Include="ServiceProviderExtensions.cs" />
     <Compile Include="StepCommand.cs" />
     <Compile Include="LiveCoderPackage.cs" />

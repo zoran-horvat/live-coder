@@ -53,6 +53,9 @@
     <Compile Include="IProject.cs" />
     <Compile Include="ISolution.cs" />
     <Compile Include="ISource.cs" />
+    <Compile Include="Loggers\CompositeLogger.cs" />
+    <Compile Include="LoggerExtensions.cs" />
+    <Compile Include="Loggers\TypedLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,5 +67,6 @@
   <ItemGroup>
     <None Include="Key.snk" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

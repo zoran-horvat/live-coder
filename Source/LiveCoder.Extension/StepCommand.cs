@@ -3,8 +3,9 @@ using System.ComponentModel.Design;
 using LiveCoder.Api;
 using LiveCoder.Extension.Implementation;
 using LiveCoder.Scripting;
-using LiveCoder.Scripting.Events;
+using LiveCoder.Snippets.Events;
 using Microsoft.VisualStudio.Shell;
+using Error = LiveCoder.Scripting.Events.Error;
 
 namespace LiveCoder.Extension
 {
@@ -66,8 +67,11 @@ namespace LiveCoder.Extension
         /// <param name="package">Owner package, not null.</param>
         public static void Initialize(Package package)
         {
-            Instance = new StepCommand(package, new VsOutputLogger());
+            Instance = new StepCommand(package, CreateLogger());
         }
+
+        private static ILogger CreateLogger() =>
+            new VsOutputLogger().And(new VsStatusBarLogger().ForEvents<SnippetText>());
 
         /// <summary>
         /// This function is the callback used to execute the command when the menu item is clicked.

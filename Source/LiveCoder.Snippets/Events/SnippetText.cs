@@ -2,7 +2,7 @@
 
 namespace LiveCoder.Snippets.Events
 {
-    class SnippetText : IEvent
+    public class SnippetText : IEvent
     {
         public string Label { get; }
      
