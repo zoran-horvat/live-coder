@@ -66,7 +66,7 @@ namespace LiveCoder.Snippets
                 .SelectMany(source => this.GetDemoSteps(source, this.Script)).OrderBy(step => step.SnippetShortcut);
 
         private IEnumerable<IDemoStep> GetDemoSteps(ISource source, CodeSnippets script) =>
-            source.Lines.Aggregate(new RunningDemoSteps(source, script), (steps, tuple) => steps.Add(tuple.line, tuple.lineIndex)).All;
+            source.Lines.Aggregate(new RunningDemoSteps(source, script, this.Logger), (steps, tuple) => steps.Add(tuple.line, tuple.lineIndex)).All;
 
         private Option<IDemoStep> GetNextStep() =>
             this.ReadScriptOptional(script => this.GetDemoStepsOrdered().FirstOrNone())

@@ -65,6 +65,7 @@
     <Compile Include="Commands\Pause.cs" />
     <Compile Include="Commands\SelectLine.cs" />
     <Compile Include="Commands\SelectMultipleLines.cs" />
+    <Compile Include="Commands\ShowMessage.cs" />
     <Compile Include="Commands\VerifyActiveDocument.cs" />
     <Compile Include="Commands\VerifyCursorPosition.cs" />
     <Compile Include="Commands\VerifyLineContent.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Events\FirstDemoStepFound.cs" />
     <Compile Include="Events\NoDemoStepsFound.cs" />
     <Compile Include="Events\ScriptFIleFound.cs" />
+    <Compile Include="Events\SnippetText.cs" />
     <Compile Include="Events\StepVerificationFailed.cs" />
     <Compile Include="Interfaces\IDemoCommand.cs" />
     <Compile Include="Interfaces\IDemoStep.cs" />
