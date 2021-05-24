@@ -28,9 +28,12 @@ namespace LiveCoder.Snippets
 
             this.StepPatterns = new (Regex, Func<StepSourceEntry, Option<RunningDemoSteps>>)[]
             {
-                (new Regex(@"(\/\/|<!--)\s+(Snippet )?(?<snippetShortcut>snp\d+\.\d+)\s*(?<text>.*)"), AddReminder),
-                (new Regex(@"(\/\/|<!--)\s+(?<snippetShortcut>snp\d+) end"), EndSnippet),
-                (new Regex(@"(\/\/|<!--)\s+(Snippet )?(?<snippetShortcut>snp\d+)\s*(?<text>.*)"), BeginSnippet),
+                (new Regex(@"\/\/\s*(Snippet )?(?<snippetShortcut>snp\d+\.\d+)\s*(?<text>.*)"), AddReminder),
+                (new Regex(@"<!--\s*(Snippet )?(?<snippetShortcut>snp\d+\.\d+)\s*(?<text>(.(?!-->))*)-->"), AddReminder),
+                (new Regex(@"\/\/\s*(?<snippetShortcut>snp\d+) end"), EndSnippet),
+                (new Regex(@"<!--\s*(?<snippetShortcut>snp\d+)\s+end\s*-->"), EndSnippet),
+                (new Regex(@"\/\/\s*(Snippet )?(?<snippetShortcut>snp\d+)\s*(?<text>.*)"), BeginSnippet),
+                (new Regex(@"<!--\s*(Snippet )?(?<snippetShortcut>snp\d+)\s*(?<text>(.(?!--!))*)-->"), BeginSnippet),
             };
         }
 
