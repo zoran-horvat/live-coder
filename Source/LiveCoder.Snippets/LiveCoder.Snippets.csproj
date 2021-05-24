@@ -91,6 +91,7 @@
     <Compile Include="RunningDemoSteps.cs" />
     <Compile Include="ScriptLoader.cs" />
     <Compile Include="ScriptTextParser.cs" />
+    <Compile Include="StepSourceEntry.cs" />
     <Compile Include="Steps\MultilineSnippetReplace.cs" />
     <Compile Include="Steps\Reminder.cs" />
     <Compile Include="Steps\SnippetReplace.cs" />
