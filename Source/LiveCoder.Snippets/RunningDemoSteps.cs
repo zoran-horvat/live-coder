@@ -59,12 +59,13 @@ namespace LiveCoder.Snippets
                     shortcut: pair.match.Groups["snippetShortcut"].Value, 
                     lineIndex: lineIndex, 
                     text: pair.match.Groups["text"] is Group text && text.Success ? text.Value : string.Empty,
+                    code: line.Substring(0, pair.match.Index).TrimEnd(),
                     pair.factory))
-                .Select(tuple => (new StepSourceEntry(tuple.shortcut, tuple.lineIndex, tuple.text), tuple.factory))
+                .Select(tuple => (new StepSourceEntry(tuple.shortcut, tuple.lineIndex, tuple.text, tuple.code), tuple.factory))
                 .FirstOrNone();
 
         private Option<RunningDemoSteps> AddReminder(StepSourceEntry step) =>
-            this.Add(new Reminder(this.Logger, step.SnippetShortcut, this.ForFile, step.LineIndex, step.Description));
+            this.Add(new Reminder(this.Logger, this.ForFile, step));
 
         private Option<RunningDemoSteps> BeginSnippet(StepSourceEntry step) =>
             this.Script.TryGetSnippet(step.SnippetShortcut)

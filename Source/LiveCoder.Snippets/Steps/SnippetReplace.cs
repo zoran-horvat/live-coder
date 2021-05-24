@@ -12,6 +12,7 @@ namespace LiveCoder.Snippets.Steps
         private ILogger Logger { get; }
         private Snippet Snippet { get; }
         public string SnippetShortcut => $"snp{this.Snippet.Number:0000}";
+        public float Ordinal => this.Snippet.Number;
         private string SnippetContent => this.Snippet.Content;
         private ISource File { get; }
         private int LineIndex { get; }

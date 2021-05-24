@@ -14,6 +14,7 @@ namespace LiveCoder.Snippets.Steps
         private Snippet Snippet { get; }
         private string SnippetContent => this.Snippet.Content;
         public string SnippetShortcut => $"snp{this.Snippet.Number:0000}";
+        public float Ordinal => this.Snippet.Number;
         private ISource File { get; }
         private int StartLineIndex { get; }
         private int LinesCount { get; }
