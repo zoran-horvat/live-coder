@@ -59,6 +59,7 @@
     <Compile Include="CodeSnippetsEngine.cs" />
     <Compile Include="Commands\ActivateDocument.cs" />
     <Compile Include="Commands\DeleteLine.cs" />
+    <Compile Include="Commands\DoNothing.cs" />
     <Compile Include="Commands\ExpandSelection.cs" />
     <Compile Include="Commands\MoveToLine.cs" />
     <Compile Include="Commands\OpenDocument.cs" />

@@ -37,7 +37,7 @@ namespace LiveCoder.Snippets.Steps
                 new MoveToLine(this.File, this.LineIndex),
                 new ShowMessage(this.Logger, this.Text),
                 new Pause(),
-                new VerifyActiveDocument(this.File),
+                VerifyActiveDocument.WhenNotDebug(this.File),
                 new VerifyCursorPosition(this.File, this.LineIndex),
                 new VerifyLineContent(this.File, this.LineIndex, this.LineContent),
                 new DeleteLine(this.File, this.LineIndex)

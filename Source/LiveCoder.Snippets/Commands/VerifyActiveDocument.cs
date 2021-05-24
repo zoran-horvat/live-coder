@@ -1,5 +1,6 @@
 ﻿using System;
 using LiveCoder.Api;
+using LiveCoder.Snippets.Interfaces;
 
 namespace LiveCoder.Snippets.Commands
 {
@@ -7,9 +8,18 @@ namespace LiveCoder.Snippets.Commands
     {
         private ISource File;
 
-        public VerifyActiveDocument(ISource file)
+        private VerifyActiveDocument(ISource file)
         {
             this.File = file ?? throw new ArgumentNullException(nameof(file));
+        }
+
+        public static IDemoCommand WhenNotDebug(ISource file)
+        {
+#if DEBUG
+            return new DoNothing();
+#else
+            return new VerifyActiveDocument(file);
+#endif
         }
 
         public override bool IsStateAsExpected =>
