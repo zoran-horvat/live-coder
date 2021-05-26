@@ -40,7 +40,7 @@ namespace LiveCoder.Snippets.Steps
                 new Pause(),
                 new SelectMultipleLines(this.File, this.StartLineIndex, this.StartLineIndex + this.LinesCount),
                 new Pause(),
-                VerifyActiveDocument.WhenNotDebug(this.File), 
+                new VerifyActiveDocument(this.File), 
                 new VerifySelectionText(this.File, this.SelectedText), 
                 new ExpandSelection(this.File, this.SnippetContent)
             };

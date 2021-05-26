@@ -4,7 +4,7 @@ using LiveCoder.Snippets.Interfaces;
 
 namespace LiveCoder.Snippets.Events
 {
-    class FirstDemoStepFound : IEvent
+    class FirstDemoStepFound : DelimitedEvent
     {
         private IDemoStep DemoStep { get; }
 
@@ -13,7 +13,7 @@ namespace LiveCoder.Snippets.Events
             this.DemoStep = demoStep ?? throw new ArgumentNullException(nameof(demoStep));
         }
 
-        public string Label =>
+        protected override string InnerLabel =>
             $"Next step: {this.DemoStep.Label}";
     }
 }

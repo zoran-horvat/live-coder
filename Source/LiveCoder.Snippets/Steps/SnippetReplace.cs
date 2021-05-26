@@ -38,11 +38,11 @@ namespace LiveCoder.Snippets.Steps
                 new MoveToLine(this.File, this.LineIndex),
                 new ShowMessage(this.Logger, this.Text),
                 new Pause(),
-                VerifyActiveDocument.WhenNotDebug(this.File),
+                new VerifyActiveDocument(this.File),
                 new VerifyCursorPosition(this.File, this.LineIndex),
                 new SelectLine(this.File, this.LineIndex),
                 new Pause(),
-                VerifyActiveDocument.WhenNotDebug(this.File),
+                new VerifyActiveDocument(this.File),
                 new VerifySelectionText(this.File, this.TextToSelect),
                 new ExpandSelection(this.File, this.SnippetContent)
             };

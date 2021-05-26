@@ -2,8 +2,9 @@
 
 namespace LiveCoder.Snippets.Events
 {
-    class NoDemoStepsFound : IEvent
+    class NoDemoStepsFound : DelimitedEvent
     {
-        public string Label => "No demo steps found in the solution";
+        protected override string InnerLabel => 
+            "No demo steps found in the solution";
     }
 }

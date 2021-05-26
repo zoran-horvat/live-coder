@@ -43,7 +43,7 @@ namespace LiveCoder.Snippets.Steps
                 new ShowMessage(this.Logger, this.Text),
                 this.SelectLineCommand,
                 new Pause(),
-                VerifyActiveDocument.WhenNotDebug(this.File),
+                new VerifyActiveDocument(this.File),
                 new VerifyCursorPosition(this.File, this.HasCode ? this.LineIndex : this.LineIndex + 1),
                 new VerifyLineContent(this.File, this.LineIndex, this.LineContent),
                 this.ReplacementCommand

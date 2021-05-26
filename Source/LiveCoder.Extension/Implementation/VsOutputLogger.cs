@@ -23,7 +23,7 @@ namespace LiveCoder.Extension.Implementation
         }
 
         public void Write(IEvent @event) => 
-            this.Write($"--------------{Environment.NewLine}{@event.Label}{Environment.NewLine}");
+            this.Write($"{@event.Label}{Environment.NewLine}");
 
         private void Write(string text) => 
             this.GetOutputWindowPane().OutputString(text);

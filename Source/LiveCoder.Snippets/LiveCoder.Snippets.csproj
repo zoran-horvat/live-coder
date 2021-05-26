@@ -74,6 +74,7 @@
     <Compile Include="Commands\VerifyStep.cs" />
     <Compile Include="Elements\Snippet.cs" />
     <Compile Include="Elements\SnippetNumberComparer.cs" />
+    <Compile Include="Events\DelimitedEvent.cs" />
     <Compile Include="Events\Error.cs" />
     <Compile Include="Events\FirstDemoStepFound.cs" />
     <Compile Include="Events\NoDemoStepsFound.cs" />

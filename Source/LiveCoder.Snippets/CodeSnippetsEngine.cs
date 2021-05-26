@@ -23,6 +23,9 @@ namespace LiveCoder.Snippets
         private CodeSnippets Script { get; set; }
         private ScriptLiveTracker ScriptTracker { get; }
 
+        private int VerificationRepeatsCount { get; }
+        private int VerificationFailuresRemaining { get; set; }
+
         private FileInfo ScriptFile { get; }
 
         private (CodeSnippets, Action) ParseScript() =>
@@ -41,6 +44,8 @@ namespace LiveCoder.Snippets
             this.LogScriptFile();
             (this.Script, this.ActualStep) = this.ParseScript();
             this.ScriptTracker = new ScriptLiveTracker(this.ScriptFile, this.OnScriptFileModified);
+            this.VerificationRepeatsCount = 1;
+            this.VerificationFailuresRemaining = this.VerificationRepeatsCount;
         }
 
         private static Option<FileInfo> TryFindScriptFile(DirectoryInfo liveCoderDirectory) => 
@@ -106,7 +111,19 @@ namespace LiveCoder.Snippets
         private void OnVerifierFailed(IStateVerifier verifier)
         {
             this.Logger.Write(new StepVerificationFailed(verifier));
+            IEnumerable<IDemoCommand> activeCommands = this.Commands.Where(command => !(command is IStateVerifier)).ToList();
             this.Commands.Clear();
+
+            if (this.VerificationFailuresRemaining > 0)
+            {
+                this.VerificationFailuresRemaining -= 1;
+            }
+            else
+            {
+                foreach (IDemoCommand active in activeCommands)
+                    this.Commands.Enqueue(active);
+                this.VerificationFailuresRemaining = this.VerificationRepeatsCount;
+            }
         }
 
         private IEnumerable<IStateVerifier> DequeueVerifiers()

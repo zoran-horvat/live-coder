@@ -8,18 +8,9 @@ namespace LiveCoder.Snippets.Commands
     {
         private ISource File;
 
-        private VerifyActiveDocument(ISource file)
+        public VerifyActiveDocument(ISource file)
         {
             this.File = file ?? throw new ArgumentNullException(nameof(file));
-        }
-
-        public static IDemoCommand WhenNotDebug(ISource file)
-        {
-#if DEBUG
-            return new DoNothing();
-#else
-            return new VerifyActiveDocument(file);
-#endif
         }
 
         public override bool IsStateAsExpected =>
