@@ -12,7 +12,7 @@ namespace LiveCoder.Snippets
     class RunningDemoSteps
     {
         private ISource ForFile { get; }
-        private IDictionary<int, IDemoStep> SnippetShortcutToStep { get; }
+        private IDictionary<string, IDemoStep> SnippetShortcutToStep { get; }
         private CodeSnippets Script { get; }
         private ILogger Logger { get; }
 
@@ -24,7 +24,7 @@ namespace LiveCoder.Snippets
             this.Script = script ?? throw new ArgumentNullException(nameof(script));
             this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            this.SnippetShortcutToStep = new Dictionary<int, IDemoStep>();
+            this.SnippetShortcutToStep = new Dictionary<string, IDemoStep>();
 
             this.StepPatterns = new (Regex, Func<StepSourceEntry, Option<RunningDemoSteps>>)[]
             {
@@ -37,7 +37,7 @@ namespace LiveCoder.Snippets
             };
         }
 
-        private RunningDemoSteps(RunningDemoSteps copy, IDictionary<int, IDemoStep> steps)
+        private RunningDemoSteps(RunningDemoSteps copy, IDictionary<string, IDemoStep> steps)
         {
             this.ForFile = copy.ForFile;
             this.StepPatterns = copy.StepPatterns;
@@ -85,7 +85,10 @@ namespace LiveCoder.Snippets
             return new RunningDemoSteps(this, this.SnippetShortcutToStep);
         }
 
-        private int SnippetShortcutToNumber(string shortcut) => 
-            int.Parse(Regex.Match(shortcut, @"(snp)?(?<number>\d+)").Groups["number"].Value);
+        private string SnippetShortcutToNumber(string shortcut) =>
+            this.RawSnippetNumber(shortcut).ToString("0.0##");
+
+        private float RawSnippetNumber(string shortcut) =>
+            float.Parse(Regex.Match(shortcut, @"(snp)?(?<number>\d+(.\d*)?)").Groups["number"].Value);
     }
 }
