@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="LiveCoder.dab59bb0-f8f8-41c9-94d1-1a1715b5982f" Version="1.9.3" Language="en-US" Publisher="Zoran Horvat" />
+        <Identity Id="LiveCoder.dab59bb0-f8f8-41c9-94d1-1a1715b5982f" Version="1.9.4" Language="en-US" Publisher="Zoran Horvat" />
         <DisplayName>Live Coder</DisplayName>
         <Description xml:space="preserve">Helps hold coding demos in Visual Studio.</Description>
     </Metadata>

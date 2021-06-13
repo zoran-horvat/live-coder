@@ -49,16 +49,28 @@ namespace LiveCoder.Snippets
 
         public IEnumerable<IDemoStep> All => this.SnippetShortcutToStep.Values;
 
-        private IEnumerable<(StepSourceEntry step, Func<StepSourceEntry, Option<RunningDemoSteps>> factory)> GetMatches(string line, int lineIndex) =>
+        private IEnumerable<(StepSourceEntry step, Func<StepSourceEntry, Option<RunningDemoSteps>> factory)> GetMatches(string line, int lineIndex)
+        {
+            int offset = 0;
+            while (offset < line.Length && 
+                   this.TryFindFirstMatch(line, offset) is Some<(Match match, Func<StepSourceEntry, Option<RunningDemoSteps>> factory)> some)
+            {
+                (Match match, Func<StepSourceEntry, Option<RunningDemoSteps>> factory) = some.Content;
+                string shortcut = match.Groups["snippetShortcut"].Value;
+                string text = match.Groups["text"].Value;
+                string code = line.Substring(0, match.Index);
+                StepSourceEntry entry = new StepSourceEntry(shortcut, lineIndex, text, code);
+                yield return (entry, factory);
+
+                offset = match.Index + match.Length;
+            }
+        }
+
+        private Option<(Match match, Func<StepSourceEntry, Option<RunningDemoSteps>> factory)> TryFindFirstMatch(string line, int offset) =>
             this.StepPatterns
-                .SelectMany(pair => this.Matches(pair.pattern, line).Select(match => (match, pair.factory)))
-                .Select(pair => (
-                    shortcut: pair.match.Groups["snippetShortcut"].Value, 
-                    lineIndex: lineIndex, 
-                    text: pair.match.Groups["text"] is Group text && text.Success ? text.Value : string.Empty,
-                    code: line.Substring(0, pair.match.Index).TrimEnd(),
-                    pair.factory))
-                .Select(tuple => (new StepSourceEntry(tuple.shortcut, tuple.lineIndex, tuple.text, tuple.code), tuple.factory));
+                .Select(pair => (match: pair.pattern.Match(line, offset), factory: pair.factory))
+                .Where(pair => pair.match.Success)
+                .WithMinOrNone(pair => pair.match.Index);
 
         private IEnumerable<Match> Matches(Regex pattern, string line)
         {
