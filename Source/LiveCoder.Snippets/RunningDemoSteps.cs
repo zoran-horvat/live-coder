@@ -30,10 +30,10 @@ namespace LiveCoder.Snippets
             {
                 (new Regex(@"\/\/\s*(?<snippetShortcut>snp\d+)\s+end"), EndSnippet),
                 (new Regex(@"<!--\s*(?<snippetShortcut>snp\d+)\s+end\s*-->"), EndSnippet),
-                (new Regex(@"\/\/\s*(?<snippetShortcut>snp\d+\.\d+)\s*(?<text>(.(?!\s*\/\/\s*snp))*)"), AddReminder),
+                (new Regex(@"\/\/\s*(?<snippetShortcut>snp\d+\.\d+)\s*(?<text>(.(?!\/\/\s*snp))*)"), AddReminder),
                 (new Regex(@"<!--\s*(?<snippetShortcut>snp\d+\.\d+)\s*(?<text>(.(?!-->))*)\s*-->"), AddReminder),
-                (new Regex(@"\/\/\s*(?<snippetShortcut>snp\d+)\s*(?<text>(.(?!\s*\/\/\s*snp))*)"), BeginSnippet),
-                (new Regex(@"<!--\s*(?<snippetShortcut>snp\d+)\s*(?<text>(.(?!-->))*)\s*-->"), BeginSnippet),
+                (new Regex(@"\/\/\s*(?<snippetShortcut>snp\d+)\s+(?<text>(.(?!\/\/\s*snp))*)"), BeginSnippet),
+                (new Regex(@"<!--\s*(?<snippetShortcut>snp\d+)\s+(?<text>(.(?!-->))*)\s*-->"), BeginSnippet),
             };
         }
 
@@ -45,27 +45,27 @@ namespace LiveCoder.Snippets
         }
 
         public RunningDemoSteps Add(string line, int lineIndex) =>
-            this.TryMatch(line, lineIndex)
-                .MapOptional(tuple => tuple.factory(tuple.step))
-                .Reduce(this);
+            this.GetMatches(line, lineIndex).Aggregate(this, (steps, tuple) => tuple.factory(tuple.step).Reduce(this));
 
         public IEnumerable<IDemoStep> All => this.SnippetShortcutToStep.Values;
 
-        private Option<(StepSourceEntry step, Func<StepSourceEntry, Option<RunningDemoSteps>> factory)> TryMatch(string line, int lineIndex) =>
+        private IEnumerable<(StepSourceEntry step, Func<StepSourceEntry, Option<RunningDemoSteps>> factory)> GetMatches(string line, int lineIndex) =>
             this.StepPatterns
-                .SelectMany(pair => this.LastMatch(pair.pattern, line).Select(match => (match, pair.factory)))
+                .SelectMany(pair => this.Matches(pair.pattern, line).Select(match => (match, pair.factory)))
                 .Select(pair => (
                     shortcut: pair.match.Groups["snippetShortcut"].Value, 
                     lineIndex: lineIndex, 
                     text: pair.match.Groups["text"] is Group text && text.Success ? text.Value : string.Empty,
                     code: line.Substring(0, pair.match.Index).TrimEnd(),
                     pair.factory))
-                .Select(tuple => (new StepSourceEntry(tuple.shortcut, tuple.lineIndex, tuple.text, tuple.code), tuple.factory))
-                .FirstOrNone();
+                .Select(tuple => (new StepSourceEntry(tuple.shortcut, tuple.lineIndex, tuple.text, tuple.code), tuple.factory));
 
-        private IEnumerable<Match> LastMatch(Regex pattern, string line) =>
-            pattern.Matches(line) is MatchCollection matches && matches.Count > 0 ? new[] {matches[matches.Count - 1]}
-            : Enumerable.Empty<Match>();
+        private IEnumerable<Match> Matches(Regex pattern, string line)
+        {
+            foreach (Match match in pattern.Matches(line))
+                if (match.Success)
+                    yield return match;
+        }
 
         private Option<RunningDemoSteps> AddReminder(StepSourceEntry step) =>
             this.Add(new Reminder(this.Logger, this.ForFile, step));
