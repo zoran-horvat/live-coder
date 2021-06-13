@@ -57,7 +57,7 @@ namespace LiveCoder.Snippets
             {
                 (Match match, Func<StepSourceEntry, Option<RunningDemoSteps>> factory) = some.Content;
                 string shortcut = match.Groups["snippetShortcut"].Value;
-                string text = match.Groups["text"].Value;
+                string text = match.Groups["text"].Value.TrimEnd();
                 string code = line.Substring(0, match.Index);
                 StepSourceEntry entry = new StepSourceEntry(shortcut, lineIndex, text, code);
                 yield return (entry, factory);
