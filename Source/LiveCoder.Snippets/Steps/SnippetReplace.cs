@@ -10,6 +10,7 @@ namespace LiveCoder.Snippets.Steps
     class SnippetReplace : IDemoStep
     {
         private ILogger Logger { get; }
+        private int TotalSnippetsCount { get; }
         private Snippet Snippet { get; }
         public string SnippetShortcut => $"snp{this.Snippet.Number:0000}";
         public float Ordinal => this.Snippet.Number;
@@ -18,9 +19,10 @@ namespace LiveCoder.Snippets.Steps
         private int LineIndex { get; }
         private string Text { get; }
 
-        public SnippetReplace(ILogger logger, Snippet snippet, ISource file, int lineIndex, string text)
+        public SnippetReplace(ILogger logger, int totalSnippetsCount, Snippet snippet, ISource file, int lineIndex, string text)
         {
             this.Logger = logger;
+            this.TotalSnippetsCount = totalSnippetsCount;
             this.Snippet = snippet ?? throw new ArgumentNullException(nameof(snippet));
             this.File = file ?? throw new ArgumentNullException(nameof(file));
             this.LineIndex = lineIndex >= 0 ? lineIndex : throw new ArgumentException("Line index must be non-negative.");
@@ -28,7 +30,7 @@ namespace LiveCoder.Snippets.Steps
         }
 
         public MultilineSnippetReplace EndsOnLine(int index) =>
-            new MultilineSnippetReplace(this.Logger, this.Snippet, this.File, this.LineIndex, index - this.LineIndex + 1, this.Text);
+            new MultilineSnippetReplace(this.Logger, this.TotalSnippetsCount, this.Snippet, this.File, this.LineIndex, index - this.LineIndex + 1, this.Text);
 
         public IEnumerable<IDemoCommand> GetCommands(CodeSnippets script) =>
             new IDemoCommand[]
@@ -36,7 +38,7 @@ namespace LiveCoder.Snippets.Steps
                 new OpenDocument(this.File),
                 new ActivateDocument(this.File),
                 new MoveToLine(this.File, this.LineIndex),
-                new ShowMessage(this.Logger, this.Text),
+                new ShowMessage(this.Logger, this.Snippet.Number, this.TotalSnippetsCount, this.Text),
                 new Pause(),
                 new VerifyActiveDocument(this.File),
                 new VerifyCursorPosition(this.File, this.LineIndex),

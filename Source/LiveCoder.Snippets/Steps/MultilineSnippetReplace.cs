@@ -11,6 +11,7 @@ namespace LiveCoder.Snippets.Steps
     class MultilineSnippetReplace : IDemoStep
     {
         private ILogger Logger { get; }
+        private int TotalSnippetsCount { get; }
         private Snippet Snippet { get; }
         private string SnippetContent => this.Snippet.Content;
         public string SnippetShortcut => $"snp{this.Snippet.Number:0000}";
@@ -20,9 +21,10 @@ namespace LiveCoder.Snippets.Steps
         private int LinesCount { get; }
         private string Text { get; }
 
-        public MultilineSnippetReplace(ILogger logger, Snippet snippet, ISource file, int startLineIndex, int linesCount, string text)
+        public MultilineSnippetReplace(ILogger logger, int totalSnippetsCount, Snippet snippet, ISource file, int startLineIndex, int linesCount, string text)
         {
             this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.TotalSnippetsCount = totalSnippetsCount;
             this.Snippet = snippet ?? throw new ArgumentNullException(nameof(snippet));
             this.File = file ?? throw new ArgumentNullException(nameof(file));
             this.StartLineIndex = startLineIndex >= 0 ? startLineIndex : throw new ArgumentException("Start line index must be non-negative.");
@@ -36,7 +38,7 @@ namespace LiveCoder.Snippets.Steps
                 new OpenDocument(this.File),
                 new ActivateDocument(this.File),
                 new MoveToLine(this.File, this.StartLineIndex),
-                new ShowMessage(this.Logger, this.Text),
+                new ShowMessage(this.Logger, this.Snippet.Number, this.TotalSnippetsCount, this.Text),
                 new Pause(),
                 new SelectMultipleLines(this.File, this.StartLineIndex, this.StartLineIndex + this.LinesCount),
                 new Pause(),

@@ -80,11 +80,12 @@ namespace LiveCoder.Snippets
         }
 
         private Option<RunningDemoSteps> AddReminder(StepSourceEntry step) =>
-            this.Add(new Reminder(this.Logger, this.ForFile, step));
+            this.Add(new Reminder(this.Logger, this.Script.Count, this.ForFile, step));
 
         private Option<RunningDemoSteps> BeginSnippet(StepSourceEntry step) =>
             this.Script.TryGetSnippet(step.SnippetShortcut)
-                .Map(snippet => this.Add(new SnippetReplace(this.Logger, snippet, this.ForFile, step.LineIndex, step.Description)));
+                .Map(snippet => this.Add(
+                    new SnippetReplace(this.Logger, this.Script.Count, snippet, this.ForFile, step.LineIndex, step.Description)));
 
         private Option<RunningDemoSteps> EndSnippet(StepSourceEntry step) =>
             this.SnippetShortcutToStep

@@ -6,9 +6,9 @@ namespace LiveCoder.Snippets.Events
     {
         public string Label { get; }
      
-        public SnippetText(string label)
+        public SnippetText(string label, int currentSnippet, int totalSnippets)
         {
-            this.Label = label;
+            this.Label = $"{label} ({currentSnippet}/{totalSnippets})";
         }
     }
 }

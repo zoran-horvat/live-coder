@@ -13,7 +13,7 @@ namespace LiveCoder.Snippets
     class CodeSnippets
     {
         private ImmutableList<Snippet> Snippets { get; }
-
+        public int Count => this.Snippets.Count;
         public static CodeSnippets Empty => new CodeSnippets(ImmutableList<Snippet>.Empty);
         public static Option<CodeSnippets> TryParse(FileInfo file, ILogger logger) =>
             Load(file).MapOptional(new ScriptTextParser(logger).TryParse);

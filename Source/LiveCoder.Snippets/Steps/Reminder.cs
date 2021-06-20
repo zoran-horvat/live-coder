@@ -13,6 +13,7 @@ namespace LiveCoder.Snippets.Steps
         private ILogger Logger { get; }
         private StepSourceEntry Step { get; }
         public string SnippetShortcut => this.Step.SnippetShortcut;
+        private int TotalSnippetsCount { get; }
 
         public float Ordinal =>
             float.Parse(Regex.Match(this.SnippetShortcut, @"\d+.\d+").Value);
@@ -27,9 +28,10 @@ namespace LiveCoder.Snippets.Steps
                 .FirstOrNone()
                 .Reduce(string.Empty);
 
-        public Reminder(ILogger logger, ISource file, StepSourceEntry step)
+        public Reminder(ILogger logger, int totalSnippetsCount, ISource file, StepSourceEntry step)
         {
             this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.TotalSnippetsCount = totalSnippetsCount;
             this.File = file ?? throw new ArgumentNullException(nameof(file));
             this.Step = step;
         }
@@ -40,7 +42,7 @@ namespace LiveCoder.Snippets.Steps
                 new OpenDocument(this.File),
                 new ActivateDocument(this.File),
                 new MoveToLine(this.File, this.LineIndex),
-                new ShowMessage(this.Logger, this.Text),
+                new ShowMessage(this.Logger, (int)this.Ordinal, this.TotalSnippetsCount, this.Text),
                 this.SelectLineCommand,
                 new Pause(),
                 new VerifyActiveDocument(this.File),
