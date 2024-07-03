@@ -4,7 +4,7 @@ import { Ide } from './ide/ide';
 import { VsCode } from './vscode/vscode';
 
 export function activate(context: vscode.ExtensionContext) {
-    const commands = new Commands(Integration.getInstance());
+    const commands = new Commands(Integration.ide);
 
     pushCommand(context, 'demo.deploy', commands.deploy);
 }
@@ -16,11 +16,11 @@ function pushCommand(context : vscode.ExtensionContext, command : string, callba
     context.subscriptions.push(disposable);
 }
 
-async function executeCommand(f: () => Thenable<void>) {
+async function safe(f: () => Thenable<void>) {
     try {
         await f();
     } catch (error) {
-        vscode.window.showErrorMessage(`Error: ${error instanceof Error ? error.message : String(error)}`);
+        Integration.ide.showError(`Error: ${error instanceof Error ? error.message : String(error)}`);
     }
 }
 
@@ -31,16 +31,16 @@ class Commands {
         this.ide = ide;
     }
 
-    public get deploy() { return () => deploy.command(this.ide); }
+    public get deploy() { return () => safe(() => deploy.command(this.ide)); }
 }
 
 class Integration {
-    private static instance : Ide;
+    private static ideInstance : Ide;
 
-    static getInstance() : Ide {
-        if (!Integration.instance) {
-            Integration.instance = new VsCode();
+    static get ide() : Ide {
+        if (!Integration.ide) {
+            Integration.ideInstance = new VsCode();
         }
-        return Integration.instance;
+        return Integration.ide;
     }
 }

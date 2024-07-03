@@ -1,38 +1,46 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { FileSystem } from './FileSystem';
 
-export function copyDirectoryRecursive(source: string, destination: string) {
-	if (!fs.existsSync(destination)) {
-		fs.mkdirSync(destination, { recursive: true });
-	}
+export class Implementation extends FileSystem {
 
-	const entries = fs.readdirSync(source, { withFileTypes: true });
+	copySourceCode(source: string, destination: string) {
+		if (!fs.existsSync(destination)) {
+			fs.mkdirSync(destination, { recursive: true });
+		}
 
-	for (const entry of entries) {
-		const sourcePath = path.join(source, entry.name);
-		const destPath = path.join(destination, entry.name);
+		const entries = fs.readdirSync(source, { withFileTypes: true });
 
-		if (entry.isDirectory()) {
-			copyDirectoryRecursive(sourcePath, destPath);
-		} else if (entry.isFile()) {
-			fs.copyFileSync(sourcePath, destPath);
+		for (const entry of entries) {
+			const sourcePath = path.join(source, entry.name);
+			const destPath = path.join(destination, entry.name);
+
+			if (entry.isDirectory()) {
+				this.copySourceCode(sourcePath, destPath);
+			} else if (entry.isFile()) {
+				fs.copyFileSync(sourcePath, destPath);
+			}
 		}
 	}
-}
 
-export function clearDirectoryRecursive(directory: string) {
-	if (!fs.existsSync(directory)) { return; }
+	clearDirectoryRecursive(directory: string) {
+		if (!fs.existsSync(directory)) { return; }
 
-	const entries = fs.readdirSync(directory, { withFileTypes: true });
+		const entries = fs.readdirSync(directory, { withFileTypes: true });
 
-	for (const entry of entries) {
-		const entryPath = path.join(directory, entry.name);
+		for (const entry of entries) {
+			const entryPath = path.join(directory, entry.name);
+			this.delete(entry);
+		}
+	}
 
-		if (entry.isDirectory()) {
-			clearDirectoryRecursive(entryPath);
-			fs.rmdirSync(entryPath);
-		} else if (entry.isFile()) {
-			fs.unlinkSync(entryPath);
+	private delete(item: fs.Dirent) {
+		if (item.isDirectory()) {
+			this.clearDirectoryRecursive(item.name);
+			fs.rmdirSync(item.name);
+		}
+		else if (item.isFile()) {
+			fs.unlinkSync(item.name);
 		}
 	}
 }
