@@ -201,3 +201,6 @@ FakesAssemblies/
 
 # Specific directory with mail messages sent using the website
 MailApi/_mails/*.*
+
+# VS Code files
+.DS_Store
