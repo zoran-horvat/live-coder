@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
-import * as fs from '../fs/services';
-import { Ide } from '../ide/ide';
+import { Ide } from '../ide/Ide';
+import { FileSystem } from '../fs/FileSystem';
 
-export async function command(ide: Ide) {
+export async function command(ide: Ide, fs: FileSystem) {
 
 	// Select the source directory
     const sourcePath = await ide.dialogs.selectDirectoryOrShowError('Select Source Directory', "No source directory selected.");
@@ -14,7 +14,7 @@ export async function command(ide: Ide) {
 
 	// Copy the source directory to the destination directory
 	fs.clearDirectoryRecursive(destPath);
-    fs.copyDirectoryRecursive(sourcePath, destPath);
+    fs.copyDemo(sourcePath, destPath);
 
 	// Open the destination directory in the current VS Code
 	vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(destPath), false);

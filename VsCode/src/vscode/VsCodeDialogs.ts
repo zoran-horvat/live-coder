@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { Dialogs } from '../ide/dialogs';
+import { Dialogs } from '../ide/Dialogs';
 
 export class VsCodeDialogs extends Dialogs {
 

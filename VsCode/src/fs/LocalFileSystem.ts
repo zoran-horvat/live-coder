@@ -2,9 +2,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { FileSystem } from './FileSystem';
 
-export class Implementation extends FileSystem {
+export class LocalFileSystem extends FileSystem {
 
-	copySourceCode(source: string, destination: string) {
+	public copyDemo(source: string, destination: string) {
 		if (!fs.existsSync(destination)) {
 			fs.mkdirSync(destination, { recursive: true });
 		}
@@ -16,14 +16,14 @@ export class Implementation extends FileSystem {
 			const destPath = path.join(destination, entry.name);
 
 			if (entry.isDirectory()) {
-				this.copySourceCode(sourcePath, destPath);
+				this.copyDemo(sourcePath, destPath);
 			} else if (entry.isFile()) {
 				fs.copyFileSync(sourcePath, destPath);
 			}
 		}
 	}
 
-	clearDirectoryRecursive(directory: string) {
+	public clearDirectoryRecursive(directory: string) {
 		if (!fs.existsSync(directory)) { return; }
 
 		const entries = fs.readdirSync(directory, { withFileTypes: true });

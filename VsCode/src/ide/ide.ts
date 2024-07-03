@@ -1,4 +1,4 @@
-import { Dialogs } from "./dialogs";
+import { Dialogs } from "./Dialogs";
 
 export abstract class Ide
 {
