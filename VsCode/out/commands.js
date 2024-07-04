@@ -23,27 +23,25 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VsCodeDialogs = void 0;
+exports.Commands = void 0;
 const vscode = __importStar(require("vscode"));
-const dialogs_1 = require("../ide/dialogs");
-class VsCodeDialogs extends dialogs_1.Dialogs {
-    async selectDirectoryOrShowError(prompt, errorMessage) {
-        const uri = await this.selectDirectory(prompt);
-        if (!uri) {
-            vscode.window.showErrorMessage(errorMessage);
-        }
-        return uri ? uri.fsPath : undefined;
+const deploy = __importStar(require("./commands/deploy"));
+class Commands {
+    ide;
+    fs;
+    constructor(ide, fs) {
+        this.ide = ide;
+        this.fs = fs;
     }
-    async selectDirectory(prompt) {
-        const options = {
-            canSelectFiles: false,
-            canSelectFolders: true,
-            canSelectMany: false,
-            openLabel: prompt
-        };
-        const uris = await vscode.window.showOpenDialog(options);
-        return uris && uris.length > 0 ? uris[0] : undefined;
+    get deploy() { return () => this.safe(() => deploy.command(this.ide, this.fs)); }
+    async safe(f) {
+        try {
+            await f();
+        }
+        catch (error) {
+            vscode.window.showErrorMessage(`Error: ${error instanceof Error ? error.message : String(error)}`);
+        }
     }
 }
-exports.VsCodeDialogs = VsCodeDialogs;
-//# sourceMappingURL=dialogs.js.map
+exports.Commands = Commands;
+//# sourceMappingURL=commands.js.map

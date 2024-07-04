@@ -25,8 +25,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = command;
 const vscode = __importStar(require("vscode"));
-const fs = __importStar(require("../fs/services"));
-async function command(ide) {
+async function command(ide, fs) {
+    console.log('Deploy v. 21:53');
     // Select the source directory
     const sourcePath = await ide.dialogs.selectDirectoryOrShowError('Select Source Directory', "No source directory selected.");
     if (!sourcePath) {
@@ -39,7 +39,7 @@ async function command(ide) {
     }
     // Copy the source directory to the destination directory
     fs.clearDirectoryRecursive(destPath);
-    fs.copyDirectoryRecursive(sourcePath, destPath);
+    fs.deployDemo(sourcePath, destPath);
     // Open the destination directory in the current VS Code
     vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(destPath), false);
 }

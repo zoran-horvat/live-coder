@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { Dialogs } from '../ide/Dialogs';
+import { Dialogs } from '../ide-integration/dialogs';
 
 export class VsCodeDialogs extends Dialogs {
 
@@ -16,14 +16,8 @@ export class VsCodeDialogs extends Dialogs {
             canSelectMany: false,
             openLabel: prompt
         };
-    
+
         const uris = await vscode.window.showOpenDialog(options);
         return uris && uris.length > 0 ? uris[0] : undefined;
     }
 }
-
-// export async function selectDirectoryOrShowError(prompt: string, errorMessage: string) {
-//     const uri = await selectDirectory(prompt);
-//     if (!uri) { vscode.window.showErrorMessage(errorMessage); }
-//     return uri;
-// }

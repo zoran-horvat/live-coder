@@ -1,24 +1,24 @@
+import * as vscode from 'vscode';
 import * as deploy from './commands/deploy';
-import { FileSystem } from './fs/FileSystem';
-import { Ide } from './ide/Ide';
-import { Integration } from './Integration';
+import { Ide } from "./ide-integration/ide";
+import { FileSystem } from './fs-integration/filesystem';
 
 export class Commands {
-    private ide: Ide;
-    private fs: FileSystem
+    private ide : Ide;
+	private fs : FileSystem;
 
     constructor(ide: Ide, fs: FileSystem) {
         this.ide = ide;
-        this.fs = fs;
+		this.fs = fs;
     }
 
     public get deploy() { return () => this.safe(() => deploy.command(this.ide, this.fs)); }
 
-    private async safe(f: () => Thenable<void>) {
+    private async safe(f: () => Promise<void>) {
         try {
             await f();
         } catch (error) {
-            Integration.ide.showError(`Error: ${error instanceof Error ? error.message : String(error)}`);
+            vscode.window.showErrorMessage(`Error: ${error instanceof Error ? error.message : String(error)}`);
         }
     }
 }

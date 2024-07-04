@@ -26,39 +26,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.activate = activate;
 exports.deactivate = deactivate;
 const vscode = __importStar(require("vscode"));
-const deploy = __importStar(require("./commands/deploy"));
-const vscode_1 = require("./vscode/vscode");
+const integration_1 = require("./integration");
+const commands_1 = require("./commands");
 function activate(context) {
-    const commands = new Commands(Integration.getInstance());
+    const commands = new commands_1.Commands(integration_1.Integration.ide, integration_1.Integration.fs);
     pushCommand(context, 'demo.deploy', commands.deploy);
 }
 function deactivate() { }
 function pushCommand(context, command, callback) {
     const disposable = vscode.commands.registerCommand(command, callback);
     context.subscriptions.push(disposable);
-}
-async function executeCommand(f) {
-    try {
-        await f();
-    }
-    catch (error) {
-        vscode.window.showErrorMessage(`Error: ${error instanceof Error ? error.message : String(error)}`);
-    }
-}
-class Commands {
-    ide;
-    constructor(ide) {
-        this.ide = ide;
-    }
-    get deploy() { return () => deploy.command(this.ide); }
-}
-class Integration {
-    static instance;
-    static getInstance() {
-        if (!Integration.instance) {
-            Integration.instance = new vscode_1.VsCode();
-        }
-        return Integration.instance;
-    }
 }
 //# sourceMappingURL=extension.js.map

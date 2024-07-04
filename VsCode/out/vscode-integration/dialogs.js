@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VsCodeDialogs = void 0;
 const vscode = __importStar(require("vscode"));
-const dialogs_1 = require("../ide/dialogs");
+const dialogs_1 = require("../ide-integration/dialogs");
 class VsCodeDialogs extends dialogs_1.Dialogs {
     async selectDirectoryOrShowError(prompt, errorMessage) {
         const uri = await this.selectDirectory(prompt);
