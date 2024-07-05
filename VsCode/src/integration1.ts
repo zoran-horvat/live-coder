@@ -3,7 +3,7 @@ import { LocalFileSystem } from "./fs-integration/localfilesystem";
 import { Ide } from "./ide-integration/ide";
 import { VsCodeClient } from "./vscode-integration/vscodeclient";
 
-export class Integration {
+export class Integration1 {
     private static ideInstance: Ide;
 	private static fsInstanced: FileSystem;
 
