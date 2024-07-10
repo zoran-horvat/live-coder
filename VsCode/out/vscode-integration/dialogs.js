@@ -27,20 +27,23 @@ exports.VsCodeDialogs = void 0;
 const vscode = __importStar(require("vscode"));
 const dialogs_1 = require("../ide-integration/dialogs");
 class VsCodeDialogs extends dialogs_1.Dialogs {
-    async selectDirectoryOrShowError(prompt, errorMessage) {
-        const uri = await this.selectDirectory(prompt);
+    async selectDirectoryOrShowError(prompt, errorMessage, initialPath) {
+        const uri = await this.selectDirectory(prompt, initialPath);
         if (!uri) {
             vscode.window.showErrorMessage(errorMessage);
         }
         return uri ? uri.fsPath : undefined;
     }
-    async selectDirectory(prompt) {
+    async selectDirectory(prompt, initialPath) {
         const options = {
             canSelectFiles: false,
             canSelectFolders: true,
             canSelectMany: false,
             openLabel: prompt
         };
+        if (initialPath) {
+            options.defaultUri = vscode.Uri.file(initialPath);
+        }
         const uris = await vscode.window.showOpenDialog(options);
         return uris && uris.length > 0 ? uris[0] : undefined;
     }

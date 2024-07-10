@@ -25,18 +25,20 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = command;
 const vscode = __importStar(require("vscode"));
-async function command(ide, fs) {
-    console.log('Deploy v. 21:53');
+async function command(ide, fs, environment) {
+    console.log('Deploy v. 18:00');
     // Select the source directory
-    const sourcePath = await ide.dialogs.selectDirectoryOrShowError('Select Source Directory', "No source directory selected.");
+    const sourcePath = await ide.dialogs.selectDirectoryOrShowError('Select Source Directory', "No source directory selected.", environment.lastSourcePath);
     if (!sourcePath) {
         return;
     }
     // Select the destination directory
-    const destPath = await ide.dialogs.selectDirectoryOrShowError('Select Destination Directory', "No destination directory selected.");
+    const destPath = await ide.dialogs.selectDirectoryOrShowError('Select Destination Directory', "No destination directory selected.", environment.lastDestPath);
     if (!destPath) {
         return;
     }
+    environment.lastSourcePath = sourcePath;
+    environment.lastDestPath = destPath;
     // Copy the source directory to the destination directory
     fs.clearDirectoryRecursive(destPath);
     fs.deployDemo(sourcePath, destPath);

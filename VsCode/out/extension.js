@@ -26,10 +26,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.activate = activate;
 exports.deactivate = deactivate;
 const vscode = __importStar(require("vscode"));
-const integration_1 = require("./integration");
 const commands_1 = require("./commands");
+const integration_1 = require("./integration");
 function activate(context) {
-    const commands = new commands_1.Commands(integration_1.Integration.ide, integration_1.Integration.fs);
+    const commands = new commands_1.Commands(new integration_1.Integration(context.globalState));
     pushCommand(context, 'demo.deploy', commands.deploy);
 }
 function deactivate() { }

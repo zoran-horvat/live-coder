@@ -1,18 +1,19 @@
 import * as vscode from 'vscode';
 import * as deploy from './commands/deploy';
-import { Ide } from "./ide-integration/ide";
-import { FileSystem } from './fs-integration/filesystem';
+import { Integration } from './integration';
 
 export class Commands {
-    private ide : Ide;
-	private fs : FileSystem;
+    private integration: Integration;
 
-    constructor(ide: Ide, fs: FileSystem) {
-        this.ide = ide;
-		this.fs = fs;
+    constructor(integration: Integration) {
+        this.integration = integration;
     }
 
-    public get deploy() { return () => this.safe(() => deploy.command(this.ide, this.fs)); }
+    private get ide() { return this.integration.ide; }
+    private get fs() { return this.integration.fs; }
+    private get environment() { return this.integration.environment; }
+
+    public get deploy() { return () => this.safe(() => deploy.command(this.ide, this.fs, this.environment)); }
 
     private async safe(f: () => Promise<void>) {
         try {

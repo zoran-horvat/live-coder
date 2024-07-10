@@ -3,7 +3,7 @@ import { Commands } from './commands';
 import { Integration } from './integration';
 
 export function activate(context: vscode.ExtensionContext) {
-    const commands = new Commands(Integration.ide, Integration.fs);
+    const commands = new Commands(new Integration(context.globalState));
     pushCommand(context, 'demo.deploy', commands.deploy);
 }
 

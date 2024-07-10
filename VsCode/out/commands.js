@@ -27,13 +27,14 @@ exports.Commands = void 0;
 const vscode = __importStar(require("vscode"));
 const deploy = __importStar(require("./commands/deploy"));
 class Commands {
-    ide;
-    fs;
-    constructor(ide, fs) {
-        this.ide = ide;
-        this.fs = fs;
+    integration;
+    constructor(integration) {
+        this.integration = integration;
     }
-    get deploy() { return () => this.safe(() => deploy.command(this.ide, this.fs)); }
+    get ide() { return this.integration.ide; }
+    get fs() { return this.integration.fs; }
+    get environment() { return this.integration.environment; }
+    get deploy() { return () => this.safe(() => deploy.command(this.ide, this.fs, this.environment)); }
     async safe(f) {
         try {
             await f();
