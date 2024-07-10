@@ -26,7 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = command;
 const vscode = __importStar(require("vscode"));
 async function command(ide, fs, environment) {
-    console.log('Deploy v. 18:00');
+    console.log('Deploy v. 23:05');
     // Select the source directory
     const sourcePath = await ide.dialogs.selectDirectoryOrShowError('Select Source Directory', "No source directory selected.", environment.lastSourcePath);
     if (!sourcePath) {

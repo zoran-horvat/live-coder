@@ -5,7 +5,6 @@ import { Environment } from '../ide-integration/environment';
 
 export async function command(ide: Ide, fs: FileSystem, environment: Environment) {
 
-	console.log('Deploy v. 18:00');
 	// Select the source directory
     const sourcePath = await ide.dialogs.selectDirectoryOrShowError('Select Source Directory', "No source directory selected.", environment.lastSourcePath);
 	if (!sourcePath) { return; }

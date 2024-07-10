@@ -12,13 +12,16 @@ export class LocalFileSystem extends FileSystem {
 		const entries = fs.readdirSync(sourcePath, { withFileTypes: true });
 	
 		for (const entry of entries) {
+            
+            if (!this.shouldCopy(entry)) { continue; }
+
 			const finalSourcePath = path.join(sourcePath, entry.name);
 			const finalDestinationPath = path.join(destinationPath, entry.name);
 	
 			if (entry.isDirectory()) {
 				this.deployDemo(finalSourcePath, finalDestinationPath);
 			} else if (entry.isFile()) {
-				fs.copyFileSync(sourcePath, finalDestinationPath);
+				fs.copyFileSync(finalSourcePath, finalDestinationPath);
 			}
 		}
 		}
@@ -39,4 +42,14 @@ export class LocalFileSystem extends FileSystem {
 			}
 		}
 	}
+
+    private shouldCopy(entry: fs.Dirent): boolean {
+        if (entry.name.startsWith('.')) { return false; }
+        if (entry.isDirectory() && this.ignoreDirectories.includes(entry.name)) { return false; }
+        return true;
+    }
+
+    private get ignoreDirectories(): string[] {
+        return ['bin', 'obj'];
+    }
 }
