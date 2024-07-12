@@ -203,4 +203,7 @@ FakesAssemblies/
 MailApi/_mails/*.*
 
 # Mac OS files
-.DS_Store
+*/.DS_Store/*
+
+# Generated JS files
+*/out/*
