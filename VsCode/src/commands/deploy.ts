@@ -2,12 +2,10 @@ import * as vscode from 'vscode';
 import { Ide } from '../ide-integration/ide';
 import { FileSystem } from '../fs-integration/filesystem';
 import { Environment } from '../ide-integration/environment';
+import { Script } from '../scripting/script';
+import { NoEditorsOpen } from '../scripting/instructions/noeditorsopen';
 
 export async function command(ide: Ide, fs: FileSystem, environment: Environment) {
-
-	console.log('deploy command v. 17:34');
-	
-	console.log('deploy command v. 17:34');
 	
 	// Select the source directory
     const sourcePath = await ide.dialogs.selectDirectoryOrShowError('Select Source Directory', "No source directory selected.", environment.lastSourcePath);
@@ -26,4 +24,14 @@ export async function command(ide: Ide, fs: FileSystem, environment: Environment
 
 	// Open the destination directory in the current VS Code
 	vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(destPath), false);
+
+	executePrelude(ide, fs);
+}
+
+function executePrelude(ide: Ide, fs: FileSystem) {
+	
+	let prelude = new Script();
+	prelude.append(new NoEditorsOpen());
+	
+	prelude.execute(ide, fs);
 }

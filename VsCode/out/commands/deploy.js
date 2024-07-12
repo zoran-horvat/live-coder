@@ -25,8 +25,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = command;
 const vscode = __importStar(require("vscode"));
+const script_1 = require("../scripting/script");
+const noeditorsopen_1 = require("../scripting/instructions/noeditorsopen");
 async function command(ide, fs, environment) {
-    console.log('Deploy v. 23:05');
     // Select the source directory
     const sourcePath = await ide.dialogs.selectDirectoryOrShowError('Select Source Directory', "No source directory selected.", environment.lastSourcePath);
     if (!sourcePath) {
@@ -44,5 +45,11 @@ async function command(ide, fs, environment) {
     fs.deployDemo(sourcePath, destPath);
     // Open the destination directory in the current VS Code
     vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(destPath), false);
+    executePrelude(ide, fs);
+}
+function executePrelude(ide, fs) {
+    let prelude = new script_1.Script();
+    prelude.append(new noeditorsopen_1.NoEditorsOpen());
+    prelude.execute(ide, fs);
 }
 //# sourceMappingURL=deploy.js.map
