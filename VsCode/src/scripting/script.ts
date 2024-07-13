@@ -5,9 +5,9 @@ import { Specification } from "./specification";
 export class Script {
 	public instructions: Specification[] = [];
 
-    public execute(ide: Ide, fs: FileSystem): void {
-		this.instructions.forEach(instruction => {
-			instruction.ensure(ide, fs);
+    public async execute(ide: Ide, fs: FileSystem): Promise<void> {
+		this.instructions.forEach(async instruction => {
+			await instruction.ensure(ide, fs);
 		});
 	}
 

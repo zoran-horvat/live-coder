@@ -26,6 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Commands = void 0;
 const vscode = __importStar(require("vscode"));
 const deploy = __importStar(require("./commands/deploy"));
+const recorddemo = __importStar(require("./commands/recorddemo"));
 class Commands {
     integration;
     constructor(integration) {
@@ -35,6 +36,7 @@ class Commands {
     get fs() { return this.integration.fs; }
     get environment() { return this.integration.environment; }
     get deploy() { return () => this.safe(() => deploy.command(this.ide, this.fs, this.environment)); }
+    get record() { return () => this.safe(() => recorddemo.command(this.ide, this.fs, this.environment)); }
     async safe(f) {
         try {
             await f();

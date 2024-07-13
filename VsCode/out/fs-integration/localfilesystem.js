@@ -28,11 +28,16 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const filesystem_1 = require("./filesystem");
 class LocalFileSystem extends filesystem_1.FileSystem {
-    deployDemo(sourcePath, destinationPath) {
+    async deployDemo(sourcePath, destinationPath) {
         if (!fs.existsSync(destinationPath)) {
             fs.mkdirSync(destinationPath, { recursive: true });
         }
-        const entries = fs.readdirSync(sourcePath, { withFileTypes: true });
+        await fs.readdir(sourcePath, { withFileTypes: true }, async (error, entries) => {
+            if (!error)
+                await this.deployEntries(entries, sourcePath, destinationPath);
+        });
+    }
+    async deployEntries(entries, sourcePath, destinationPath) {
         for (const entry of entries) {
             if (!this.shouldCopy(entry)) {
                 continue;
@@ -47,7 +52,7 @@ class LocalFileSystem extends filesystem_1.FileSystem {
             }
         }
     }
-    clearDirectoryRecursive(directoryPath) {
+    async clearDirectoryRecursive(directoryPath) {
         if (!fs.existsSync(directoryPath)) {
             return;
         }
@@ -55,12 +60,17 @@ class LocalFileSystem extends filesystem_1.FileSystem {
         for (const entry of entries) {
             const entryPath = path.join(directoryPath, entry.name);
             if (entry.isDirectory()) {
-                this.clearDirectoryRecursive(entryPath);
-                fs.rmdirSync(entryPath);
+                await fs.rmdir(entryPath, { recursive: true }, () => { });
             }
             else if (entry.isFile()) {
-                fs.unlinkSync(entryPath);
+                await fs.unlink(entryPath, () => { });
             }
+        }
+    }
+    async ensureDirectoryExists(root, directory) {
+        const fullPath = path.join(root, directory);
+        if (!fs.existsSync(fullPath)) {
+            await fs.mkdir(fullPath, { recursive: true }, () => { });
         }
     }
     shouldCopy(entry) {

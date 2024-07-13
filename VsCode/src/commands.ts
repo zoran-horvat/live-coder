@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as deploy from './commands/deploy';
+import * as recorddemo from './commands/recorddemo';
 import { Integration } from './integration';
 
 export class Commands {
@@ -14,6 +15,7 @@ export class Commands {
     private get environment() { return this.integration.environment; }
 
     public get deploy() { return () => this.safe(() => deploy.command(this.ide, this.fs, this.environment)); }
+    public get record() { return () => this.safe(() => recorddemo.command(this.ide, this.fs, this.environment)); }
 
     private async safe(f: () => Promise<void>) {
         try {

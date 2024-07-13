@@ -21,18 +21,18 @@ export async function command(ide: Ide, fs: FileSystem, environment: Environment
     environment.lastDestPath = destPath;
 
 	// Copy the source directory to the destination directory
-	fs.clearDirectoryRecursive(destPath);
-    fs.deployDemo(sourcePath, destPath);
+	await fs.clearDirectoryRecursive(destPath);
+    await fs.deployDemo(sourcePath, destPath);
 
-	executePrelude(ide, fs, destPath);
+	await executePrelude(ide, fs, destPath);
 }
 
-function executePrelude(ide: Ide, fs: FileSystem, workspacePath: string) {
+async function executePrelude(ide: Ide, fs: FileSystem, workspacePath: string) : Promise<void> {
 	
 	let prelude = new Script();
 	prelude.append(new NoEditorsOpen());
 	prelude.append(new ExplorerFoldersCollapsed());
 	prelude.append(new WorkspaceOpen(workspacePath));
 	
-	prelude.execute(ide, fs);
+	await prelude.execute(ide, fs);
 }

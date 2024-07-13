@@ -4,13 +4,19 @@ import { FileSystem } from "./filesystem";
 
 export class LocalFileSystem extends FileSystem {
 
-	deployDemo(sourcePath: string, destinationPath: string): void {
+	async deployDemo(sourcePath: string, destinationPath: string): Promise<void> {
 		if (!fs.existsSync(destinationPath)) {
 			fs.mkdirSync(destinationPath, { recursive: true });
 		}
 	
-		const entries = fs.readdirSync(sourcePath, { withFileTypes: true });
-	
+		await fs.readdir(sourcePath, { withFileTypes: true }, 
+			async (error, entries) => {
+				if (!error) await this.deployEntries(entries, sourcePath, destinationPath);
+			}
+		);
+	}
+
+	private async deployEntries(entries: fs.Dirent[], sourcePath: string, destinationPath: string) : Promise<void> {	
 		for (const entry of entries) {
             
             if (!this.shouldCopy(entry)) { continue; }
@@ -24,9 +30,10 @@ export class LocalFileSystem extends FileSystem {
 				fs.copyFileSync(finalSourcePath, finalDestinationPath);
 			}
 		}
-		}
 
-	clearDirectoryRecursive(directoryPath: string): void {
+	}
+
+	async clearDirectoryRecursive(directoryPath: string): Promise<void> {
 		if (!fs.existsSync(directoryPath)) { return; }
 
 		const entries = fs.readdirSync(directoryPath, { withFileTypes: true });
@@ -35,11 +42,18 @@ export class LocalFileSystem extends FileSystem {
 			const entryPath = path.join(directoryPath, entry.name);
 	
 			if (entry.isDirectory()) {
-				this.clearDirectoryRecursive(entryPath);
-				fs.rmdirSync(entryPath);
+				await fs.rmdir(entryPath, { recursive: true }, () => {});
 			} else if (entry.isFile()) {
-				fs.unlinkSync(entryPath);
+				await fs.unlink(entryPath, () => {});
 			}
+		}
+	}
+
+	async ensureDirectoryExists(root: string, directory: string): Promise<void> {
+		const fullPath = path.join(root, directory);
+
+		if (!fs.existsSync(fullPath)) {
+			await fs.mkdir(fullPath, { recursive: true }, () => { });
 		}
 	}
 

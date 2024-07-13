@@ -19,15 +19,15 @@ async function command(ide, fs, environment) {
     environment.lastSourcePath = sourcePath;
     environment.lastDestPath = destPath;
     // Copy the source directory to the destination directory
-    fs.clearDirectoryRecursive(destPath);
-    fs.deployDemo(sourcePath, destPath);
-    executePrelude(ide, fs, destPath);
+    await fs.clearDirectoryRecursive(destPath);
+    await fs.deployDemo(sourcePath, destPath);
+    await executePrelude(ide, fs, destPath);
 }
-function executePrelude(ide, fs, workspacePath) {
+async function executePrelude(ide, fs, workspacePath) {
     let prelude = new script_1.Script();
     prelude.append(new noeditorsopen_1.NoEditorsOpen());
     prelude.append(new explorerFoldersCollapsed_1.ExplorerFoldersCollapsed());
     prelude.append(new workspaceopen_1.WorkspaceOpen(workspacePath));
-    prelude.execute(ide, fs);
+    await prelude.execute(ide, fs);
 }
 //# sourceMappingURL=deploy.js.map

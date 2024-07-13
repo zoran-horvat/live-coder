@@ -31,6 +31,7 @@ const integration_1 = require("./integration");
 function activate(context) {
     const commands = new commands_1.Commands(new integration_1.Integration(context.globalState));
     pushCommand(context, 'demo.deploy', commands.deploy);
+    pushCommand(context, 'demo.record', commands.record);
 }
 function deactivate() { }
 function pushCommand(context, command, callback) {

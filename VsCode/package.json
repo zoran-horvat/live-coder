@@ -16,6 +16,10 @@
       {
         "command": "demo.deploy",
         "title": "Deploy Demo"
+      },
+      {
+        "command": "demo.record",
+        "title": "Record Demo"
       }
     ]
   },
