@@ -6,6 +6,7 @@ export class VsCodeMemento extends Environment {
 
     private sourcePathKey: string = 'path.source';
     private destPathKey: string = 'path.dest';
+    private recordingPathKey: string = 'path.recording';
 
     constructor(globalState: vscode.Memento) {
         super();
@@ -25,5 +26,12 @@ export class VsCodeMemento extends Environment {
     }
     set lastDestPath(path: string | undefined) {
         this.globalState.update(this.destPathKey, path);
+    }
+
+    get lastRecordingPath(): string | undefined {
+        return this.globalState.get(this.recordingPathKey);
+    }
+    set lastRecordingPath(path: string | undefined) {
+        this.globalState.update(this.recordingPathKey, path);
     }
 }
