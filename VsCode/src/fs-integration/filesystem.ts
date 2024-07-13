@@ -1,5 +1,8 @@
 export abstract class FileSystem {
-	abstract deployDemo(sourcePath: string, destinationPath: string) : void;
+	abstract deployDemo(sourcePath: string, destinationPath: string) : Promise<void>;
 	abstract clearDirectoryRecursive(directoryPath: string) : Promise<void>;
-	abstract ensureDirectoryExists(root: string, directory: string) : void;
+	abstract ensureDirectoryExists(fullPath: string) : Promise<string>;
+	abstract ensureDirectoryExists(root: string, directory?: string) : Promise<string>;
+	abstract ensureTextFileExists(path: string, defaultContent?: string) : Promise<string>;
+	abstract ensureTextFileExists(root: string, fileName?: string, defaultContent?: string) : Promise<string>;
 }

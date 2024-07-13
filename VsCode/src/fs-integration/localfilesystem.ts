@@ -49,12 +49,26 @@ export class LocalFileSystem extends FileSystem {
 		}
 	}
 
-	async ensureDirectoryExists(root: string, directory: string): Promise<void> {
-		const fullPath = path.join(root, directory);
+	async ensureDirectoryExists(fullPath: string): Promise<string>;
 
-		if (!fs.existsSync(fullPath)) {
-			await fs.mkdir(fullPath, { recursive: true }, () => { });
-		}
+	async ensureDirectoryExists(root: string, directory?: string): Promise<string> {
+		const fullPath = directory ? path.join(root, directory) : root;
+
+		if (fs.existsSync(fullPath)) { return fullPath; }
+		await fs.mkdir(fullPath, { recursive: true }, () => { });
+
+		return fullPath;
+	}
+
+	async ensureTextFileExists(path: string, defaultContent?: string): Promise<string>;
+
+	async ensureTextFileExists(root: string, fileName?: string, defaultContent?: string): Promise<string> {
+		const fullPath = fileName ? path.join(root, fileName) : root;
+		if (fs.existsSync(fullPath)) { return fullPath; }
+
+		await fs.writeFile(fullPath, defaultContent || '', () => { });
+
+		return fullPath;
 	}
 
     private shouldCopy(entry: fs.Dirent): boolean {

@@ -8,5 +8,6 @@ export async function command(ide: Ide, fs: FileSystem, environment: Environment
 
 	environment.lastRecordingPath = sourcePath;
 
-	await fs.ensureDirectoryExists(sourcePath, '.live-coder');
+	const scriptDir = await fs.ensureDirectoryExists(sourcePath, '.live-coder');
+	const scriptFile = await fs.ensureTextFileExists(scriptDir, 'demo.lcs', '{ "script": {} }');
 }

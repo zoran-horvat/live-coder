@@ -68,10 +68,20 @@ class LocalFileSystem extends filesystem_1.FileSystem {
         }
     }
     async ensureDirectoryExists(root, directory) {
-        const fullPath = path.join(root, directory);
-        if (!fs.existsSync(fullPath)) {
-            await fs.mkdir(fullPath, { recursive: true }, () => { });
+        const fullPath = directory ? path.join(root, directory) : root;
+        if (fs.existsSync(fullPath)) {
+            return fullPath;
         }
+        await fs.mkdir(fullPath, { recursive: true }, () => { });
+        return fullPath;
+    }
+    async ensureTextFileExists(root, fileName, defaultContent) {
+        const fullPath = fileName ? path.join(root, fileName) : root;
+        if (fs.existsSync(fullPath)) {
+            return fullPath;
+        }
+        await fs.writeFile(fullPath, defaultContent || '', () => { });
+        return fullPath;
     }
     shouldCopy(entry) {
         if (entry.name.startsWith('.')) {
