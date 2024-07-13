@@ -3,7 +3,9 @@ import { Ide } from '../ide-integration/ide';
 import { FileSystem } from '../fs-integration/filesystem';
 import { Environment } from '../ide-integration/environment';
 import { Script } from '../scripting/script';
-import { NoEditorsOpen } from '../scripting/instructions/noeditorsopen';
+import { NoEditorsOpen } from '../scripting/specifications/noeditorsopen';
+import { WorkspaceOpen } from '../scripting/specifications/workspaceopen';
+import { ExplorerFoldersCollapsed } from '../scripting/specifications/explorerFoldersCollapsed';
 
 export async function command(ide: Ide, fs: FileSystem, environment: Environment) {
 	
@@ -22,16 +24,15 @@ export async function command(ide: Ide, fs: FileSystem, environment: Environment
 	fs.clearDirectoryRecursive(destPath);
     fs.deployDemo(sourcePath, destPath);
 
-	// Open the destination directory in the current VS Code
-	vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(destPath), false);
-
-	executePrelude(ide, fs);
+	executePrelude(ide, fs, destPath);
 }
 
-function executePrelude(ide: Ide, fs: FileSystem) {
+function executePrelude(ide: Ide, fs: FileSystem, workspacePath: string) {
 	
 	let prelude = new Script();
 	prelude.append(new NoEditorsOpen());
+	prelude.append(new ExplorerFoldersCollapsed());
+	prelude.append(new WorkspaceOpen(workspacePath));
 	
 	prelude.execute(ide, fs);
 }

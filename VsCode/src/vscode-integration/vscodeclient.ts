@@ -18,4 +18,8 @@ export class VsCodeClient extends Ide {
     get environment(): Environment { return new VsCodeMemento(this.globalState); }
 
     async withNoEditorsOpen() : Promise<void> { await Command.closeAllEditors.execute(); }
+
+    async withWorkspaceOpen(fsPath: string) : Promise<void> { await Command.openWorkspace(fsPath).execute(); }
+
+    async withExplorerFoldersCollapsed() : Promise<void> { await Command.collapseExplorerFolders.execute(); }
 }

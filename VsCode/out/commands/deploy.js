@@ -1,32 +1,10 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = command;
-const vscode = __importStar(require("vscode"));
 const script_1 = require("../scripting/script");
-const noeditorsopen_1 = require("../scripting/instructions/noeditorsopen");
+const noeditorsopen_1 = require("../scripting/specifications/noeditorsopen");
+const workspaceopen_1 = require("../scripting/specifications/workspaceopen");
+const explorerFoldersCollapsed_1 = require("../scripting/specifications/explorerFoldersCollapsed");
 async function command(ide, fs, environment) {
     // Select the source directory
     const sourcePath = await ide.dialogs.selectDirectoryOrShowError('Select Source Directory', "No source directory selected.", environment.lastSourcePath);
@@ -43,13 +21,13 @@ async function command(ide, fs, environment) {
     // Copy the source directory to the destination directory
     fs.clearDirectoryRecursive(destPath);
     fs.deployDemo(sourcePath, destPath);
-    // Open the destination directory in the current VS Code
-    vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(destPath), false);
-    executePrelude(ide, fs);
+    executePrelude(ide, fs, destPath);
 }
-function executePrelude(ide, fs) {
+function executePrelude(ide, fs, workspacePath) {
     let prelude = new script_1.Script();
     prelude.append(new noeditorsopen_1.NoEditorsOpen());
+    prelude.append(new explorerFoldersCollapsed_1.ExplorerFoldersCollapsed());
+    prelude.append(new workspaceopen_1.WorkspaceOpen(workspacePath));
     prelude.execute(ide, fs);
 }
 //# sourceMappingURL=deploy.js.map

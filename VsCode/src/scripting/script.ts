@@ -1,17 +1,17 @@
 import { Ide } from "../ide-integration/ide";
 import { FileSystem } from "../fs-integration/filesystem";
-import { Instruction } from "./instruction";
+import { Specification } from "./specification";
 
 export class Script {
-	public instructions: Instruction[] = [];
+	public instructions: Specification[] = [];
 
     public execute(ide: Ide, fs: FileSystem): void {
 		this.instructions.forEach(instruction => {
-			instruction.execute(ide, fs);
+			instruction.ensure(ide, fs);
 		});
 	}
 
-	public append(instruction: Instruction): void {
+	public append(instruction: Specification): void {
 		this.instructions.push(instruction);
 	}
 }

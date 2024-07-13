@@ -6,4 +6,6 @@ export abstract class Ide {
     abstract get environment(): Environment;
 
 	abstract withNoEditorsOpen() : Promise<void>;
+	abstract withWorkspaceOpen(fsPath: string) : Promise<void>;
+	abstract withExplorerFoldersCollapsed() : Promise<void>;
 }

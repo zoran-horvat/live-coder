@@ -14,6 +14,8 @@ class VsCodeClient extends ide_1.Ide {
     get dialogs() { return new dialogs_1.VsCodeDialogs(); }
     get environment() { return new vscodememento_1.VsCodeMemento(this.globalState); }
     async withNoEditorsOpen() { await command_1.Command.closeAllEditors.execute(); }
+    async withWorkspaceOpen(fsPath) { await command_1.Command.openWorkspace(fsPath).execute(); }
+    async withExplorerFoldersCollapsed() { await command_1.Command.collapseExplorerFolders.execute(); }
 }
 exports.VsCodeClient = VsCodeClient;
 //# sourceMappingURL=vscodeclient.js.map
