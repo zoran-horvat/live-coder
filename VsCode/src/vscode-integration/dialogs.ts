@@ -24,4 +24,12 @@ export class VsCodeDialogs extends Dialogs {
         const uris = await vscode.window.showOpenDialog(options);
         return uris && uris.length > 0 ? uris[0] : undefined;
     }
+
+    async showInformationMessage(message: string) {
+        await vscode.window.showInformationMessage(message);
+    }
+
+    async showErrorMessage(message: string) {
+        await vscode.window.showErrorMessage(message);
+    }
 }

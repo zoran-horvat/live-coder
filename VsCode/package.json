@@ -20,6 +20,10 @@
       {
         "command": "demo.record",
         "title": "Record Demo"
+      },
+      {
+        "command": "demo.edit",
+        "title": "Edit Demo Script"
       }
     ]
   },

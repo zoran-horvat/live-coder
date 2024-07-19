@@ -83,6 +83,13 @@ class LocalFileSystem extends filesystem_1.FileSystem {
         await fs.writeFile(fullPath, defaultContent || '', () => { });
         return fullPath;
     }
+    async getExistingFilePath(root, fileName) {
+        const fullPath = path.join(root, fileName);
+        if (fs.existsSync(fullPath)) {
+            return Promise.resolve(fullPath);
+        }
+        return Promise.resolve(null);
+    }
     shouldCopy(entry) {
         if (entry.name.startsWith('.')) {
             return false;

@@ -71,6 +71,12 @@ export class LocalFileSystem extends FileSystem {
 		return fullPath;
 	}
 
+	async getExistingFilePath(root: string, fileName: string) : Promise<string | null> {
+		const fullPath = path.join(root, fileName);
+		if (fs.existsSync(fullPath)) { return Promise.resolve(fullPath); }
+		return Promise.resolve(null);
+	}
+
     private shouldCopy(entry: fs.Dirent): boolean {
         if (entry.name.startsWith('.')) { return false; }
         if (entry.isDirectory() && this.ignoreDirectories.includes(entry.name)) { return false; }

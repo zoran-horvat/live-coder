@@ -27,6 +27,7 @@ exports.Commands = void 0;
 const vscode = __importStar(require("vscode"));
 const deploy = __importStar(require("./commands/deploy"));
 const recorddemo = __importStar(require("./commands/recorddemo"));
+const editscript = __importStar(require("./commands/editscript"));
 class Commands {
     integration;
     constructor(integration) {
@@ -37,6 +38,7 @@ class Commands {
     get environment() { return this.integration.environment; }
     get deploy() { return () => this.safe(() => deploy.command(this.ide, this.fs, this.environment)); }
     get record() { return () => this.safe(() => recorddemo.command(this.ide, this.fs, this.environment)); }
+    get edit() { return () => this.safe(() => editscript.command(this.ide, this.fs, this.environment)); }
     async safe(f) {
         try {
             await f();

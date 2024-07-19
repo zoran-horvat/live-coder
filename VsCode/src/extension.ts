@@ -6,6 +6,7 @@ export function activate(context: vscode.ExtensionContext) {
     const commands = new Commands(new Integration(context.globalState));
     pushCommand(context, 'demo.deploy', commands.deploy);
     pushCommand(context, 'demo.record', commands.record);
+    pushCommand(context, 'demo.edit', commands.edit);
 }
 
 export function deactivate() {}

@@ -47,6 +47,12 @@ class VsCodeDialogs extends dialogs_1.Dialogs {
         const uris = await vscode.window.showOpenDialog(options);
         return uris && uris.length > 0 ? uris[0] : undefined;
     }
+    async showInformationMessage(message) {
+        await vscode.window.showInformationMessage(message);
+    }
+    async showErrorMessage(message) {
+        await vscode.window.showErrorMessage(message);
+    }
 }
 exports.VsCodeDialogs = VsCodeDialogs;
 //# sourceMappingURL=dialogs.js.map
