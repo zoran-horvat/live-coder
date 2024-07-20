@@ -52,20 +52,36 @@ class LocalFileSystem extends filesystem_1.FileSystem {
             }
         }
     }
-    async clearDirectoryRecursive(directoryPath) {
+    async clearDirectoryRecursive(directoryPath, onDirectoryClear) {
         if (!fs.existsSync(directoryPath)) {
             return;
         }
-        const entries = fs.readdirSync(directoryPath, { withFileTypes: true });
-        for (const entry of entries) {
-            const entryPath = path.join(directoryPath, entry.name);
-            if (entry.isDirectory()) {
-                await fs.rmdir(entryPath, { recursive: true }, () => { });
+        try {
+            const entries = fs.readdirSync(directoryPath, { withFileTypes: true });
+            for (const entry of entries) {
+                const entryPath = path.join(directoryPath, entry.name);
+                if (entry.isDirectory()) {
+                    await fs.rmdir(entryPath, { recursive: true }, (err) => { if (err) {
+                        throw err;
+                    } });
+                }
+                else if (entry.isFile()) {
+                    await fs.unlink(entryPath, (err) => { if (err) {
+                        throw err;
+                    } });
+                }
             }
-            else if (entry.isFile()) {
-                await fs.unlink(entryPath, () => { });
-            }
+            onDirectoryClear(directoryPath, null);
         }
+        catch (err) {
+            await onDirectoryClear(directoryPath, this.asString(err));
+        }
+    }
+    asString(err) {
+        if (err instanceof Error) {
+            return err.message;
+        }
+        return JSON.stringify(err);
     }
     async ensureDirectoryExists(root, directory) {
         const fullPath = directory ? path.join(root, directory) : root;

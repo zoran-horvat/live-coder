@@ -19,9 +19,10 @@ async function command(ide, fs, environment) {
     environment.lastSourcePath = sourcePath;
     environment.lastDestPath = destPath;
     // Copy the source directory to the destination directory
-    await fs.clearDirectoryRecursive(destPath);
-    await fs.deployDemo(sourcePath, destPath);
-    await executePrelude(ide, fs, destPath);
+    await fs.clearDirectoryRecursive(destPath, async (dir, err) => {
+        await fs.deployDemo(sourcePath, dir);
+        await executePrelude(ide, fs, dir);
+    });
 }
 async function executePrelude(ide, fs, workspacePath) {
     let prelude = new script_1.Script();

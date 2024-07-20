@@ -33,20 +33,32 @@ export class LocalFileSystem extends FileSystem {
 
 	}
 
-	async clearDirectoryRecursive(directoryPath: string): Promise<void> {
+	async clearDirectoryRecursive(directoryPath: string, onDirectoryClear: (path: string, error: string | null) => Promise<void>): Promise<void> {
 		if (!fs.existsSync(directoryPath)) { return; }
 
-		const entries = fs.readdirSync(directoryPath, { withFileTypes: true });
-	
-		for (const entry of entries) {
-			const entryPath = path.join(directoryPath, entry.name);
-	
-			if (entry.isDirectory()) {
-				await fs.rmdir(entryPath, { recursive: true }, () => {});
-			} else if (entry.isFile()) {
-				await fs.unlink(entryPath, () => {});
+		try {
+			const entries = fs.readdirSync(directoryPath, { withFileTypes: true });
+		
+			for (const entry of entries) {
+				const entryPath = path.join(directoryPath, entry.name);
+		
+				if (entry.isDirectory()) {
+					await fs.rmdir(entryPath, { recursive: true }, (err) => { if (err) { throw err; } });
+				} else if (entry.isFile()) {
+					await fs.unlink(entryPath, (err) => { if (err) { throw err; } });
+				}
 			}
+
+			onDirectoryClear(directoryPath, null);
+			
+		} catch (err) {
+			await onDirectoryClear(directoryPath, this.asString(err))
 		}
+	}
+
+	private asString(err : any) : string {
+		if (err instanceof Error) { return err.message; }
+		return JSON.stringify(err);
 	}
 
 	async ensureDirectoryExists(fullPath: string): Promise<string>;
