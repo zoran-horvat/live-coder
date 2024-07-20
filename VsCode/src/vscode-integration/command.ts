@@ -18,4 +18,6 @@ export class Command {
 	public static openWorkspace(fsPath: string) : Command { return new Command('vscode.openFolder', [vscode.Uri.file(fsPath), false]); }
 
 	public static get collapseExplorerFolders() : Command { return new Command('workbench.files.action.collapseExplorerFolders'); }
+
+	public static get scriptEditorActive() : Command { return new Command('livecoder.edit')};
 }

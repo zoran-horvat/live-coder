@@ -14,15 +14,15 @@
   "contributes": {
     "commands": [
       {
-        "command": "demo.deploy",
+        "command": "livecoder.deploy",
         "title": "Deploy Demo"
       },
       {
-        "command": "demo.record",
+        "command": "livecoder.record",
         "title": "Record Demo"
       },
       {
-        "command": "demo.edit",
+        "command": "livecoder.edit",
         "title": "Edit Demo Script"
       }
     ]

@@ -6,4 +6,5 @@ export abstract class FileSystem {
 	abstract ensureTextFileExists(path: string, defaultContent?: string) : Promise<string>;
 	abstract ensureTextFileExists(root: string, fileName?: string, defaultContent?: string) : Promise<string>;
 	abstract getExistingFilePath(root: string, fileName: string) : Promise<string | null>;
+	abstract loadJsonFile(path: string) : Promise<any | null>;
 }

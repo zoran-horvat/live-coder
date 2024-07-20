@@ -4,12 +4,22 @@ import { Ide } from "../ide-integration/ide";
 import * as vscode from 'vscode';
 
 export async function command(ide: Ide, fs: FileSystem, environment: Environment) : Promise<void> {
-	const filePath = await getLocalScriptPath(fs);
+	const filePath = await resolveActualScript(fs);
 	if (!filePath) {
 		await ide.dialogs.showErrorMessage('No Live Coder script found. Try deploying the demo again.');
 		return;
 	}
-	console.log('Edit script command in ' + filePath);
+	await ide.editDocument(filePath);
+}
+
+async function resolveActualScript(fs: FileSystem) : Promise<any | null> {
+	const localScriptPath = await getLocalScriptPath(fs);
+	if (!localScriptPath) return null;
+
+	const script = await fs.loadJsonFile(localScriptPath);
+
+	if (script && script.script && script.script.redirect) return script.script.redirect as string;
+	return null;
 }
 
 async function getLocalScriptPath(fs: FileSystem) : Promise<string | null> {

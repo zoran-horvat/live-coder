@@ -8,4 +8,6 @@ export abstract class Ide {
 	abstract withNoEditorsOpen() : Promise<void>;
 	abstract withWorkspaceOpen(fsPath: string) : Promise<void>;
 	abstract withExplorerFoldersCollapsed() : Promise<void>;
+	abstract withScriptEditorActive() : Promise<void>;
+	abstract editDocument(path: string) : Promise<void>;
 }

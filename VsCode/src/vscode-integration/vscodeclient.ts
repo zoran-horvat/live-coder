@@ -22,4 +22,11 @@ export class VsCodeClient extends Ide {
     async withWorkspaceOpen(fsPath: string) : Promise<void> { await Command.openWorkspace(fsPath).execute(); }
 
     async withExplorerFoldersCollapsed() : Promise<void> { await Command.collapseExplorerFolders.execute(); }
+
+    async withScriptEditorActive(): Promise<void> { await Command.scriptEditorActive.execute(); }
+
+    async editDocument(path: string): Promise<void> {
+        const document = await vscode.workspace.openTextDocument(path);
+        await vscode.window.showTextDocument(document);
+    }
 }

@@ -29,44 +29,36 @@ const path = __importStar(require("path"));
 const filesystem_1 = require("./filesystem");
 class LocalFileSystem extends filesystem_1.FileSystem {
     async deployDemo(sourcePath, destinationPath) {
-        try {
-            if (!fs.existsSync(destinationPath)) {
-                fs.mkdirSync(destinationPath);
-            }
-            for (var entry of fs.readdirSync(sourcePath, { withFileTypes: true })) {
-                if (!this.shouldCopy(entry)) {
-                    continue;
-                }
-                const entrySourcePath = path.join(sourcePath, entry.name);
-                const entryDestinationPath = path.join(destinationPath, entry.name);
-                if (entry.isDirectory()) {
-                    this.deployDemo(entrySourcePath, entryDestinationPath);
-                }
-                else if (entry.isFile()) {
-                    fs.copyFileSync(entrySourcePath, entryDestinationPath);
-                }
-            }
+        if (!fs.existsSync(destinationPath)) {
+            fs.mkdirSync(destinationPath);
         }
-        catch (err) {
-            console.log('Error occurred: ' + err);
+        for (var entry of fs.readdirSync(sourcePath, { withFileTypes: true })) {
+            if (!this.shouldCopy(entry)) {
+                continue;
+            }
+            const entrySourcePath = path.join(sourcePath, entry.name);
+            const entryDestinationPath = path.join(destinationPath, entry.name);
+            if (entry.isDirectory()) {
+                this.deployDemo(entrySourcePath, entryDestinationPath);
+            }
+            else if (entry.isFile()) {
+                fs.copyFileSync(entrySourcePath, entryDestinationPath);
+            }
         }
     }
     async clearDirectoryRecursive(directoryPath) {
         if (!fs.existsSync(directoryPath)) {
             return;
         }
-        try {
-            for (const entry of fs.readdirSync(directoryPath, { withFileTypes: true })) {
-                const entryPath = path.join(directoryPath, entry.name);
-                if (entry.isDirectory()) {
-                    await fs.rmdirSync(entryPath, { recursive: true });
-                }
-                else if (entry.isFile()) {
-                    await fs.unlinkSync(entryPath);
-                }
+        for (const entry of fs.readdirSync(directoryPath, { withFileTypes: true })) {
+            const entryPath = path.join(directoryPath, entry.name);
+            if (entry.isDirectory()) {
+                await fs.rmdirSync(entryPath, { recursive: true });
+            }
+            else if (entry.isFile()) {
+                await fs.unlinkSync(entryPath);
             }
         }
-        catch (err) { }
     }
     asString(err) {
         if (err instanceof Error) {
@@ -87,7 +79,7 @@ class LocalFileSystem extends filesystem_1.FileSystem {
         if (fs.existsSync(fullPath)) {
             return fullPath;
         }
-        await fs.writeFile(fullPath, defaultContent || '', () => { });
+        await fs.writeFileSync(fullPath, defaultContent || '');
         return fullPath;
     }
     async getExistingFilePath(root, fileName) {
@@ -108,6 +100,15 @@ class LocalFileSystem extends filesystem_1.FileSystem {
     }
     get ignoreDirectories() {
         return ['bin', 'obj'];
+    }
+    loadJsonFile(path) {
+        const fileContent = fs.readFileSync(path);
+        try {
+            const obj = JSON.parse(fileContent.toString());
+            return Promise.resolve(obj);
+        }
+        catch (error) { }
+        return Promise.resolve(null);
     }
 }
 exports.LocalFileSystem = LocalFileSystem;

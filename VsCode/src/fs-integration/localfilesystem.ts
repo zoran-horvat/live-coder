@@ -9,43 +9,34 @@ interface DirectoryCopy {
 
 export class LocalFileSystem extends FileSystem {
 	async deployDemo(sourcePath: string, destinationPath: string): Promise<void> {
-		try
-		{
-			if (!fs.existsSync(destinationPath)) { fs.mkdirSync(destinationPath); }
+		if (!fs.existsSync(destinationPath)) { fs.mkdirSync(destinationPath); }
 
-			for (var entry of fs.readdirSync(sourcePath, { withFileTypes: true })) {
-				if (!this.shouldCopy(entry)) { continue; }
+		for (var entry of fs.readdirSync(sourcePath, { withFileTypes: true })) {
+			if (!this.shouldCopy(entry)) { continue; }
 
-				const entrySourcePath = path.join(sourcePath, entry.name);
-				const entryDestinationPath = path.join(destinationPath, entry.name);
+			const entrySourcePath = path.join(sourcePath, entry.name);
+			const entryDestinationPath = path.join(destinationPath, entry.name);
 
-				if (entry.isDirectory()) {
-					this.deployDemo(entrySourcePath, entryDestinationPath)
-				} else if (entry.isFile()) { 
-					fs.copyFileSync(entrySourcePath, entryDestinationPath);
-				}
+			if (entry.isDirectory()) {
+				this.deployDemo(entrySourcePath, entryDestinationPath)
+			} else if (entry.isFile()) { 
+				fs.copyFileSync(entrySourcePath, entryDestinationPath);
 			}
-
-		} catch (err) {
-			console.log('Error occurred: ' + err);
 		}
 	}
 
 	async clearDirectoryRecursive(directoryPath: string): Promise<void> {
 		if (!fs.existsSync(directoryPath)) { return; }
 
-		try {
-			for (const entry of fs.readdirSync(directoryPath, { withFileTypes: true })) {
-				const entryPath = path.join(directoryPath, entry.name);
-		
-				if (entry.isDirectory()) {
-					await fs.rmdirSync(entryPath, { recursive: true });
-				} else if (entry.isFile()) {
-					await fs.unlinkSync(entryPath);
-				}
+		for (const entry of fs.readdirSync(directoryPath, { withFileTypes: true })) {
+			const entryPath = path.join(directoryPath, entry.name);
+	
+			if (entry.isDirectory()) {
+				await fs.rmdirSync(entryPath, { recursive: true });
+			} else if (entry.isFile()) {
+				await fs.unlinkSync(entryPath);
 			}
-			
-		} catch (err) { }
+		}
 	}
 
 	private asString(err : any) : string {
@@ -70,7 +61,7 @@ export class LocalFileSystem extends FileSystem {
 		const fullPath = fileName ? path.join(root, fileName) : root;
 		if (fs.existsSync(fullPath)) { return fullPath; }
 
-		await fs.writeFile(fullPath, defaultContent || '', () => { });
+		await fs.writeFileSync(fullPath, defaultContent || '');
 
 		return fullPath;
 	}
@@ -90,4 +81,13 @@ export class LocalFileSystem extends FileSystem {
     private get ignoreDirectories(): string[] {
         return ['bin', 'obj'];
     }
+
+	public loadJsonFile(path: string) : Promise<any | null> {
+		const fileContent = fs.readFileSync(path);
+		try {
+			const obj = JSON.parse(fileContent.toString());
+			return Promise.resolve(obj);
+		} catch (error) { }	
+		return Promise.resolve(null);
+	}
 }

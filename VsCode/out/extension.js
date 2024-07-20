@@ -30,9 +30,9 @@ const commands_1 = require("./commands");
 const integration_1 = require("./integration");
 function activate(context) {
     const commands = new commands_1.Commands(new integration_1.Integration(context.globalState));
-    pushCommand(context, 'demo.deploy', commands.deploy);
-    pushCommand(context, 'demo.record', commands.record);
-    pushCommand(context, 'demo.edit', commands.edit);
+    pushCommand(context, 'livecoder.deploy', commands.deploy);
+    pushCommand(context, 'livecoder.record', commands.record);
+    pushCommand(context, 'livecoder.edit', commands.edit);
 }
 function deactivate() { }
 function pushCommand(context, command, callback) {
