@@ -29,53 +29,44 @@ const path = __importStar(require("path"));
 const filesystem_1 = require("./filesystem");
 class LocalFileSystem extends filesystem_1.FileSystem {
     async deployDemo(sourcePath, destinationPath) {
-        if (!fs.existsSync(destinationPath)) {
-            fs.mkdirSync(destinationPath, { recursive: true });
-        }
-        await fs.readdir(sourcePath, { withFileTypes: true }, async (error, entries) => {
-            if (!error)
-                await this.deployEntries(entries, sourcePath, destinationPath);
-        });
-    }
-    async deployEntries(entries, sourcePath, destinationPath) {
-        for (const entry of entries) {
-            if (!this.shouldCopy(entry)) {
-                continue;
+        try {
+            if (!fs.existsSync(destinationPath)) {
+                fs.mkdirSync(destinationPath);
             }
-            const finalSourcePath = path.join(sourcePath, entry.name);
-            const finalDestinationPath = path.join(destinationPath, entry.name);
-            if (entry.isDirectory()) {
-                this.deployDemo(finalSourcePath, finalDestinationPath);
-            }
-            else if (entry.isFile()) {
-                fs.copyFileSync(finalSourcePath, finalDestinationPath);
+            for (var entry of fs.readdirSync(sourcePath, { withFileTypes: true })) {
+                if (!this.shouldCopy(entry)) {
+                    continue;
+                }
+                const entrySourcePath = path.join(sourcePath, entry.name);
+                const entryDestinationPath = path.join(destinationPath, entry.name);
+                if (entry.isDirectory()) {
+                    this.deployDemo(entrySourcePath, entryDestinationPath);
+                }
+                else if (entry.isFile()) {
+                    fs.copyFileSync(entrySourcePath, entryDestinationPath);
+                }
             }
         }
+        catch (err) {
+            console.log('Error occurred: ' + err);
+        }
     }
-    async clearDirectoryRecursive(directoryPath, onDirectoryClear) {
+    async clearDirectoryRecursive(directoryPath) {
         if (!fs.existsSync(directoryPath)) {
             return;
         }
         try {
-            const entries = fs.readdirSync(directoryPath, { withFileTypes: true });
-            for (const entry of entries) {
+            for (const entry of fs.readdirSync(directoryPath, { withFileTypes: true })) {
                 const entryPath = path.join(directoryPath, entry.name);
                 if (entry.isDirectory()) {
-                    await fs.rmdir(entryPath, { recursive: true }, (err) => { if (err) {
-                        throw err;
-                    } });
+                    await fs.rmdirSync(entryPath, { recursive: true });
                 }
                 else if (entry.isFile()) {
-                    await fs.unlink(entryPath, (err) => { if (err) {
-                        throw err;
-                    } });
+                    await fs.unlinkSync(entryPath);
                 }
             }
-            onDirectoryClear(directoryPath, null);
         }
-        catch (err) {
-            await onDirectoryClear(directoryPath, this.asString(err));
-        }
+        catch (err) { }
     }
     asString(err) {
         if (err instanceof Error) {

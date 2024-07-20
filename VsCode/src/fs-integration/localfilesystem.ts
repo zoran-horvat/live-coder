@@ -2,58 +2,50 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { FileSystem } from "./filesystem";
 
+interface DirectoryCopy { 
+	sourcePath: string,
+	destinationPath: string
+}
+
 export class LocalFileSystem extends FileSystem {
-
 	async deployDemo(sourcePath: string, destinationPath: string): Promise<void> {
-		if (!fs.existsSync(destinationPath)) {
-			fs.mkdirSync(destinationPath, { recursive: true });
-		}
-	
-		await fs.readdir(sourcePath, { withFileTypes: true }, 
-			async (error, entries) => {
-				if (!error) await this.deployEntries(entries, sourcePath, destinationPath);
-			}
-		);
-	}
+		try
+		{
+			if (!fs.existsSync(destinationPath)) { fs.mkdirSync(destinationPath); }
 
-	private async deployEntries(entries: fs.Dirent[], sourcePath: string, destinationPath: string) : Promise<void> {	
-		for (const entry of entries) {
-            
-            if (!this.shouldCopy(entry)) { continue; }
+			for (var entry of fs.readdirSync(sourcePath, { withFileTypes: true })) {
+				if (!this.shouldCopy(entry)) { continue; }
 
-			const finalSourcePath = path.join(sourcePath, entry.name);
-			const finalDestinationPath = path.join(destinationPath, entry.name);
-	
-			if (entry.isDirectory()) {
-				this.deployDemo(finalSourcePath, finalDestinationPath);
-			} else if (entry.isFile()) {
-				fs.copyFileSync(finalSourcePath, finalDestinationPath);
-			}
-		}
+				const entrySourcePath = path.join(sourcePath, entry.name);
+				const entryDestinationPath = path.join(destinationPath, entry.name);
 
-	}
-
-	async clearDirectoryRecursive(directoryPath: string, onDirectoryClear: (path: string, error: string | null) => Promise<void>): Promise<void> {
-		if (!fs.existsSync(directoryPath)) { return; }
-
-		try {
-			const entries = fs.readdirSync(directoryPath, { withFileTypes: true });
-		
-			for (const entry of entries) {
-				const entryPath = path.join(directoryPath, entry.name);
-		
 				if (entry.isDirectory()) {
-					await fs.rmdir(entryPath, { recursive: true }, (err) => { if (err) { throw err; } });
-				} else if (entry.isFile()) {
-					await fs.unlink(entryPath, (err) => { if (err) { throw err; } });
+					this.deployDemo(entrySourcePath, entryDestinationPath)
+				} else if (entry.isFile()) { 
+					fs.copyFileSync(entrySourcePath, entryDestinationPath);
 				}
 			}
 
-			onDirectoryClear(directoryPath, null);
-			
 		} catch (err) {
-			await onDirectoryClear(directoryPath, this.asString(err))
+			console.log('Error occurred: ' + err);
 		}
+	}
+
+	async clearDirectoryRecursive(directoryPath: string): Promise<void> {
+		if (!fs.existsSync(directoryPath)) { return; }
+
+		try {
+			for (const entry of fs.readdirSync(directoryPath, { withFileTypes: true })) {
+				const entryPath = path.join(directoryPath, entry.name);
+		
+				if (entry.isDirectory()) {
+					await fs.rmdirSync(entryPath, { recursive: true });
+				} else if (entry.isFile()) {
+					await fs.unlinkSync(entryPath);
+				}
+			}
+			
+		} catch (err) { }
 	}
 
 	private asString(err : any) : string {

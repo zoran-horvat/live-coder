@@ -21,10 +21,9 @@ export async function command(ide: Ide, fs: FileSystem, environment: Environment
     environment.lastDestPath = destPath;
 
 	// Copy the source directory to the destination directory
-	await fs.clearDirectoryRecursive(destPath, async (dir, err) => {
-		await fs.deployDemo(sourcePath, dir);
-		await executePrelude(ide, fs, dir);
-	});
+	await fs.clearDirectoryRecursive(destPath);
+	await fs.deployDemo(sourcePath, destPath);
+	await executePrelude(ide, fs, destPath);
 }
 
 async function executePrelude(ide: Ide, fs: FileSystem, workspacePath: string) : Promise<void> {
