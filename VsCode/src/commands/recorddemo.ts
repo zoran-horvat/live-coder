@@ -9,7 +9,7 @@ export async function command(ide: Ide, fs: FileSystem, environment: Environment
 	environment.lastRecordingPath = sourcePath;
 
 	const scriptDir = await fs.ensureDirectoryExists(sourcePath, '.live-coder');
-	const scriptFile = await fs.ensureTextFileExists(scriptDir, 'demo.lcs', '{ "script": {} }');
+	const scriptFile = await fs.ensureJsonFileExists(scriptDir, 'demo.lcs', '{ "title": "Demo", "script": {} }');
 
 	const destinationPath = await ide.dialogs.selectDirectoryOrShowError('Select Demo Directory', 'No demo directory selected.', environment.lastDestPath);
 	if (!destinationPath) { return; }
@@ -18,7 +18,7 @@ export async function command(ide: Ide, fs: FileSystem, environment: Environment
 
 	const redirectScriptDir = await fs.ensureDirectoryExists(destinationPath, '.live-coder');
 	const redirectScriptContent = '{ "script": { "redirect": "' + scriptFile + '" } }';
-	const redirectScriptFile = await fs.ensureTextFileExists(redirectScriptDir, 'demo.lcs', redirectScriptContent);
+	const redirectScriptFile = await fs.ensureJsonFileExists(redirectScriptDir, 'demo.lcs', redirectScriptContent);
 
 	await ide.withScriptEditorActive();
 }

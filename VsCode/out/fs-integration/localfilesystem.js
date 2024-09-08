@@ -82,6 +82,10 @@ class LocalFileSystem extends filesystem_1.FileSystem {
         await fs.writeFileSync(fullPath, defaultContent || '');
         return fullPath;
     }
+    async ensureJsonFileExists(root, fileName, defaultContent) {
+        const jsonContent = JSON.stringify(JSON.parse(defaultContent || '{}'), null, 4);
+        return await this.ensureTextFileExists(root, fileName, jsonContent);
+    }
     async getExistingFilePath(root, fileName) {
         const fullPath = path.join(root, fileName);
         if (fs.existsSync(fullPath)) {

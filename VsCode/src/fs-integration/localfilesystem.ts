@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { FileSystem } from "./filesystem";
+import { log } from 'console';
 
 interface DirectoryCopy { 
 	sourcePath: string,
@@ -55,15 +56,18 @@ export class LocalFileSystem extends FileSystem {
 		return fullPath;
 	}
 
-	async ensureTextFileExists(path: string, defaultContent?: string): Promise<string>;
-
-	async ensureTextFileExists(root: string, fileName?: string, defaultContent?: string): Promise<string> {
+	async ensureTextFileExists(root: string, fileName: string, defaultContent: string): Promise<string> {
 		const fullPath = fileName ? path.join(root, fileName) : root;
 		if (fs.existsSync(fullPath)) { return fullPath; }
 
 		await fs.writeFileSync(fullPath, defaultContent || '');
 
 		return fullPath;
+	}
+
+	async ensureJsonFileExists(root: string, fileName: string, defaultContent: string): Promise<string> {
+		const jsonContent = JSON.stringify(JSON.parse(defaultContent || '{}'), null, 4);
+		return await this.ensureTextFileExists(root, fileName, jsonContent);
 	}
 
 	async getExistingFilePath(root: string, fileName: string) : Promise<string | null> {
